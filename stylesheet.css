@@ -1,0 +1,16 @@
+html, body{
+  background-color: #333;
+  color: white;
+  font-family: 'Arial', 'Helvetica', sans-serif;
+  margin: 0;
+}
+
+header{
+  margin: 0 auto;
+  height: 200px;
+  line-height: 200px;
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(121,9,70,1) 47%, rgba(255,71,0,1) 100%);
+  text-align: center;
+  vertical-align: center;
+}
