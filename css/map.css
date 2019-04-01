@@ -4,6 +4,7 @@
   width: 400px;
   height: 400px;
   background-color: #333;
+  border: 3px solid black;
 }
 
 .map-container{
@@ -22,4 +23,21 @@ h3{
 
 .griditem{
   border: 1px solid black;
+}
+
+.active-cell{
+  background-color: green;
+}
+
+.door-l{
+
+}
+.door-r{
+
+}
+.door-t{
+
+}
+.door-b{
+
 }

@@ -52,7 +52,8 @@ document.onkeydown = (e) => {
       }
       break;
   }
-  roomNumber = maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]];
+  roomNumber = maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].roomNumber;
+  document.querySelector(".active-cell").classList.remove("active-cell");
+  document.getElementById('cell-' + roomNumber).classList.add("active-cell");
   console.log(roomNumber);
 }
-

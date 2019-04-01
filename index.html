@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/stylesheet.css">
     <link rel="stylesheet" href="css/meter.css">
+    <link rel="stylesheet" href="css/map.css">
     <title>Super Monster Dungeon Hunter</title>
   </head>
 
@@ -18,7 +19,7 @@
         <li>Health</li>
         <li><h2>100</h2></li>
         <li><div class="meter" id="player-health">
-          <span style="width: 25%"></span>
+          <span style="width: 100%"></span>
           </div></li>
         <li>Attack Power</li>
         <li><h2>10</h2></li>
@@ -39,6 +40,7 @@
     <h3>Dungeon Level: 1</h3>
     <div class="map-container">
       <div class="map-grid">
+          <div class="griditem door-b door-r" id="cell-0"></div>
           <div class="griditem" id="cell-1"></div>
           <div class="griditem" id="cell-2"></div>
           <div class="griditem" id="cell-3"></div>
@@ -49,21 +51,21 @@
           <div class="griditem" id="cell-8"></div>
           <div class="griditem" id="cell-9"></div>
           <div class="griditem" id="cell-10"></div>
-          <div class="griditem" id="cell-11"></div>
+          <div class="griditem door-l" id="cell-11"></div>
           <div class="griditem" id="cell-12"></div>
           <div class="griditem" id="cell-13"></div>
-          <div class="griditem" id="cell-14"></div>
+          <div class="griditem door-b" id="cell-14"></div>
           <div class="griditem" id="cell-15"></div>
           <div class="griditem" id="cell-16"></div>
           <div class="griditem" id="cell-17"></div>
           <div class="griditem" id="cell-18"></div>
           <div class="griditem" id="cell-19"></div>
-          <div class="griditem" id="cell-20"></div>
+          <div class="griditem active-cell" id="cell-20"></div>
           <div class="griditem" id="cell-21"></div>
           <div class="griditem" id="cell-22"></div>
           <div class="griditem" id="cell-23"></div>
           <div class="griditem" id="cell-24"></div>
-          <div class="griditem" id="cell-25"></div>
+
       </div>
     </div>
   </div>
@@ -76,7 +78,7 @@
         <li>Health</li>
         <li><h2>100</h2></li>
         <li><div class="meter" id="player-health">
-          <span style="width: 25%"></span>
+          <span style="width: 100%"></span>
           </div></li>
         <li>Attack Power</li>
         <li><h2>10</h2></li>
