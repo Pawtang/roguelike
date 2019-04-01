@@ -1,3 +1,6 @@
+const { monsters, monsterGenerator } = require('./Monsters');
+console.log(monsters);
+
 const n = 5;
 
 let maze = [];
@@ -13,13 +16,9 @@ for(let i = 0; i < n; i++) {
             rightDoor: false,
             upDoor: false,
             downDoor: false,
-            event: "idk"
+            event: null
         };
     }
-}
-
-for(let i = 0; i < n; i++) {
-    console.log(maze[i]);
 }
 
 const player = {
@@ -35,19 +34,3 @@ const player = {
         return 0;
     }
 }
-
-const monsters = [];
-monsters.push({
-    name: "Ryan",
-    health: 100,
-    attack: 100,
-    defense: 100,
-    level: 100,
-    xpGiven: 0,
-    goldGiven: 10000
-});
-
-function monster_generator() {
-
-}
-
