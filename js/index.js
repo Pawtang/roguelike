@@ -14,9 +14,9 @@ console.log(maze);
 let gameNotBeaten = true, currentCommand, roomNumber;
 
 document.onkeydown = (e) => {
+  e.preventDefault();
   switch (e.keyCode) {
     case 37:
-      e.preventDefault();
       if(player.currentRoomNumber[1] === 0) {
         console.log('can\'t move left');
       } else {
@@ -25,7 +25,6 @@ document.onkeydown = (e) => {
       }
       break;
     case 38:
-      e.preventDefault();
       if(player.currentRoomNumber[0] === 0) {
         console.log('can\'t move up');
       } else {
@@ -34,7 +33,6 @@ document.onkeydown = (e) => {
       }
       break;
     case 39:
-      e.preventDefault();
       if(player.currentRoomNumber[1] === 4) {
         console.log('can\'t move right');
       } else {
@@ -43,7 +41,6 @@ document.onkeydown = (e) => {
       }
       break;
     case 40:
-      e.preventDefault();
       if(player.currentRoomNumber[0] === 4) {
         console.log('can\'t move down');
       } else {
