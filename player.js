@@ -7,9 +7,15 @@ const player = {
   xpToNextLevel: 0,
   level: 0,
   currentRoomNumber: 20,
-  xpToNextLevelGenerator: function (level) {
-      return 0;
-  }
+  items: []
 }
 
-module.exports = { player };
+const updatePlayerGoldAndXp = (player, monster) => {
+  player.gold = player.gold + monster.goldGiven;
+  player.xp = player.xp + monster.xpGiven;
+}
+
+module.exports = {
+  player,
+  updatePlayerGoldAndXp,
+};

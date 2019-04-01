@@ -16,7 +16,7 @@ const ben = {
   level: 100,
   xpGiven: 100,
   goldGiven: 7500
-}
+};
 
 const monsters = [];
 monsters.push(ryan);
