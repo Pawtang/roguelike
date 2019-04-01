@@ -28,7 +28,8 @@ const generateNewMaze = () => {
   maze[0][4].isExit = true;
   maze[0][4].leftDoor = true;
 
-  console.log(maze);
+  // console.log(maze)
+  return maze;
 }
 
 module.exports = {

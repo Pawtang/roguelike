@@ -1,39 +1,23 @@
-const ryan = {
-  name: "Ryan",
-  health: 100,
-  attack: 100,
-  defense: 100,
-  level: 100,
-  xpGiven: 50,
-  goldGiven: 10000
-};
-
-const ben = {
-  name: "Ben",
-  health: 100,
-  attack: 100,
-  defense: 100,
-  level: 100,
-  xpGiven: 100,
-  goldGiven: 7500
-};
-
-const mathHomework = {
-  name: "Ben",
-  health: 100,
-  attack: 100,
-  defense: 100,
-  level: 100,
-  xpGiven: 100,
-  goldGiven: 7500
+const monsterCreator = (name, health, attack, defense, level, xpGiven, goldGiven) => {
+  return {
+    name: name,
+    health: health,
+    attack: attack,
+    defense: defense,
+    level: level,
+    xpGiven: xpGiven,
+    goldGiven: goldGiven
+  }
 };
 
 const monsters = [];
-monsters.push(ryan);
-monsters.push(ben);
+monsters.push(monsterCreator('Ryan', 100, 2, 2, 1, 10, 500));
+monsters.push(monsterCreator('Ben', 100, 3, 1, 1, 10, 500));
+monsters.push(monsterCreator('Math Homework', 100, 5, 1, 2, 30, 1000));
 
 const monsterGenerator = () => {
-  return monsters[Math.floor(Math.random())*monsters.length];
+  const monsterNumber = Math.floor(Math.random()*monsters.length);
+  return monsters[monsterNumber];
 }
 
 module.exports = {
