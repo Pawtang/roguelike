@@ -16,17 +16,18 @@ export const generateNewMaze = () => {
         // downDoor: false,
         // event: null,
         // hasBeenTraveled: false,
+        roomNumber: i*5+j,
       };
     }
   }
 
-  // set entrance
-  maze[4][0].isEntrance = true;
-  maze[4][0].rightDoor = true;
+  // // set entrance
+  // maze[4][0].isEntrance = true;
+  // maze[4][0].rightDoor = true;
 
-  // set exit
-  maze[0][4].isExit = true;
-  maze[0][4].leftDoor = true;
+  // // set exit
+  // maze[0][4].isExit = true;
+  // maze[0][4].leftDoor = true;
 
   // console.log(maze)
   return maze;

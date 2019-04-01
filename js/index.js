@@ -11,25 +11,48 @@ console.log(player);
 let maze = generateNewMaze(); // generate initial maze
 console.log(maze);
 
-let gameNotBeaten = true, currentCommand;
+let gameNotBeaten = true, currentCommand, roomNumber;
 
 document.onkeydown = (e) => {
   switch (e.keyCode) {
     case 37:
-        console.log('left');
-        break;
+      e.preventDefault();
+      if(player.currentRoomNumber[1] === 0) {
+        console.log('can\'t move left');
+      } else {
+        console.log('move left');
+        player.currentRoomNumber[1]--;
+      }
+      break;
     case 38:
-        console.log('up');
-        break;
+      e.preventDefault();
+      if(player.currentRoomNumber[0] === 0) {
+        console.log('can\'t move up');
+      } else {
+        console.log('move up');
+        player.currentRoomNumber[0]--;
+      }
+      break;
     case 39:
-        console.log('right');
-        break;
+      e.preventDefault();
+      if(player.currentRoomNumber[1] === 4) {
+        console.log('can\'t move right');
+      } else {
+        console.log('move right');
+        player.currentRoomNumber[1]++;
+      }
+      break;
     case 40:
-        console.log('down');
-        break;
+      e.preventDefault();
+      if(player.currentRoomNumber[0] === 4) {
+        console.log('can\'t move down');
+      } else {
+        console.log('move down');
+        player.currentRoomNumber[0]++;
+      }
+      break;
   }
+  roomNumber = maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]];
+  console.log(roomNumber);
 }
 
-// while(gameNotBeaten) {
-//   currentCommand = Document.get
-// }

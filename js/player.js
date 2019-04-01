@@ -6,7 +6,7 @@ export const player = {
   xp: 0,
   xpToNextLevel: 0,
   level: 0,
-  currentRoomNumber: 20,
+  currentRoomNumber: [4,0],
   items: []
 }
 
