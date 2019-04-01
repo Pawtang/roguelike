@@ -8,8 +8,9 @@ html, body{
 }
 
 header{
+  display: block;
   margin: 0 auto;
-  height: 100px;
+  height: 150px;
   line-height: 200px;
   text-align: center;
   vertical-align: center;

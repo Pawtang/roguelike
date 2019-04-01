@@ -12,6 +12,11 @@ console.log(player);
 updatePlayerGoldAndXp(player, currentMonster);
 console.log(player);
 
+document.getElementById("monster-name").textContent = currentMonster.name;
+document.getElementById("monster-health").textContent = currentMonster.health;
+document.getElementById("monster-attack").textContent = currentMonster.attack;
+document.getElementById("monster-defense").textContent = currentMonster.defense;
+
 let maze = generateNewMaze(gridSize); // generate initial maze
 console.log(maze);
 

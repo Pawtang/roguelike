@@ -4,8 +4,8 @@ export const player = {
   defense: 100,
   gold: 0,
   xp: 0,
-  xpToNextLevel: 0,
-  level: 0,
+  xpToNextLevel: 100,
+  level: 1,
   currentRoomNumber: [4,0],
   items: []
 }
