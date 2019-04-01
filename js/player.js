@@ -1,4 +1,4 @@
-const player = {
+export const player = {
   health: 100,
   attack: 100,
   defense: 100,
@@ -10,12 +10,12 @@ const player = {
   items: []
 }
 
-const updatePlayerGoldAndXp = (player, monster) => {
+export const updatePlayerGoldAndXp = (player, monster) => {
   player.gold = player.gold + monster.goldGiven;
   player.xp = player.xp + monster.xpGiven;
 }
 
-module.exports = {
-  player,
-  updatePlayerGoldAndXp,
-};
+// module.exports = {
+//   player,
+//   updatePlayerGoldAndXp,
+// };

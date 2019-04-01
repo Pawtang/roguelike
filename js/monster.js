@@ -15,12 +15,12 @@ monsters.push(monsterCreator('Ryan', 100, 2, 2, 1, 10, 500));
 monsters.push(monsterCreator('Ben', 100, 3, 1, 1, 10, 500));
 monsters.push(monsterCreator('Math Homework', 100, 5, 1, 2, 30, 1000));
 
-const monsterGenerator = () => {
+export const monsterGenerator = () => {
   const monsterNumber = Math.floor(Math.random()*monsters.length);
   return monsters[monsterNumber];
 }
 
-module.exports = {
-  monsters,
-  monsterGenerator,
-};
+// module.exports = {
+//   monsters,
+//   monsterGenerator,
+// };

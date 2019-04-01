@@ -1,4 +1,4 @@
-const generateNewMaze = () => {
+export const generateNewMaze = () => {
   const gridSize = 5;
 
   let maze = [];
@@ -32,6 +32,6 @@ const generateNewMaze = () => {
   return maze;
 }
 
-module.exports = {
-  generateNewMaze
-};
+// module.exports = {
+//   generateNewMaze
+// };
