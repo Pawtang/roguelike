@@ -64,3 +64,8 @@ document.onkeydown = (e) => {
   document.getElementById('cell-' + roomNumber).classList.add("active-cell");
   console.log(roomNumber);
 }
+
+/*
+ * Order should be move -> update character location -> check if room has been visited -> execute event if room has not been visited -> update player and maze after event
+ * Additionally, if on the exit room, must generate a new maze object to replace the old maze object
+ */
