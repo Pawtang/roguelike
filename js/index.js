@@ -1,6 +1,7 @@
 import { monsterGenerator } from './monster.js';
 import { generateNewMaze } from './maze.js';
 import { player, updatePlayerGoldAndXp } from './player.js';
+import { shopGenerator } from './shop.js';
 
 let currentMonster = monsterGenerator();
 console.log(currentMonster);
@@ -10,6 +11,9 @@ console.log(player);
 
 let maze = generateNewMaze(); // generate initial maze
 console.log(maze);
+
+let shop = shopGenerator();
+console.log(shop);
 
 let gameNotBeaten = true, currentCommand, roomNumber;
 
@@ -50,6 +54,9 @@ document.onkeydown = (e) => {
       break;
   }
   roomNumber = maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].roomNumber;
+  // check to see if the room has been visited or not
+  // if it has not -> change room's style to "visited" style
+  // else, leave it as is, continue
   document.querySelector(".active-cell").classList.remove("active-cell");
   document.getElementById('cell-' + roomNumber).classList.add("active-cell");
   console.log(roomNumber);
