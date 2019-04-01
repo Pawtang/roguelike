@@ -23,8 +23,3 @@ export const monsterGenerator = () => {
   const monsterNumber = Math.floor(Math.random()*monsters.length);
   return monsters[monsterNumber];
 }
-
-// module.exports = {
-//   monsters,
-//   monsterGenerator,
-// };

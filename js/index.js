@@ -2,6 +2,9 @@ import { monsterGenerator } from './monster.js';
 import { generateNewMaze } from './maze.js';
 import { player, updatePlayerGoldAndXp } from './player.js';
 import { shopGenerator } from './shop.js';
+import { eventGenerator } from './events.js';
+
+const gridSize = 5;
 
 let currentMonster = monsterGenerator();
 console.log(currentMonster);
@@ -9,10 +12,10 @@ console.log(player);
 updatePlayerGoldAndXp(player, currentMonster);
 console.log(player);
 
-let maze = generateNewMaze(); // generate initial maze
+let maze = generateNewMaze(gridSize); // generate initial maze
 console.log(maze);
 
-let shop = shopGenerator();
+let shop = shopGenerator(); // how to generate a shop
 console.log(shop);
 
 let gameNotBeaten = true, currentCommand, roomNumber;

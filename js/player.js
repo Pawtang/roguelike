@@ -22,8 +22,3 @@ export const updatePlayerGoldAndXp = (player, monster) => {
         player.defense = player.defense*1.2;
     }
 }
-
-// module.exports = {
-//   player,
-//   updatePlayerGoldAndXp,
-// };
