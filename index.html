@@ -2,11 +2,44 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="css/stylesheet.css">
+    <link rel="stylesheet" href="css/meter.css">
     <title>Super Monster Dungeon Hunter</title>
   </head>
 
   <body>
 <header><h1>Welcome to the Dungeon, Cowboy</h1></header>
+
+<article>
+  <div class="card" id="player">
+    <div class = "icon" id="player-icon"></div>
+    <div class="statbox">
+      <ul>
+        <li>Health</li>
+        <li><div class="meter">
+          <span style="width: 25%"></span>
+          </div></li>
+        <li>Attack Power</li>
+        <li>Defense</li>
+        <li>Gold</li>
+        <li>XP</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card" id="map"></div>
+  <div class="card" id="enemy">
+    <div class="icon" id="monster-icon"></div>
+    <div class="statbox">
+      <ul>
+        <li>Health</li>
+        <li>Attack Power</li>
+        <li>Defense</li>
+        <li>Gold</li>
+        <li>XP</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
   </body>
 </html>
