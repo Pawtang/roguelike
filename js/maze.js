@@ -1,5 +1,4 @@
-export const generateNewMaze = () => {
-  const gridSize = 5;
+export const generateNewMaze = (gridSize) => {
 
   let maze = [];
   // Track the room we're in
@@ -29,10 +28,5 @@ export const generateNewMaze = () => {
   // maze[0][4].isExit = true;
   // maze[0][4].leftDoor = true;
 
-  // console.log(maze)
   return maze;
 }
-
-// module.exports = {
-//   generateNewMaze
-// };
