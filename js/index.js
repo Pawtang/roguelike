@@ -6,7 +6,7 @@ import { eventGenerator } from './events.js';
 
 const gridSize = 5;
 
-function initMonster(){ // TODO tab the inside of the function
+function    initMonster(){ // TODO tab the inside of the function ---> what do you mean, plz illustrate 
 let currentMonster = monsterGenerator(); // TODO can be a const because it is only in the scope of the function
 console.log(currentMonster);
 console.log(player);
@@ -27,7 +27,11 @@ console.log(shop);
 
 let gameNotBeaten = true, currentCommand, roomNumber;
 
+//GameStates: map, battle, chest, shop, win, lose;
+let gameState = 'map';
+
 document.onkeydown = (e) => {
+if (gameState = 'map'){ //Checks that we're in map mode before doing anything else
   e.preventDefault();
   switch (e.keyCode) {
     case 37:
@@ -72,26 +76,29 @@ document.onkeydown = (e) => {
   console.log(roomNumber);
   initRoom();
 }
-
-function battle(){
-  //initiate Battle, hide map and show battle div
-  initMonster();
-  document.querySelector('.right-container-fight').classList.toggle('hidden');
-  document.querySelector('.right-container-map').classList.toggle('hidden');
 }
+
+
 
 function chest(){
-
+    let gameState = 'chest';
+ //Do something
 }
+
+function shop(){
+    let gameState = 'shop';
+ //Do something
+}
+
 
 //Roll 1,2, or 3 (for now)
 function rollDie(){
-  let diceRoll = Math.floor(Math.random() * 3) + 1; // TODO: This can be directly returned
-  return diceRoll;
+  return  Math.floor(Math.random() * 3) + 1; 
 }
 
 //Initialize a room by checking state variable then rolling dice to pick what happens
-function initRoom(){ // TODO tab yout functions, also break should be in line with battle()
+
+function initRoom(){ // TODO tab yout functions, also break should be in line with battle() ----> Why is this? does it matter?
 if (gameNotBeaten = true){
   switch(rollDie()){
     case 1:
@@ -111,6 +118,8 @@ if (gameNotBeaten = true){
 // main functionality. functions related to the rooms and maze should be in maze, functions related to monsters
 // should be in monster. Only things that are directly controlled (ie document.xxx functions) should be out here
 // as well as what is needed to initialize just the maze before any interaction from the user
+
+//TODO Can you add them into those events as you see fit? I'm not sure the proper way to put these functions into objects. If you do it ill understand a lot better.
 
 /*
  * Order should be move -> update character location -> check if room has been visited -> execute event if room has not been visited -> update player and maze after event
