@@ -15,11 +15,9 @@ let shop = shopGenerator(); // how to generate a shop
 
 let gameNotBeaten = true, roomNumber, gameState = 'exploration', goldInChest = 0;
 
-//GameStates: map, battle, chest, shop, win, lose;
-let gameState = 'map';
+//GameStates: exploration, battle, chest, shop, win, lose;
 
 document.onkeydown = (e) => {
-if (gameState = 'map'){ //Checks that we're in map mode before doing anything else
   e.preventDefault();
   switch(gameState) {
     case 'exploration':
@@ -49,6 +47,7 @@ const battleControls = (e) => {
       endBattle();
   }
 }
+
 
 
 const explorationControls = (e) => {
@@ -107,6 +106,7 @@ const playEvent = (event) => {
   switch(event) {
     case 'battle':
       let monster = monsterGenerator();    
+        return monster;
       initializeBattle();
       break;
     case 'treasureRoom':
@@ -138,7 +138,7 @@ const initializeBattle = () => {
     document.querySelector('.right-container-map').classList.toggle('hidden');
 }
 
-    const endBattle = () => {
+const endBattle = () => {
     player.xp = player.xp + monster.xpGiven;
     document.getElementById("experience").textContent = player.xp;
     document.querySelector('.right-container-fight').classList.toggle('hidden');
