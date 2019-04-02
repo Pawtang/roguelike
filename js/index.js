@@ -6,8 +6,8 @@ import { eventGenerator } from './events.js';
 
 const gridSize = 5;
 
-function initMonster(){
-let currentMonster = monsterGenerator();
+function initMonster(){ // TODO tab the inside of the function
+let currentMonster = monsterGenerator(); // TODO can be a const because it is only in the scope of the function
 console.log(currentMonster);
 console.log(player);
 updatePlayerGoldAndXp(player, currentMonster);
@@ -86,12 +86,12 @@ function chest(){
 
 //Roll 1,2, or 3 (for now)
 function rollDie(){
-  let diceRoll = Math.floor(Math.random() * 3) + 1;
+  let diceRoll = Math.floor(Math.random() * 3) + 1; // TODO: This can be directly returned
   return diceRoll;
 }
 
 //Initialize a room by checking state variable then rolling dice to pick what happens
-function initRoom(){
+function initRoom(){ // TODO tab yout functions, also break should be in line with battle()
 if (gameNotBeaten = true){
   switch(rollDie()){
     case 1:
@@ -105,6 +105,12 @@ if (gameNotBeaten = true){
   }
 }
 }
+
+// TODO also just to explain, the reason i made events its own thing for the purpose of this project
+// is because it's incredibly messy to have all these functions in here that clutter up the otherwise
+// main functionality. functions related to the rooms and maze should be in maze, functions related to monsters
+// should be in monster. Only things that are directly controlled (ie document.xxx functions) should be out here
+// as well as what is needed to initialize just the maze before any interaction from the user
 
 /*
  * Order should be move -> update character location -> check if room has been visited -> execute event if room has not been visited -> update player and maze after event
