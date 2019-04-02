@@ -6,29 +6,29 @@ import { eventGenerator } from './events.js';
 
 const gridSize = 5;
 
-function initMonster(){ // TODO tab the inside of the function
-let currentMonster = monsterGenerator(); // TODO can be a const because it is only in the scope of the function
-console.log(currentMonster);
-console.log(player);
-updatePlayerGoldAndXp(player, currentMonster);
-console.log(player);
-
-document.getElementById("monster-name").textContent = currentMonster.name;
-document.getElementById("monster-health").textContent = currentMonster.health;
-document.getElementById("monster-attack").textContent = currentMonster.attack;
-document.getElementById("monster-defense").textContent = currentMonster.defense;
-}
-
 let maze = generateNewMaze(gridSize); // generate initial maze
 console.log(maze);
 
 let shop = shopGenerator(); // how to generate a shop
 console.log(shop);
 
-let gameNotBeaten = true, currentCommand, roomNumber;
+// possible game states (exploration, battle, shop)
+
+let gameNotBeaten = true, roomNumber, gameState = 'exploration';
 
 document.onkeydown = (e) => {
   e.preventDefault();
+  switch(gameState) {
+    case 'exploration':
+      explorationControls(e);
+      break;
+    case 'battle':
+      console.log('battle controls')
+      break;
+  }
+}
+
+const explorationControls = (e) => {
   switch (e.keyCode) {
     case 37:
       if(player.currentRoomNumber[1] === 0) {
@@ -70,41 +70,35 @@ document.onkeydown = (e) => {
   document.querySelector(".active-cell").classList.remove("active-cell");
   document.getElementById('cell-' + roomNumber).classList.add("active-cell");
   console.log(roomNumber);
-  initRoom();
-}
-
-function battle(){
-  //initiate Battle, hide map and show battle div
-  initMonster();
-  document.querySelector('.right-container-fight').classList.toggle('hidden');
-  document.querySelector('.right-container-map').classList.toggle('hidden');
-}
-
-function chest(){
-
-}
-
-//Roll 1,2, or 3 (for now)
-function rollDie(){
-  let diceRoll = Math.floor(Math.random() * 3) + 1; // TODO: This can be directly returned
-  return diceRoll;
-}
-
-//Initialize a room by checking state variable then rolling dice to pick what happens
-function initRoom(){ // TODO tab yout functions, also break should be in line with battle()
-if (gameNotBeaten = true){
-  switch(rollDie()){
-    case 1:
-      battle();
-    break;
-    case 2:
-    break;
-    case 3:
-      battle();
-    break;
+  if(!maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].hasBeenTraveled){
+    maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].hasBeenTraveled = true;
+    maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].event = eventGenerator();
+    console.log(maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].event)
+    playEvent(maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].event);
+  } else {
+    console.log('been here');
   }
 }
+
+const playEvent = (event) => {
+  switch(event) {
+    case 'battle':
+      gameState = 'battle';
+      // initialize battle here
+      break;
+    case 'treasureRoom':
+      gameState = 'treasure';
+      // initialize treasure room here
+      break;
+    case 'shopRoom':
+      gameState = 'shop';
+      // initialize shop room here
+      break;
+    case 'eventlessRoom':
+      break;
+  }
 }
+
 
 // TODO also just to explain, the reason i made events its own thing for the purpose of this project
 // is because it's incredibly messy to have all these functions in here that clutter up the otherwise

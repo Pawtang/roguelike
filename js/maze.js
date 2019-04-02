@@ -13,8 +13,8 @@ export const generateNewMaze = (gridSize) => {
         // rightDoor: false,
         // upDoor: false,
         // downDoor: false,
-        // event: null,
-        // hasBeenTraveled: false,
+        event: null,
+        hasBeenTraveled: false,
         roomNumber: i*5+j,
       };
     }
@@ -29,4 +29,4 @@ export const generateNewMaze = (gridSize) => {
   // maze[0][4].leftDoor = true;
 
   return maze;
-}
+};
