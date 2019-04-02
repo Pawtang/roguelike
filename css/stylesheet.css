@@ -8,15 +8,15 @@ html, body{
 }
 
 header{
-  margin: 0 auto;
+  background-image: url(/images/title.png);
+  background-repeat: no-repeat;
+  width: 800px;
   height: 100px;
-  line-height: 200px;
-  text-align: center;
-  vertical-align: center;
+  margin: 50px auto;
 }
 
 article{
-  width: 80%;
+  width: 1200px;
   margin: 50px auto;
   background-color: #222;
   display: flex;
