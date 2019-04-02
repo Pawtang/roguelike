@@ -14,7 +14,7 @@ console.log(shop);
 
 // possible game states (exploration, battle, shop)
 
-let gameNotBeaten = true, roomNumber, gameState = 'exploration';
+let gameNotBeaten = true, roomNumber, gameState = 'exploration', goldInChest = 0;
 
 document.onkeydown = (e) => {
   e.preventDefault();
@@ -23,8 +23,25 @@ document.onkeydown = (e) => {
       explorationControls(e);
       break;
     case 'battle':
-      console.log('battle controls')
+      console.log('battle controls');
+      gameState = 'exploration';
       break;
+    case 'treasure':
+      treasureControls(e);
+      break;
+    case 'shop':
+      break;
+  }
+}
+
+const treasureControls = (e) => {
+  if(e.keyCode === 13) {
+    console.log("player gold before ", player.gold)
+    player.gold = player.gold + goldInChest;
+    console.log("player gold after ", player.gold)
+    goldInChest = 0;
+    // Remove all treasure styling and add back all map styling
+    gameState = 'exploration';
   }
 }
 
@@ -88,16 +105,23 @@ const playEvent = (event) => {
       break;
     case 'treasureRoom':
       gameState = 'treasure';
-      // initialize treasure room here
+      initializeTreasureRoom();
       break;
     case 'shopRoom':
-      gameState = 'shop';
+      // gameState = 'shop';
       // initialize shop room here
       break;
     case 'eventlessRoom':
       break;
   }
 }
+
+const initializeTreasureRoom = () => {
+  // change graphics to treasure room
+  goldInChest = Math.floor(Math.random()*101) + 100 // between 100 and 200;
+}
+
+
 
 
 // TODO also just to explain, the reason i made events its own thing for the purpose of this project
