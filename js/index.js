@@ -7,10 +7,9 @@ import { eventGenerator } from './events.js';
 const gridSize = 5;
 
 let maze = generateNewMaze(gridSize); // generate initial maze
-console.log(maze);
 
 let shop = shopGenerator(); // how to generate a shop
-console.log(shop);
+
 
 // possible game states (exploration, battle, shop)
 
@@ -23,27 +22,30 @@ document.onkeydown = (e) => {
       explorationControls(e);
       break;
     case 'battle':
-      console.log('battle controls');
-      gameState = 'exploration';
+      battleControls(e);
       break;
     case 'treasure':
       treasureControls(e);
       break;
     case 'shop':
+        console.log('shop controls');
+        gameState = 'exploration';
       break;
   }
 }
 
 const treasureControls = (e) => {
   if(e.keyCode === 13) {
-    console.log("player gold before ", player.gold)
-    player.gold = player.gold + goldInChest;
-    console.log("player gold after ", player.gold)
-    goldInChest = 0;
-    // TODO: Remove all treasure styling and add back all map styling
-    gameState = 'exploration';
+      gameState = 'exploration';
   }
 }
+
+const battleControls = (e) => {
+  if(e.keyCode === 13) {
+      endBattle();
+  }
+}
+
 
 const explorationControls = (e) => {
   switch (e.keyCode) {
@@ -100,29 +102,52 @@ const explorationControls = (e) => {
 const playEvent = (event) => {
   switch(event) {
     case 'battle':
-      gameState = 'battle';
-      // initialize battle here
+      let monster = monsterGenerator();    
+      initializeBattle();
       break;
     case 'treasureRoom':
-      gameState = 'treasure';
       initializeTreasureRoom();
       break;
     case 'shopRoom':
-      // gameState = 'shop';
+      initializeShop();
       // initialize shop room here
       break;
     case 'eventlessRoom':
+          console.log('Nothing here! How boring.');
       break;
   }
 }
 
 const initializeTreasureRoom = () => {
-  // TODO: change graphics to treasure room
-  goldInChest = Math.floor(Math.random()*101) + 100 // between 100 and 200;
+    gameState = 'treasure';
+    goldInChest = Math.floor(Math.random()*101) + 100 // between 100 and 200;
+    player.gold = player.gold + goldInChest;
+    document.getElementById("player-gold").textContent = player.gold;
+    console.log(goldInChest + " gold");
+     // TODO: Remove all treasure styling and add back all map styling
+}
+
+const initializeBattle = () => {
+    gameState = 'battle';
+    console.log('battle start');
+    document.querySelector('.right-container-fight').classList.toggle('hidden');
+    document.querySelector('.right-container-map').classList.toggle('hidden');
+}
+
+    const endBattle = () => {
+    player.xp = player.xp + monster.xpGiven;
+    document.getElementById("experience").textContent = player.xp;
+    document.querySelector('.right-container-fight').classList.toggle('hidden');
+    document.querySelector('.right-container-map').classList.toggle('hidden');
+    gameState = "exploration";
 }
 
 
 
+const initializeShop = () => {
+    gameState = 'shop';
+    console.log('shopping spree');
+}
 
 // TODO also just to explain, the reason i made events its own thing for the purpose of this project
 // is because it's incredibly messy to have all these functions in here that clutter up the otherwise
