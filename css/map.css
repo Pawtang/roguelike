@@ -31,25 +31,25 @@ h3{
 
 .door-l{
   border-left: none;
-  border-right: black solid 3px;
-  border-bottom: black solid 3px;
-  border-top: black solid 3px;
+  border-right: none;
+  border-bottom: none;
+  border-top: none;
 }
 .door-r{
-  border-left: black solid 3px;
+  border-left: none;
   border-right: none;
-  border-bottom: black solid 3px;
-  border-top: black solid 3px;
+  border-bottom: none;
+  border-top: none;
 }
 .door-t{
-  border-left: black solid 3px;
-  border-right: black solid 3px;
-  border-bottom: black solid 3px;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
   border-top: none;
 }
 .door-b{
-  border-left: black solid 3px;
-  border-right: black solid 3px;
+  border-left: none;
+  border-right: none;
   border-bottom: none;
-  border-top: black solid 3px;
+  border-top: none;
 }

@@ -6,6 +6,7 @@ import { eventGenerator } from './events.js';
 
 const gridSize = 5;
 
+function initMonster(){
 let currentMonster = monsterGenerator();
 console.log(currentMonster);
 console.log(player);
@@ -16,6 +17,7 @@ document.getElementById("monster-name").textContent = currentMonster.name;
 document.getElementById("monster-health").textContent = currentMonster.health;
 document.getElementById("monster-attack").textContent = currentMonster.attack;
 document.getElementById("monster-defense").textContent = currentMonster.defense;
+}
 
 let maze = generateNewMaze(gridSize); // generate initial maze
 console.log(maze);
@@ -68,6 +70,40 @@ document.onkeydown = (e) => {
   document.querySelector(".active-cell").classList.remove("active-cell");
   document.getElementById('cell-' + roomNumber).classList.add("active-cell");
   console.log(roomNumber);
+  initRoom();
+}
+
+function battle(){
+  //initiate Battle, hide map and show battle div
+  initMonster();
+  document.querySelector('.right-container-fight').classList.toggle('hidden');
+  document.querySelector('.right-container-map').classList.toggle('hidden');
+}
+
+function chest(){
+
+}
+
+//Roll 1,2, or 3 (for now)
+function rollDie(){
+  let diceRoll = Math.floor(Math.random() * 3) + 1;
+  return diceRoll;
+}
+
+//Initialize a room by checking state variable then rolling dice to pick what happens
+function initRoom(){
+if (gameNotBeaten = true){
+  switch(rollDie()){
+    case 1:
+      battle();
+    break;
+    case 2:
+    break;
+    case 3:
+      battle();
+    break;
+  }
+}
 }
 
 /*

@@ -83,3 +83,14 @@ h2{
   background-color: #333;
   border-radius: 5px;
 }
+
+.right-container-fight{
+}
+
+.right-container-map{
+  margin: 50px 0;
+}
+
+.hidden{
+  display: none;
+}

@@ -71,7 +71,9 @@
   </div>
 
 
-  <div class="card" id="enemy">
+<div class="card" id="enemy">
+  <!-- This container div gets toggled with JavaScript depending on game state -->
+    <div class = "right-container-fight hidden">
     <div class="icon" id="monster-icon"></div>
     <div class="statbox">
       <ul>
@@ -89,6 +91,15 @@
       </ul>
     </div>
   </div>
+
+  <!-- This container div gets toggled with JavaScript depending on game state -->
+  <div class = "right-container-map">
+  <div class="statbox">
+  <p>[Image Placeholder]</p>
+  </div>
+</div>
+
+</div>
 </article>
 
 <script src="js/index.js" type="module"></script>
