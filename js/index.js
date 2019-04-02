@@ -15,7 +15,11 @@ let shop = shopGenerator(); // how to generate a shop
 
 let gameNotBeaten = true, roomNumber, gameState = 'exploration', goldInChest = 0;
 
+//GameStates: map, battle, chest, shop, win, lose;
+let gameState = 'map';
+
 document.onkeydown = (e) => {
+if (gameState = 'map'){ //Checks that we're in map mode before doing anything else
   e.preventDefault();
   switch(gameState) {
     case 'exploration':
@@ -154,6 +158,8 @@ const initializeShop = () => {
 // main functionality. functions related to the rooms and maze should be in maze, functions related to monsters
 // should be in monster. Only things that are directly controlled (ie document.xxx functions) should be out here
 // as well as what is needed to initialize just the maze before any interaction from the user
+
+//TODO Can you add them into those events as you see fit? I'm not sure the proper way to put these functions into objects. If you do it ill understand a lot better.
 
 /*
  * Order should be move -> update character location -> check if room has been visited -> execute event if room has not been visited -> update player and maze after event
