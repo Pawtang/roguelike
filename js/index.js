@@ -40,7 +40,7 @@ const treasureControls = (e) => {
     player.gold = player.gold + goldInChest;
     console.log("player gold after ", player.gold)
     goldInChest = 0;
-    // Remove all treasure styling and add back all map styling
+    // TODO: Remove all treasure styling and add back all map styling
     gameState = 'exploration';
   }
 }
@@ -117,7 +117,7 @@ const playEvent = (event) => {
 }
 
 const initializeTreasureRoom = () => {
-  // change graphics to treasure room
+  // TODO: change graphics to treasure room
   goldInChest = Math.floor(Math.random()*101) + 100 // between 100 and 200;
 }
 
