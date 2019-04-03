@@ -49,8 +49,17 @@ const battleControls = (e) => {
   if(e.keyCode === 13) {
       endBattle();
   }
+  // make this function handle selecting the battle action.
+  // battleActionHandler(battleActionSelected)
 }
 
+const battleActionHandler = (battleAction) => {
+  // Do battle action
+  // Update visuals with new hp and stuff etc
+  // Check to see if anyone's HP is 0
+    // if battle over, run function endBattle()
+    // else, wait for the next battleControl to be input 
+}
 
 
 const explorationControls = (e) => {
@@ -149,7 +158,7 @@ const initializeBattle = () => {
 }
 
 
-    const endBattle = (monster) => {
+const endBattle = (monster) => {
     /* player.xp = player.xp + monster.xpGiven;
     document.getElementById("experience").textContent = player.xp; */
     document.querySelector('.right-container-fight').classList.toggle('hidden');
