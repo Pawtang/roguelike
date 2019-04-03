@@ -90,7 +90,7 @@ h2{
 }
 
 .right-container-map{
-  margin: 50px 0;
+  margin: 120px 0;
 }
 
 .hidden{
@@ -103,5 +103,8 @@ h2{
 
 .chest{
   background-image: url(/images/chest.jpg);
-  background-size: cover;
+  background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: white;
 }
