@@ -8,8 +8,10 @@ html, body{
 }
 
 header{
-  background-image: url(/images/title.png);
+  background-image: url(/images/sad2.png);
   background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
   width: 800px;
   height: 100px;
   margin: 50px auto;
@@ -93,4 +95,13 @@ h2{
 
 .hidden{
   display: none;
+}
+
+.been-here{
+  background-color: black;
+}
+
+.chest{
+  background-image: url(/images/chest.jpg);
+  background-size: cover;
 }

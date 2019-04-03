@@ -17,6 +17,7 @@ let gameNotBeaten = true, roomNumber, gameState = 'exploration', goldInChest = 0
 
 //GameStates: exploration, battle, chest, shop, win, lose;
 
+
 document.onkeydown = (e) => {
   e.preventDefault();
   switch(gameState) {
@@ -38,6 +39,8 @@ document.onkeydown = (e) => {
 
 const treasureControls = (e) => {
   if(e.keyCode === 13) {
+      document.querySelector('#monster-statbox').classList.toggle('chest');
+      document.querySelector('#monster-statbox').innerHTML = '';
       gameState = 'exploration';
   }
 }
@@ -89,6 +92,7 @@ const explorationControls = (e) => {
   // check to see if the room has been visited or not
   // if it has not -> change room's style to "visited" style
   // else, leave it as is, continue
+  document.querySelector(".active-cell").classList.add("been-here");
   document.querySelector(".active-cell").classList.remove("active-cell");
   document.getElementById('cell-' + roomNumber).classList.add("active-cell");
   console.log(roomNumber);
@@ -97,6 +101,7 @@ const explorationControls = (e) => {
     maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].event = eventGenerator();
     console.log(maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].event)
     playEvent(maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].event);
+
   } else {
     console.log('been here');
   }
@@ -105,8 +110,6 @@ const explorationControls = (e) => {
 const playEvent = (event) => {
   switch(event) {
     case 'battle':
-      let monster = monsterGenerator();    
-        return monster;
       initializeBattle();
       break;
     case 'treasureRoom':
@@ -126,6 +129,8 @@ const initializeTreasureRoom = () => {
     gameState = 'treasure';
     goldInChest = Math.floor(Math.random()*101) + 100 // between 100 and 200;
     player.gold = player.gold + goldInChest;
+    document.querySelector('#monster-statbox').classList.toggle('chest');
+    document.querySelector('#monster-statbox').innerHTML = '<p style = "color: black">You received ' + goldInChest + ' gold!</p>';
     document.getElementById("player-gold").textContent = player.gold;
     console.log(goldInChest + " gold");
      // TODO: Remove all treasure styling and add back all map styling
@@ -133,16 +138,23 @@ const initializeTreasureRoom = () => {
 
 const initializeBattle = () => {
     gameState = 'battle';
-    console.log('battle start');
+    let monster = monsterGenerator();
     document.querySelector('.right-container-fight').classList.toggle('hidden');
     document.querySelector('.right-container-map').classList.toggle('hidden');
+    console.log('battle start');
+    document.getElementById("monster-name").textContent = monster.name;
+
+    //Battle takes place here
+    //endBattle(monster); // passes monster variable into endBattle without sending to global to allow xp addition
 }
 
-const endBattle = () => {
-    player.xp = player.xp + monster.xpGiven;
-    document.getElementById("experience").textContent = player.xp;
+
+    const endBattle = (monster) => {
+    /* player.xp = player.xp + monster.xpGiven;
+    document.getElementById("experience").textContent = player.xp; */
     document.querySelector('.right-container-fight').classList.toggle('hidden');
     document.querySelector('.right-container-map').classList.toggle('hidden');
+    console.log('end battle');
     gameState = "exploration";
 }
 
