@@ -17,11 +17,15 @@ export const generateNewMaze = (gridSize) => {
     }
   }
 
+  // Generate path through maze
+  // Generate secondary paths
+
   // set entrance
   maze[4][0].hasBeenTraveled = true;
   maze[4][0].event = 'entrance';
 
   // // set exit to always be boss room
+  maze[0][4].event = 'bossRoom';
   // maze[0][4].isExit = true;
   // maze[0][4].leftDoor = true;
 

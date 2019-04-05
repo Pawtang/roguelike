@@ -25,3 +25,9 @@ export const monsterGenerator = () => {
   const monsterNumber = Math.floor(Math.random()*monsters.length);
   return monsterCreator(monsters[monsterNumber]);
 }
+
+const bossMonsters = [];
+
+export const bossMonsterGenerator = (level) => {
+  return bossMonsters[level];
+}
