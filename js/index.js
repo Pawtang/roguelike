@@ -87,6 +87,7 @@ const treasureControls = (e) => {
 }
 
 const battleControls = (e) => {
+  //  document.getElementById('b-1').addEventListener("click", battleActionHandler('attack')); 
   switch (e.keyCode) {
     case 13: //ENTER
       battleActionHandler(battleActions[battleActionPointer]);
@@ -94,10 +95,12 @@ const battleControls = (e) => {
     case 38: //UP
       if(battleActionPointer > 0) battleActionPointer--;
       console.log(battleActionPointer);
+      document.getElementById('b-' + (battleActionPointer + 1)).focus();
       break;
     case 40: //DOWN
       if(battleActionPointer < 2) battleActionPointer++;
       console.log(battleActionPointer);
+      document.getElementById('b-' + (battleActionPointer + 1)).focus();
       break;
   }
 }
@@ -226,6 +229,7 @@ const initializeBattle = () => {
   document.querySelector('.right-container-map').classList.toggle('hidden');
   document.getElementById('main').classList.toggle('hidden');
   document.getElementById('battle-screen').classList.toggle('hidden'); 
+  document.getElementById('b-1').focus();
 }
 
 const battleActionHandler = (battleAction) => {
@@ -246,11 +250,12 @@ const battleActionHandler = (battleAction) => {
       break;
     case 'flee':
       const chance = Math.floor(Math.random()*10);
-      if (chance > 4) {
+      if (chance > 7) {
         console.log('Successfully fleed the battle');
         endBattle();
       } else {
         console.log('Failed to flee');
+        document.querySelector('.battle-log').textContent = 'Failed to flee!'
       }
       break;
   }
