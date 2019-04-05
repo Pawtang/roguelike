@@ -13,7 +13,7 @@ let monster;
 
 // possible game states (exploration, battle, shop)
 
-let gameNotBeaten = true, roomNumber, gameState = 'exploration', goldInChest = 0;
+let roomNumber, gameState = 'exploration', goldInChest = 0;
 
 const battleActions = ['attack', 'hp-potion', 'flee'];
 
@@ -214,7 +214,6 @@ const initializeTreasureRoom = () => {
   document.querySelector('#monster-statbox').innerHTML = '<p style = "color: black">You received ' + goldInChest + ' gold!</p>';
   document.getElementById("player-gold").textContent = player.gold;
   console.log(goldInChest, 'gold');
-  // TODO: Remove all treasure styling and add back all map styling
 }
 
 const initializeBattle = () => {
