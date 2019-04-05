@@ -17,9 +17,9 @@ export const generateNewMaze = (gridSize) => {
     }
   }
 
-  // // set entrance
-  // maze[4][0].isEntrance = true;
-  // maze[4][0].rightDoor = true;
+  // set entrance
+  maze[4][0].hasBeenTraveled = true;
+  maze[4][0].event = 'entrance';
 
   // // set exit
   // maze[0][4].isExit = true;

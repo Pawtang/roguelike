@@ -13,7 +13,7 @@ let monster;
 
 // possible game states (exploration, battle, shop)
 
-let gameNotBeaten = true, roomNumber, gameState = 'exploration', goldInChest = 0;
+let roomNumber, gameState = 'exploration', goldInChest = 0;
 
 const battleActions = ['attack', 'hp-potion', 'flee'];
 
@@ -51,7 +51,19 @@ document.onkeydown = (e) => {
 const shopControls = (e) => {
   switch (e.keyCode) {
     case 13: //ENTER
-      buyItem(shop[shopItemPointer]);
+      if(shop[shopItemPointer] === 'exit') {
+        console.log('exiting shop');
+        exitShop();
+      } else if (shop[shopItemPointer] === 'bought') {
+        console.log('this item has been bought');
+      } else {
+        if(player.gold >= shop[shopItemPointer].cost){
+          buyItem(shop[shopItemPointer]);
+          shop[shopItemPointer] = 'bought';
+        } else {
+          console.log('Not enough gold. You need', shop[shopItemPointer].cost,'but you have', player.gold);
+        }
+      }
       break;
     case 38: //UP
       if(shopItemPointer > 0) shopItemPointer--;
@@ -59,7 +71,7 @@ const shopControls = (e) => {
       console.log(shop[shopItemPointer]);
       break;
     case 40: //DOWN
-      if(shopItemPointer < 2) shopItemPointer++;
+      if(shopItemPointer < 3) shopItemPointer++;
       console.log("Item", shopItemPointer);
       console.log(shop[shopItemPointer]);
       break;
@@ -176,6 +188,7 @@ const playEvent = (event) => {
 const initializeShop = () => {
   gameState = 'shop';
   shop = shopGenerator();
+  // TODO Add shop buttons/styles
   console.log(shop);
   console.log(shop[0]);
 }
@@ -186,6 +199,9 @@ const buyItem = (item) => {
   console.log(player.items);
   player.gold = player.gold - item.cost;
   console.log("Item cost", item.cost, "Player now has", player.gold);
+}
+
+const exitShop = () => {
   gameState = 'exploration';
   shopItemPointer = 0;
 }
@@ -197,8 +213,7 @@ const initializeTreasureRoom = () => {
   document.querySelector('#monster-statbox').classList.toggle('chest');
   document.querySelector('#monster-statbox').innerHTML = '<p style = "color: black">You received ' + goldInChest + ' gold!</p>';
   document.getElementById("player-gold").textContent = player.gold;
-  console.log(goldInChest + " gold");
-  // TODO: Remove all treasure styling and add back all map styling
+  console.log(goldInChest, 'gold');
 }
 
 const initializeBattle = () => {
@@ -252,12 +267,16 @@ const endBattle = () => {
 }
 
 const updateXPAndGoldAndEndBattle = () => {
-  console.log("Gain", monster.xpGiven, "XP");
+  console.log("Gain", monster.goldGiven, "gold");
   player.gold = player.gold + monster.goldGiven; //Update gold
   document.getElementById("player-gold").textContent = player.gold;
   player.xp = player.xp + monster.xpGiven; //Update XP
-    if (player.xp > player.xpToNextLevel) levelUp();
-    else document.getElementById('experience').textContent = player.xp;
+  console.log("Gain", monster.xpGiven, "XP");
+  if (player.xp > player.xpToNextLevel) {
+    levelUp();
+  } else {
+    document.getElementById('experience').textContent = player.xp;
+  }
   endBattle();
 }
 
