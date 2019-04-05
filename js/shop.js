@@ -27,5 +27,4 @@ export const shopGenerator = () => {
     item2: itemSelector(),
     item3: itemSelector(),
   }
-    console.log('shop has been called; exiting for now');
 }

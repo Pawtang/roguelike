@@ -8,7 +8,7 @@ const gridSize = 5;
 
 let maze = generateNewMaze(gridSize); // generate initial maze
 
-let shop = shopGenerator(); // how to generate a shop
+let shop;
 let monster;
 
 // possible game states (exploration, battle, shop)
@@ -89,6 +89,7 @@ const explorationControls = (e) => {
       } else {
         console.log('move left');
         player.currentRoomNumber[1]--;
+        roomActions();
       }
       break;
     case 38:
@@ -97,6 +98,7 @@ const explorationControls = (e) => {
       } else {
         console.log('move up');
         player.currentRoomNumber[0]--;
+        roomActions();
       }
       break;
     case 39:
@@ -105,6 +107,7 @@ const explorationControls = (e) => {
       } else {
         console.log('move right');
         player.currentRoomNumber[1]++;
+        roomActions();
       }
       break;
     case 40:
@@ -113,13 +116,14 @@ const explorationControls = (e) => {
       } else {
         console.log('move down');
         player.currentRoomNumber[0]++;
+        roomActions();
       }
       break;
   }
+}
+
+const roomActions = () => {
   roomNumber = maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].roomNumber;
-  // check to see if the room has been visited or not
-  // if it has not -> change room's style to "visited" style
-  // else, leave it as is, continue
   document.querySelector(".active-cell").classList.add("been-here");
   document.querySelector(".active-cell").classList.remove("active-cell");
   document.getElementById('cell-' + roomNumber).classList.add("active-cell");
@@ -159,6 +163,7 @@ const playEvent = (event) => {
 
 const initializeShop = () => {
   gameState = 'shop';
+  shop = shopGenerator();
   console.log('shopping spree');
 }
 
