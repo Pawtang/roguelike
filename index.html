@@ -17,14 +17,14 @@
     <div class="statbox">
       <ul>
         <li>Health</li>
-        <li><h2>100</h2></li>
+        <li><h2 id = "player-health">100</h2></li>
         <li><div class="meter" id="player-health">
           <span style="width: 100%"></span>
           </div></li>
         <li>Attack Power</li>
-        <li><h2>10</h2></li>
+        <li><h2 id = "player-attack">10</h2></li>
         <li>Defense</li>
-        <li><h2>10</h2></li>
+        <li><h2 id = "player-defense">10</h2></li>
         <li>Gold</li>
         <li><h2 id = "player-gold">0</h2></li>
         <li>XP</li>
@@ -70,6 +70,16 @@
     </div>
   </div>
 
+
+  <div class="card hidden" id="battle-screen">
+    <div class = "battle-actions">
+        <ul>
+            <li>Attack</li>
+            <li>Use HP Potion</li>
+            <li>Flee</li>
+        </ul>
+         </div>
+  </div>
 
 <div class="card" id="enemy">
   <!-- This container div gets toggled with JavaScript depending on game state -->

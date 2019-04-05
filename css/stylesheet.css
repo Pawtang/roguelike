@@ -1,10 +1,13 @@
 html, body{
-  background-color: #333;
-  background-image: url(/images/tiles/stone.jpg);
-  background-repeat: repeat;
   color: white;
   font-family: 'Arial', 'Helvetica', sans-serif;
   margin: 0;
+}
+
+body{
+  background-color: #333;
+  background-image: url(/images/tiles/stone.jpg);
+  background-repeat: repeat;
 }
 
 header{
@@ -20,7 +23,11 @@ header{
 article{
   width: 1200px;
   margin: 50px auto;
+  padding: 20px;
+  background-image: url(/images/background.jpg);
   background-color: #222;
+  background-size: cover;
+    border-radius: 5px;
   display: flex;
 }
 
@@ -28,7 +35,7 @@ article{
   margin: 20px;
   width: 300px;
   height: 500px;
-  background-color: #444;
+  background-color: RGBA(22,22,22,0.8);
   border-radius: 10px;
   text-align: center;
 }
@@ -36,6 +43,27 @@ article{
 #main{
   width: 500px;
   height: 500px;
+}
+
+#battle-screen{
+  width: 500px;
+  height: 500px;
+}
+
+.battle-actions{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin: 100px auto;
+    vertical-align: middle;
+}
+
+.battle-actions li{
+    font-size: 1.3em;
+    margin: 20px;
+    padding: 10px 80px;
+    border-radius: 20px;
+    background-color: #222;
 }
 
 .icon{

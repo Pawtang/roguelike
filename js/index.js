@@ -209,6 +209,8 @@ const initializeBattle = () => {
   document.getElementById('monster-health').textContent = monster.health;
   document.querySelector('.right-container-fight').classList.toggle('hidden');
   document.querySelector('.right-container-map').classList.toggle('hidden');
+  document.getElementById('main').classList.toggle('hidden');
+  document.getElementById('battle-screen').classList.toggle('hidden'); 
 }
 
 const battleActionHandler = (battleAction) => {
@@ -242,6 +244,8 @@ const battleActionHandler = (battleAction) => {
 const endBattle = () => {
   document.querySelector('.right-container-fight').classList.toggle('hidden');
   document.querySelector('.right-container-map').classList.toggle('hidden');
+  document.getElementById('main').classList.toggle('hidden');
+  document.getElementById('battle-screen').classList.toggle('hidden'); 
   console.log('end battle');
   gameState = "exploration";
   battleActionPointer = 0;
@@ -249,9 +253,24 @@ const endBattle = () => {
 
 const updateXPAndGoldAndEndBattle = () => {
   console.log("Gain", monster.xpGiven, "XP");
-  player.xp = player.xp + monster.xpGiven;
-  player.gold = player.gold + monster.goldGiven;
-  document.getElementById('experience').textContent = player.xp;
+  player.gold = player.gold + monster.goldGiven; //Update gold
   document.getElementById("player-gold").textContent = player.gold;
+  player.xp = player.xp + monster.xpGiven; //Update XP
+    if (player.xp > player.xpToNextLevel) levelUp();
+    else document.getElementById('experience').textContent = player.xp;
   endBattle();
+}
+
+const levelUp = () => {
+    player.level++;
+    player.xp = 0;
+    player.xpToNextLevel *= 1.25;
+    player.health *= 1.25;
+    player.attack *= 1.10;
+    player.defense *= 1.10;
+    document.getElementById('experience').textContent = player.xp;
+    document.getElementById('player-health').textContent = player.health;
+    document.getElementById('player-attack').textContent = player.attack;
+    document.getElementById('player-defense').textContent = player.defense;
+    console.log('Level up! You are now level ' + player.level);
 }
