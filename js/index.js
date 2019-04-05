@@ -213,7 +213,7 @@ const initializeTreasureRoom = () => {
   document.querySelector('#monster-statbox').classList.toggle('chest');
   document.querySelector('#monster-statbox').innerHTML = '<p style = "color: black">You received ' + goldInChest + ' gold!</p>';
   document.getElementById("player-gold").textContent = player.gold;
-  console.log(goldInChest + " gold");
+  console.log(goldInChest, 'gold');
   // TODO: Remove all treasure styling and add back all map styling
 }
 
@@ -268,12 +268,16 @@ const endBattle = () => {
 }
 
 const updateXPAndGoldAndEndBattle = () => {
-  console.log("Gain", monster.xpGiven, "XP");
+  console.log("Gain", monster.goldGiven, "gold");
   player.gold = player.gold + monster.goldGiven; //Update gold
   document.getElementById("player-gold").textContent = player.gold;
   player.xp = player.xp + monster.xpGiven; //Update XP
-    if (player.xp > player.xpToNextLevel) levelUp();
-    else document.getElementById('experience').textContent = player.xp;
+  console.log("Gain", monster.xpGiven, "XP");
+  if (player.xp > player.xpToNextLevel) {
+    levelUp();
+  } else {
+    document.getElementById('experience').textContent = player.xp;
+  }
   endBattle();
 }
 
