@@ -22,9 +22,9 @@ const itemSelector = () => {
 }
 
 export const shopGenerator = () => {
-  return {
-    item1: itemSelector(),
-    item2: itemSelector(),
-    item3: itemSelector(),
-  }
+  return [
+    itemSelector(),
+    itemSelector(),
+    itemSelector(),
+  ]
 }

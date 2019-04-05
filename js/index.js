@@ -55,10 +55,12 @@ const shopControls = (e) => {
       break;
     case 38: //UP
       if(shopItemPointer > 0) shopItemPointer--;
+      console.log("Item", shopItemPointer);
       console.log(shop[shopItemPointer]);
       break;
     case 40: //DOWN
-      if(battleActionPointer < 2) battleActionPointer++;
+      if(shopItemPointer < 2) shopItemPointer++;
+      console.log("Item", shopItemPointer);
       console.log(shop[shopItemPointer]);
       break;
   }
@@ -204,10 +206,10 @@ const battleActionHandler = (battleAction) => {
       const damage = Math.floor((player.attack*Math.random())/(monster.defense*(0.8)));
       monster.health = monster.health - damage;
       if (monster.health > 0) {
-        console.log('You attack for ' + damage);
+        console.log('You attack for', damage);
       } else {
         monster.health = 0;
-        console.log(monster.name + 'is dead yo!');
+        console.log(monster.name, 'is dead yo!');
         addXPAndEndBattle();
       }
       document.getElementById('monster-health').textContent = monster.health;
@@ -235,6 +237,7 @@ const endBattle = () => {
 }
 
 const addXPAndEndBattle = () => {
+  console.log("Gain", monster.xpGiven, "XP");
   player.xp = player.xp + monster.xpGiven;
   document.getElementById('experience').textContent = player.xp;
   endBattle();
