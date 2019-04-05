@@ -1,11 +1,11 @@
 import { monsterGenerator } from './monster.js';
 import { generateNewMaze } from './maze.js';
-import { player, updatePlayerGoldAndXp } from './player.js';
+import { player } from './player.js';
 import { shopGenerator } from './shop.js';
 import { eventGenerator } from './events.js';
 
 const gridSize = 5;
-
+player.currentRoomNumber[0] = gridSize - 1;
 let maze = generateNewMaze(gridSize); // generate initial maze
 
 let shop;
@@ -51,7 +51,7 @@ document.onkeydown = (e) => {
 const shopControls = (e) => {
   switch (e.keyCode) {
     case 13: //ENTER
-      gameState = 'exploration';
+      buyItem(shop[shopItemPointer]);
       break;
     case 38: //UP
       if(shopItemPointer > 0) shopItemPointer--;
@@ -177,6 +177,17 @@ const initializeShop = () => {
   gameState = 'shop';
   shop = shopGenerator();
   console.log(shop);
+  console.log(shop[0]);
+}
+
+const buyItem = (item) => {
+  console.log("Current player gold", player.gold);
+  player.items.push(item);
+  console.log(player.items);
+  player.gold = player.gold - item.cost;
+  console.log("Item cost", item.cost, "Player now has", player.gold);
+  gameState = 'exploration';
+  shopItemPointer = 0;
 }
 
 const initializeTreasureRoom = () => {
@@ -210,7 +221,7 @@ const battleActionHandler = (battleAction) => {
       } else {
         monster.health = 0;
         console.log(monster.name, 'is dead yo!');
-        addXPAndEndBattle();
+        updateXPAndGoldAndEndBattle();
       }
       document.getElementById('monster-health').textContent = monster.health;
       break;
@@ -236,9 +247,11 @@ const endBattle = () => {
   battleActionPointer = 0;
 }
 
-const addXPAndEndBattle = () => {
+const updateXPAndGoldAndEndBattle = () => {
   console.log("Gain", monster.xpGiven, "XP");
   player.xp = player.xp + monster.xpGiven;
+  player.gold = player.gold + monster.goldGiven;
   document.getElementById('experience').textContent = player.xp;
+  document.getElementById("player-gold").textContent = player.gold;
   endBattle();
 }

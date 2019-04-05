@@ -1,9 +1,6 @@
 export const generateNewMaze = (gridSize) => {
 
   let maze = [];
-  // Track the room we're in
-  // Track what type of rooms we've hit
-  const roomPercentages = [0.3, 0.3, 0.1, 0.1, 0.2];
 
   for(let i = 0; i < gridSize; i++) {
     maze[i] = [];
