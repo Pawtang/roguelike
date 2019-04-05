@@ -25,5 +25,6 @@ export const shopGenerator = () => {
     itemSelector(),
     itemSelector(),
     itemSelector(),
+    'exit',
   ]
 }

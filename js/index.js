@@ -51,7 +51,19 @@ document.onkeydown = (e) => {
 const shopControls = (e) => {
   switch (e.keyCode) {
     case 13: //ENTER
-      buyItem(shop[shopItemPointer]);
+      if(shop[shopItemPointer] === 'exit') {
+        console.log('exiting shop');
+        exitShop();
+      } else if (shop[shopItemPointer] === 'bought') {
+        console.log('this item has been bought');
+      } else {
+        if(player.gold >= shop[shopItemPointer].cost){
+          buyItem(shop[shopItemPointer]);
+          shop[shopItemPointer] = 'bought';
+        } else {
+          console.log('Not enough gold. You need', shop[shopItemPointer].cost,'but you have', player.gold);
+        }
+      }
       break;
     case 38: //UP
       if(shopItemPointer > 0) shopItemPointer--;
@@ -59,7 +71,7 @@ const shopControls = (e) => {
       console.log(shop[shopItemPointer]);
       break;
     case 40: //DOWN
-      if(shopItemPointer < 2) shopItemPointer++;
+      if(shopItemPointer < 3) shopItemPointer++;
       console.log("Item", shopItemPointer);
       console.log(shop[shopItemPointer]);
       break;
@@ -176,6 +188,7 @@ const playEvent = (event) => {
 const initializeShop = () => {
   gameState = 'shop';
   shop = shopGenerator();
+  // TODO Add shop buttons/styles
   console.log(shop);
   console.log(shop[0]);
 }
@@ -186,6 +199,9 @@ const buyItem = (item) => {
   console.log(player.items);
   player.gold = player.gold - item.cost;
   console.log("Item cost", item.cost, "Player now has", player.gold);
+}
+
+const exitShop = () => {
   gameState = 'exploration';
   shopItemPointer = 0;
 }
