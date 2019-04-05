@@ -9,7 +9,7 @@ const gridSize = 5;
 let maze = generateNewMaze(gridSize); // generate initial maze
 
 let shop = shopGenerator(); // how to generate a shop
-
+let monster;
 
 // possible game states (exploration, battle, shop)
 
@@ -34,6 +34,9 @@ document.onkeydown = (e) => {
         console.log('shop controls');
         gameState = 'exploration';
       break;
+    case 'passThrough':
+      passControls(e);
+      break;
   }
 }
 
@@ -45,22 +48,52 @@ const treasureControls = (e) => {
   }
 }
 
-const battleControls = (e) => {
-  if(e.keyCode === 13) {
-      endBattle();
-  }
-  // make this function handle selecting the battle action.
-  // battleActionHandler(battleActionSelected)
-}
+const battleActions = ['attack', 'hp-potion', 'flee'];
+
+let battleActionPointer = 0;
 
 const battleActionHandler = (battleAction) => {
-  // Do battle action
-  // Update visuals with new hp and stuff etc
-  // Check to see if anyone's HP is 0
-    // if battle over, run function endBattle()
-    // else, wait for the next battleControl to be input 
+  switch (battleAction) {
+    case 'attack':
+      const damage = (player.attack*Math.random())/(monster.defense*(0.8));
+      if (monster.health > 0) {
+        console.log('You attack for ' + damage);
+        monster.health = monster.health - damage;
+      } else {
+        monster.health = 0;
+        console.log(monster.name + 'is dead yo!');
+        endBattle();
+        addXP();
+      }
+      document.getElementById('monster-health').textContent = monster.health;
+      break;
+    case 'hp-potion': console.log('You use a potion and restore 20 HP');
+      break;
+    case 'flee':
+      let chance = Math.floor(Math.random()*10);
+      if (chance > 4) endBattle();
+      break;
+    }
 }
 
+const battleControls = (e) => {
+  switch (e.keyCode) {
+    case 13: //ENTER
+      battleActionHandler(battleActions[battleActionPointer]);
+      break;
+    case 38: //UP
+      if(battleActionPointer > 0) battleActionPointer--;
+      break;
+    case 40: //DOWN
+      if(battleActionPointer < 2) battleActionPointer++;
+      break;
+  }
+console.log(battleActionPointer);
+}
+
+const passControls = (e) => {
+  if (e.keyCode = 13) gameState = 'exploration';
+}
 
 const explorationControls = (e) => {
   switch (e.keyCode) {
@@ -147,26 +180,27 @@ const initializeTreasureRoom = () => {
 
 const initializeBattle = () => {
     gameState = 'battle';
-    let monster = monsterGenerator();
+    monster = monsterGenerator();
     document.querySelector('.right-container-fight').classList.toggle('hidden');
     document.querySelector('.right-container-map').classList.toggle('hidden');
     console.log('battle start');
     document.getElementById("monster-name").textContent = monster.name;
-
-    //Battle takes place here
-    //endBattle(monster); // passes monster variable into endBattle without sending to global to allow xp addition
 }
 
 
-const endBattle = (monster) => {
-    /* player.xp = player.xp + monster.xpGiven;
-    document.getElementById("experience").textContent = player.xp; */
+const endBattle = () => {
     document.querySelector('.right-container-fight').classList.toggle('hidden');
     document.querySelector('.right-container-map').classList.toggle('hidden');
     console.log('end battle');
     gameState = "exploration";
+    battleActionPointer = 0;
+    addXP();
 }
 
+const addXP = () => {
+  player.xp = player.xp + monster.xpGiven;
+  document.getElementById('experience').textContent = player.xp;
+}
 
 
 const initializeShop = () => {
