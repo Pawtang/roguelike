@@ -15,8 +15,15 @@ let monster;
 
 let gameNotBeaten = true, roomNumber, gameState = 'exploration', goldInChest = 0;
 
+const battleActions = ['attack', 'hp-potion', 'flee'];
+
+let battleActionPointer = 0;
+
 //GameStates: exploration, battle, chest, shop, win, lose;
 
+//******************************************
+// CONTROL HANDLERS
+//******************************************
 
 document.onkeydown = (e) => {
   e.preventDefault();
@@ -31,8 +38,8 @@ document.onkeydown = (e) => {
       treasureControls(e);
       break;
     case 'shop':
-        console.log('shop controls');
-        gameState = 'exploration';
+      console.log('Shop Controls');
+      shopControls(e);
       break;
     case 'passThrough':
       passControls(e);
@@ -40,40 +47,18 @@ document.onkeydown = (e) => {
   }
 }
 
-const treasureControls = (e) => {
+const shopControls = (e) => {
   if(e.keyCode === 13) {
-      document.querySelector('#monster-statbox').classList.toggle('chest');
-      document.querySelector('#monster-statbox').innerHTML = '';
-      gameState = 'exploration';
+    gameState = 'exploration';
   }
 }
 
-const battleActions = ['attack', 'hp-potion', 'flee'];
-
-let battleActionPointer = 0;
-
-const battleActionHandler = (battleAction) => {
-  switch (battleAction) {
-    case 'attack':
-      const damage = Math.floor((player.attack*Math.random())/(monster.defense*(0.8)));
-          monster.health = monster.health - damage;
-      if (monster.health > 0) {
-        console.log('You attack for ' + damage);
-      } else {
-        monster.health = 0;
-        console.log(monster.name + 'is dead yo!');
-        endBattle();
-        addXP();
-      }
-      document.getElementById('monster-health').textContent = monster.health;
-      break;
-    case 'hp-potion': console.log('You use a potion and restore 20 HP');
-      break;
-    case 'flee':
-      let chance = Math.floor(Math.random()*10);
-      if (chance > 4) endBattle();
-      break;
-    }
+const treasureControls = (e) => {
+  if(e.keyCode === 13) {
+    document.querySelector('#monster-statbox').classList.toggle('chest');
+    document.querySelector('#monster-statbox').innerHTML = '';
+    gameState = 'exploration';
+  }
 }
 
 const battleControls = (e) => {
@@ -83,12 +68,13 @@ const battleControls = (e) => {
       break;
     case 38: //UP
       if(battleActionPointer > 0) battleActionPointer--;
+      console.log(battleActionPointer);
       break;
     case 40: //DOWN
       if(battleActionPointer < 2) battleActionPointer++;
+      console.log(battleActionPointer);
       break;
   }
-console.log(battleActionPointer);
 }
 
 const passControls = (e) => {
@@ -162,62 +148,79 @@ const playEvent = (event) => {
       // initialize shop room here
       break;
     case 'eventlessRoom':
-          console.log('Nothing here! How boring.');
+      console.log('Nothing here! How boring.');
       break;
   }
 }
 
+//******************************************
+// EVENT HANDLERS
+//******************************************
+
+const initializeShop = () => {
+  gameState = 'shop';
+  console.log('shopping spree');
+}
+
 const initializeTreasureRoom = () => {
-    gameState = 'treasure';
-    goldInChest = Math.floor(Math.random()*101) + 100 // between 100 and 200;
-    player.gold = player.gold + goldInChest;
-    document.querySelector('#monster-statbox').classList.toggle('chest');
-    document.querySelector('#monster-statbox').innerHTML = '<p style = "color: black">You received ' + goldInChest + ' gold!</p>';
-    document.getElementById("player-gold").textContent = player.gold;
-    console.log(goldInChest + " gold");
-     // TODO: Remove all treasure styling and add back all map styling
+  gameState = 'treasure';
+  goldInChest = Math.floor(Math.random()*101) + 100 // between 100 and 200;
+  player.gold = player.gold + goldInChest;
+  document.querySelector('#monster-statbox').classList.toggle('chest');
+  document.querySelector('#monster-statbox').innerHTML = '<p style = "color: black">You received ' + goldInChest + ' gold!</p>';
+  document.getElementById("player-gold").textContent = player.gold;
+  console.log(goldInChest + " gold");
+  // TODO: Remove all treasure styling and add back all map styling
 }
 
 const initializeBattle = () => {
-    gameState = 'battle';
-    monster = monsterGenerator();
-    document.getElementById('monster-health').textContent = monster.health;
-    document.querySelector('.right-container-fight').classList.toggle('hidden');
-    document.querySelector('.right-container-map').classList.toggle('hidden');
-    console.log('battle start');
-    document.getElementById("monster-name").textContent = monster.name;
+  gameState = 'battle';
+  monster = monsterGenerator();
+  console.log('battle start');
+  document.getElementById("monster-name").textContent = monster.name;
+  document.getElementById('monster-health').textContent = monster.health;
+  document.querySelector('.right-container-fight').classList.toggle('hidden');
+  document.querySelector('.right-container-map').classList.toggle('hidden');
 }
 
+const battleActionHandler = (battleAction) => {
+  switch (battleAction) {
+    case 'attack':
+      const damage = Math.floor((player.attack*Math.random())/(monster.defense*(0.8)));
+      monster.health = monster.health - damage;
+      if (monster.health > 0) {
+        console.log('You attack for ' + damage);
+      } else {
+        monster.health = 0;
+        console.log(monster.name + 'is dead yo!');
+        addXPAndEndBattle();
+      }
+      document.getElementById('monster-health').textContent = monster.health;
+      break;
+    case 'hp-potion': console.log('You use a potion and restore 20 HP');
+      break;
+    case 'flee':
+      const chance = Math.floor(Math.random()*10);
+      if (chance > 4) {
+        console.log('Successfully fleed the battle');
+        endBattle();
+      } else {
+        console.log('Failed to flee');
+      }
+      break;
+  }
+}
 
 const endBattle = () => {
-    document.querySelector('.right-container-fight').classList.toggle('hidden');
-    document.querySelector('.right-container-map').classList.toggle('hidden');
-    console.log('end battle');
-    gameState = "exploration";
-    battleActionPointer = 0;
-    addXP();
+  document.querySelector('.right-container-fight').classList.toggle('hidden');
+  document.querySelector('.right-container-map').classList.toggle('hidden');
+  console.log('end battle');
+  gameState = "exploration";
+  battleActionPointer = 0;
 }
 
-const addXP = () => {
+const addXPAndEndBattle = () => {
   player.xp = player.xp + monster.xpGiven;
   document.getElementById('experience').textContent = player.xp;
+  endBattle();
 }
-
-
-const initializeShop = () => {
-    gameState = 'shop';
-    console.log('shopping spree');
-}
-
-// TODO also just to explain, the reason i made events its own thing for the purpose of this project
-// is because it's incredibly messy to have all these functions in here that clutter up the otherwise
-// main functionality. functions related to the rooms and maze should be in maze, functions related to monsters
-// should be in monster. Only things that are directly controlled (ie document.xxx functions) should be out here
-// as well as what is needed to initialize just the maze before any interaction from the user
-
-//TODO Can you add them into those events as you see fit? I'm not sure the proper way to put these functions into objects. If you do it ill understand a lot better.
-
-/*
- * Order should be move -> update character location -> check if room has been visited -> execute event if room has not been visited -> update player and maze after event
- * Additionally, if on the exit room, must generate a new maze object to replace the old maze object
- */
