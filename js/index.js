@@ -55,10 +55,10 @@ let battleActionPointer = 0;
 const battleActionHandler = (battleAction) => {
   switch (battleAction) {
     case 'attack':
-      const damage = (player.attack*Math.random())/(monster.defense*(0.8));
+      const damage = Math.floor((player.attack*Math.random())/(monster.defense*(0.8)));
+          monster.health = monster.health - damage;
       if (monster.health > 0) {
         console.log('You attack for ' + damage);
-        monster.health = monster.health - damage;
       } else {
         monster.health = 0;
         console.log(monster.name + 'is dead yo!');
@@ -181,6 +181,7 @@ const initializeTreasureRoom = () => {
 const initializeBattle = () => {
     gameState = 'battle';
     monster = monsterGenerator();
+    document.getElementById('monster-health').textContent = monster.health;
     document.querySelector('.right-container-fight').classList.toggle('hidden');
     document.querySelector('.right-container-map').classList.toggle('hidden');
     console.log('battle start');
