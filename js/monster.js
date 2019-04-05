@@ -1,26 +1,27 @@
-const monsterCreator = (name, health, attack, defense, level, xpGiven, goldGiven) => {
+const monsterCreator = (monsterDetails) => {
   return {
-    name: name,
-    health: health,
-    attack: attack,
-    defense: defense,
-    level: level,
-    xpGiven: xpGiven,
-    goldGiven: goldGiven,
+    name: monsterDetails[0],
+    health: monsterDetails[1],
+    attack: monsterDetails[2],
+    defense: monsterDetails[3],
+    level: monsterDetails[4],
+    xpGiven: monsterDetails[5],
+    goldGiven: monsterDetails[6],
   }
 };
 
 const monsters = [];
-monsters.push(monsterCreator('Ryan', 100, 2, 2, 1, 10, 500));
-monsters.push(monsterCreator('Ben', 100, 3, 1, 1, 10, 500));
-monsters.push(monsterCreator('Math Homework', 100, 5, 1, 2, 30, 100));
-monsters.push(monsterCreator('All Your Exes', 100, 5, 1, 2, 30, 100));
-monsters.push(monsterCreator('Looming Deadline', 100, 5, 1, 2, 30, 100));
-monsters.push(monsterCreator('High Cost of Living', 100, 5, 1, 2, 30, 100));
-monsters.push(monsterCreator('Medical Debt', 100, 5, 1, 2, 30, 100));
-monsters.push(monsterCreator('Dissapointed Father', 100, 5, 1, 3, 50, 10));
+monsters.push(['Ryan', 100, 2, 2, 1, 10, 500]);
+monsters.push(['Ben', 100, 3, 1, 1, 10, 500]);
+monsters.push(['Math Homework', 100, 5, 1, 2, 30, 100]);
+monsters.push(['All Your Exes', 100, 5, 1, 2, 30, 100]);
+monsters.push(['Looming Deadline', 100, 5, 1, 2, 30, 100]);
+monsters.push(['High Cost of Living', 100, 5, 1, 2, 30, 100]);
+monsters.push(['Medical Debt', 100, 5, 1, 2, 30, 100]);
+monsters.push(['Dissapointed Father', 100, 5, 1, 3, 50, 10]);
+
 
 export const monsterGenerator = () => {
   const monsterNumber = Math.floor(Math.random()*monsters.length);
-  return monsters[monsterNumber];
+  return monsterCreator(monsters[monsterNumber]);
 }
