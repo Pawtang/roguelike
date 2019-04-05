@@ -54,17 +54,51 @@ article{
     display: flex;
     justify-content: center;
     text-align: center;
-    margin: 100px auto;
+    margin: 50px auto;
     vertical-align: middle;
 }
 
-.battle-actions li{
-    font-size: 1.3em;
-    margin: 20px;
-    padding: 10px 80px;
-    border-radius: 20px;
-    background-color: #222;
+.battle-log{
+    display: block;
+    padding: 5px;
+    margin: 0;
+    align-content: center;
+    text-align: center;
+    background-color: black;
+    outline: 1px white;
+    height: 100px;
+    vertical-align: middle;
 }
+
+
+button {
+    width: 300px;
+    display: inline-block;
+    border: none;
+    padding: 1rem 2rem;
+    margin: 10px 0;
+    text-decoration: none;
+    background: #444;
+    color: #ffffff;
+    font-family: sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    transition: background 250ms ease-in-out, 
+                transform 150ms ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+button:hover,
+button:focus {
+    background: #139532;
+}
+button:active {
+    transform: scale(0.99);
+}
+
+
 
 .icon{
   width: 80px;
@@ -99,7 +133,7 @@ article{
 
 ul{
   list-style-type: none;
-  line-height: 2.2em;
+  line-height: 2em;
   padding: 20px;
 }
 
@@ -136,3 +170,4 @@ h2{
     background-position: center;
     background-color: white;
 }
+
