@@ -6,10 +6,10 @@ export const generateNewMaze = (gridSize) => {
     maze[i] = [];
     for(let j = 0; j < gridSize; j++) {
       maze[i][j] = {
-        // leftDoor: false,
-        // rightDoor: false,
-        // upDoor: false,
-        // downDoor: false,
+        leftDoor: false,
+        rightDoor: false,
+        upDoor: false,
+        downDoor: false,
         event: null,
         hasBeenTraveled: false,
         roomNumber: i*5+j,
@@ -21,7 +21,7 @@ export const generateNewMaze = (gridSize) => {
   maze[4][0].hasBeenTraveled = true;
   maze[4][0].event = 'entrance';
 
-  // // set exit
+  // // set exit to always be boss room
   // maze[0][4].isExit = true;
   // maze[0][4].leftDoor = true;
 

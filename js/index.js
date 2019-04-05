@@ -20,7 +20,7 @@ const battleActions = ['attack', 'hp-potion', 'flee'];
 let battleActionPointer = 0;
 let shopItemPointer = 0;
 
-//GameStates: exploration, battle, chest, shop, win, lose;
+//GameStates: exploration, battle, treasure, shop, win, lose;
 
 //******************************************
 // CONTROL HANDLERS
@@ -247,7 +247,7 @@ const battleActionHandler = (battleAction) => {
     case 'flee':
       const chance = Math.floor(Math.random()*10);
       if (chance > 4) {
-        console.log('Successfully fleed the battle');
+        console.log('Successfully fled the battle');
         endBattle();
       } else {
         console.log('Failed to flee');
@@ -288,10 +288,8 @@ const levelUp = () => {
     player.health *= 1.25;
     console.log("Player attack", player.attack, "->", player.attack*1.1);
     player.attack *= 1.10;
-    console.log(player.attack);
     console.log("Player defense", player.defense, "->", player.defense*1.1);
     player.defense *= 1.10;
-    console.log(player.defense);
     document.getElementById('experience').textContent = player.xp;
     document.getElementById('player-health').textContent = player.health;
     document.getElementById('player-attack').textContent = player.attack;
