@@ -231,7 +231,7 @@ const initializeBattle = () => {
 const battleActionHandler = (battleAction) => {
   switch (battleAction) {
     case 'attack':
-      const damage = Math.floor((player.attack*Math.random())/(monster.defense*(0.8)));
+      const damage = Math.floor((player.attack*10*Math.random())/(monster.defense*(0.8)));
       monster.health = monster.health - damage;
       if (monster.health > 0) {
         console.log('You attack for', damage);
@@ -272,7 +272,7 @@ const updateXPAndGoldAndEndBattle = () => {
   document.getElementById("player-gold").textContent = player.gold;
   player.xp = player.xp + monster.xpGiven; //Update XP
   console.log("Gain", monster.xpGiven, "XP");
-  if (player.xp > player.xpToNextLevel) {
+  if (player.xp >= player.xpToNextLevel) {
     levelUp();
   } else {
     document.getElementById('experience').textContent = player.xp;
@@ -282,11 +282,16 @@ const updateXPAndGoldAndEndBattle = () => {
 
 const levelUp = () => {
     player.level++;
-    player.xp = 0;
+    player.xp = player.xp - player.xpToNextLevel;
     player.xpToNextLevel *= 1.25;
+    console.log("Player health", player.health, "->", player.health*1.25);
     player.health *= 1.25;
+    console.log("Player attack", player.attack, "->", player.attack*1.1);
     player.attack *= 1.10;
+    console.log(player.attack);
+    console.log("Player defense", player.defense, "->", player.defense*1.1);
     player.defense *= 1.10;
+    console.log(player.defense);
     document.getElementById('experience').textContent = player.xp;
     document.getElementById('player-health').textContent = player.health;
     document.getElementById('player-attack').textContent = player.attack;
