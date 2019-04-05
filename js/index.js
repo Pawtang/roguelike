@@ -18,6 +18,7 @@ let gameNotBeaten = true, roomNumber, gameState = 'exploration', goldInChest = 0
 const battleActions = ['attack', 'hp-potion', 'flee'];
 
 let battleActionPointer = 0;
+let shopItemPointer = 0;
 
 //GameStates: exploration, battle, chest, shop, win, lose;
 
@@ -48,8 +49,18 @@ document.onkeydown = (e) => {
 }
 
 const shopControls = (e) => {
-  if(e.keyCode === 13) {
-    gameState = 'exploration';
+  switch (e.keyCode) {
+    case 13: //ENTER
+      gameState = 'exploration';
+      break;
+    case 38: //UP
+      if(shopItemPointer > 0) shopItemPointer--;
+      console.log(shop[shopItemPointer]);
+      break;
+    case 40: //DOWN
+      if(battleActionPointer < 2) battleActionPointer++;
+      console.log(shop[shopItemPointer]);
+      break;
   }
 }
 
@@ -149,7 +160,6 @@ const playEvent = (event) => {
       break;
     case 'shopRoom':
       initializeShop();
-      // initialize shop room here
       break;
     case 'eventlessRoom':
       console.log('Nothing here! How boring.');
@@ -164,7 +174,7 @@ const playEvent = (event) => {
 const initializeShop = () => {
   gameState = 'shop';
   shop = shopGenerator();
-  console.log('shopping spree');
+  console.log(shop);
 }
 
 const initializeTreasureRoom = () => {
