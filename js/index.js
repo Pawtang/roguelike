@@ -67,11 +67,13 @@ const shopControls = (e) => {
       break;
     case 38: //UP
       if(shopItemPointer > 0) shopItemPointer--;
+      document.getElementById('s-' + (shopItemPointer + 1)).focus();
       console.log("Item", shopItemPointer);
       console.log(shop[shopItemPointer]);
       break;
     case 40: //DOWN
       if(shopItemPointer < 3) shopItemPointer++;
+      document.getElementById('s-' + (shopItemPointer + 1)).focus();
       console.log("Item", shopItemPointer);
       console.log(shop[shopItemPointer]);
       break;
@@ -87,7 +89,7 @@ const treasureControls = (e) => {
 }
 
 const battleControls = (e) => {
-  //  document.getElementById('b-1').addEventListener("click", battleActionHandler('attack')); 
+  //  document.getElementById('b-1').addEventListener("click", battleActionHandler('attack'));
   switch (e.keyCode) {
     case 13: //ENTER
       battleActionHandler(battleActions[battleActionPointer]);
@@ -191,9 +193,17 @@ const playEvent = (event) => {
 const initializeShop = () => {
   gameState = 'shop';
   shop = shopGenerator();
+
   // TODO Add shop buttons/styles
   console.log(shop);
   console.log(shop[0]);
+  document.getElementById('main').classList.toggle('hidden');
+  document.getElementById('shop-screen').classList.toggle('hidden');
+  document.getElementById('s-1').textContent = shop[0].name;
+  document.getElementById('s-2').textContent = shop[1].name;
+  document.getElementById('s-3').textContent = shop[2].name;
+  document.getElementById('s-4').textContent = 'Exit';
+  document.getElementById('s-1').focus();
 }
 
 const buyItem = (item) => {
@@ -205,6 +215,8 @@ const buyItem = (item) => {
 }
 
 const exitShop = () => {
+  document.getElementById('main').classList.toggle('hidden');
+  document.getElementById('shop-screen').classList.toggle('hidden');
   gameState = 'exploration';
   shopItemPointer = 0;
 }
@@ -225,10 +237,11 @@ const initializeBattle = () => {
   console.log('battle start');
   document.getElementById("monster-name").textContent = monster.name;
   document.getElementById('monster-health').textContent = monster.health;
+  document.getElementById('monster-health-bar').style.width = '100%';
   document.querySelector('.right-container-fight').classList.toggle('hidden');
   document.querySelector('.right-container-map').classList.toggle('hidden');
   document.getElementById('main').classList.toggle('hidden');
-  document.getElementById('battle-screen').classList.toggle('hidden'); 
+  document.getElementById('battle-screen').classList.toggle('hidden');
   document.getElementById('b-1').focus();
 }
 
@@ -239,6 +252,8 @@ const battleActionHandler = (battleAction) => {
       monster.health = monster.health - damage;
       if (monster.health > 0) {
         console.log('You attack for', damage);
+        document.getElementById('monster-health-bar').style.width = monster.health + '%';
+        document.querySelector('.battle-log').innerHTML += 'You attack ' + monster.name + ' for ' + damage + ' health! </br>';
       } else {
         monster.health = 0;
         console.log(monster.name, 'is dead yo!');
@@ -250,7 +265,7 @@ const battleActionHandler = (battleAction) => {
       break;
     case 'flee':
       const chance = Math.floor(Math.random()*10);
-      if (chance > 7) {
+      if (chance > 2) {
         console.log('Successfully fled the battle');
         endBattle();
       } else {
@@ -265,7 +280,8 @@ const endBattle = () => {
   document.querySelector('.right-container-fight').classList.toggle('hidden');
   document.querySelector('.right-container-map').classList.toggle('hidden');
   document.getElementById('main').classList.toggle('hidden');
-  document.getElementById('battle-screen').classList.toggle('hidden'); 
+  document.getElementById('battle-screen').classList.toggle('hidden');
+  document.querySelector('.battle-log').innerHTML = '';
   console.log('end battle');
   gameState = "exploration";
   battleActionPointer = 0;

@@ -23,12 +23,15 @@ header{
 article{
   width: 1200px;
   margin: 50px auto;
-  padding: 20px;
-  background-image: url(/images/background.jpg);
+  padding: 50px;
+  background-image: url(/images/background2.jpg);
   background-color: #222;
   background-size: cover;
     border-radius: 5px;
   display: flex;
+  -webkit-box-shadow: 10px 10px 25px -10px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 10px 25px -10px rgba(0,0,0,0.75);
+  box-shadow: 10px 10px 25px -10px rgba(0,0,0,0.75);
 }
 
 .card{
@@ -43,6 +46,21 @@ article{
 #main{
   width: 500px;
   height: 500px;
+}
+
+
+
+#shop-screen{
+  width: 500px;
+  height: 500px;
+}
+
+.shop-actions{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin: 20px auto;
+    vertical-align: middle;
 }
 
 #battle-screen{
@@ -64,7 +82,7 @@ article{
     margin: 0;
     align-content: center;
     text-align: center;
-    background-color: black;
+    background-color: RGBA(0,0,0,.8);
     outline: 1px white;
     height: 100px;
     vertical-align: middle;
@@ -84,7 +102,7 @@ button {
     font-size: 1rem;
     cursor: pointer;
     text-align: center;
-    transition: background 250ms ease-in-out, 
+    transition: background 250ms ease-in-out,
                 transform 150ms ease;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -170,4 +188,3 @@ h2{
     background-position: center;
     background-color: white;
 }
-
