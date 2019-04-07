@@ -49,6 +49,7 @@ document.onkeydown = (e) => {
 }
 
 const shopControls = (e) => {
+  let elem = document.querySelector('.shop-log')
   switch (e.keyCode) {
     case 13: //ENTER
       if(shop[shopItemPointer] === 'exit') {
@@ -56,12 +57,16 @@ const shopControls = (e) => {
         exitShop();
       } else if (shop[shopItemPointer] === 'bought') {
         console.log('this item has been bought');
+          elem.innerHTML += 'This item has already been purchased</br>';
+          elem.scrollTop = elem.scrollHeight;
       } else {
         if(player.gold >= shop[shopItemPointer].cost){
           buyItem(shop[shopItemPointer]);
           shop[shopItemPointer] = 'bought';
         } else {
           console.log('Not enough gold. You need', shop[shopItemPointer].cost,'but you have', player.gold);
+          elem.innerHTML += 'Not enough gold! </br>';
+          elem.scrollTop = elem.scrollHeight;
         }
       }
       break;
@@ -193,30 +198,33 @@ const playEvent = (event) => {
 const initializeShop = () => {
   gameState = 'shop';
   shop = shopGenerator();
-
-  // TODO Add shop buttons/styles
   console.log(shop);
   console.log(shop[0]);
   document.getElementById('main').classList.toggle('hidden');
   document.getElementById('shop-screen').classList.toggle('hidden');
-  document.getElementById('s-1').textContent = shop[0].name;
-  document.getElementById('s-2').textContent = shop[1].name;
-  document.getElementById('s-3').textContent = shop[2].name;
+  document.getElementById('s-1').textContent = shop[0].name + ' - ' + shop[0].cost + ' gold';
+  document.getElementById('s-2').textContent = shop[1].name + ' - ' + shop[1].cost + ' gold';
+  document.getElementById('s-3').textContent = shop[2].name + ' - ' + shop[2].cost + ' gold';
   document.getElementById('s-4').textContent = 'Exit';
   document.getElementById('s-1').focus();
 }
 
 const buyItem = (item) => {
+  let elem = document.querySelector('.shop-log')
   console.log("Current player gold", player.gold);
   player.items.push(item);
   console.log(player.items);
   player.gold = player.gold - item.cost;
   console.log("Item cost", item.cost, "Player now has", player.gold);
+  elem.innerHTML += 'Purchased ' + shop[shopItemPointer].name + ' for ' + shop[shopItemPointer].cost + ' gold</br>';
+  elem.scrollTop = elem.scrollHeight;
+  document.getElementById('player-gold').innerHTML = player.gold;
 }
 
 const exitShop = () => {
   document.getElementById('main').classList.toggle('hidden');
   document.getElementById('shop-screen').classList.toggle('hidden');
+  document.querySelector('.shop-log').innerHTML = '';
   gameState = 'exploration';
   shopItemPointer = 0;
 }
@@ -246,6 +254,7 @@ const initializeBattle = () => {
 }
 
 const battleActionHandler = (battleAction) => {
+  let elem = document.querySelector('.battle-log')
   switch (battleAction) {
     case 'attack':
       const damage = Math.floor((player.attack*10*Math.random())/(monster.defense*(0.8)));
@@ -253,7 +262,8 @@ const battleActionHandler = (battleAction) => {
       if (monster.health > 0) {
         console.log('You attack for', damage);
         document.getElementById('monster-health-bar').style.width = monster.health + '%';
-        document.querySelector('.battle-log').innerHTML += 'You attack ' + monster.name + ' for ' + damage + ' health! </br>';
+        elem.innerHTML += 'You attack ' + monster.name + ' for ' + damage + ' health! </br>';
+        elem.scrollTop = elem.scrollHeight;
       } else {
         monster.health = 0;
         console.log(monster.name, 'is dead yo!');
@@ -262,6 +272,8 @@ const battleActionHandler = (battleAction) => {
       document.getElementById('monster-health').textContent = monster.health;
       break;
     case 'hp-potion': console.log('You use a potion and restore 20 HP');
+      elem.innerHTML += 'You use a health potion, restoring 20 HP </br>' ;
+      elem.scrollTop = elem.scrollHeight;
       break;
     case 'flee':
       const chance = Math.floor(Math.random()*10);
@@ -270,7 +282,8 @@ const battleActionHandler = (battleAction) => {
         endBattle();
       } else {
         console.log('Failed to flee');
-        document.querySelector('.battle-log').textContent = 'Failed to flee!'
+        elem.innerHTML = 'Failed to flee!'
+        elem.scrollTop = elem.scrollHeight;
       }
       break;
   }
@@ -304,13 +317,13 @@ const updateXPAndGoldAndEndBattle = () => {
 const levelUp = () => {
     player.level++;
     player.xp = player.xp - player.xpToNextLevel;
-    player.xpToNextLevel *= 1.25;
+    player.xpToNextLevel = Math.floor(player.xpToNextLevel*1.25);
     console.log("Player health", player.health, "->", player.health*1.25);
-    player.health *= 1.25;
+    player.health = Math.floor(player.health*1.25);
     console.log("Player attack", player.attack, "->", player.attack*1.1);
-    player.attack *= 1.10;
+    player.attack = Math.floor(player.attack*1.10);
     console.log("Player defense", player.defense, "->", player.defense*1.1);
-    player.defense *= 1.10;
+    player.defense = Math.floor(player.defense*1.10);
     document.getElementById('experience').textContent = player.xp;
     document.getElementById('player-health').textContent = player.health;
     document.getElementById('player-attack').textContent = player.attack;

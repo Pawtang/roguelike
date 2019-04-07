@@ -76,7 +76,7 @@ article{
     vertical-align: middle;
 }
 
-.battle-log{
+.log{
     display: block;
     padding: 5px;
     margin: 0;
@@ -86,11 +86,14 @@ article{
     outline: 1px white;
     height: 100px;
     vertical-align: middle;
+    overflow-y: scroll;
+    box-sizing: content-box;
+    padding-right: 17px;
 }
 
 
 button {
-    width: 300px;
+    width: 350px;
     display: inline-block;
     border: none;
     padding: 1rem 2rem;
