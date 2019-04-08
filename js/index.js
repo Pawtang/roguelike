@@ -234,7 +234,7 @@ const initializeTreasureRoom = () => {
   goldInChest = Math.floor(Math.random()*101) + 100 // between 100 and 200;
   player.gold = player.gold + goldInChest;
   document.querySelector('#monster-statbox').classList.toggle('chest');
-  document.querySelector('#monster-statbox').innerHTML = '<p style = "color: black">You received ' + goldInChest + ' gold!</p>';
+  document.querySelector('#monster-statbox').innerHTML = '<p style = "color: black">You received ' + goldInChest + ' gold!</p> <h3>Press Enter</h3>';
   document.getElementById("player-gold").textContent = player.gold;
   console.log(goldInChest, 'gold');
 }
@@ -250,6 +250,7 @@ const initializeBattle = () => {
   document.querySelector('.right-container-map').classList.toggle('hidden');
   document.getElementById('main').classList.toggle('hidden');
   document.getElementById('battle-screen').classList.toggle('hidden');
+  document.querySelector('.battle-log').innerHTML += monster.name + ' approaches! ' + monster.description + '</br>';
   document.getElementById('b-1').focus();
 }
 

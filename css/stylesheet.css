@@ -158,6 +158,10 @@ ul{
   padding: 20px;
 }
 
+h1{
+    margin: 5px;
+}
+
 h2{
   color: red;
   font-size: 1em;
@@ -167,6 +171,10 @@ h2{
   font-weight: bold;
   background-color: #333;
   border-radius: 5px;
+}
+
+h3{
+  color: black;
 }
 
 .right-container-fight{
