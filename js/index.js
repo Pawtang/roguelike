@@ -1,6 +1,6 @@
 import { monsterGenerator } from './monster.js';
 import { generateNewMaze } from './maze.js';
-import { player } from './player.js';
+import { player, levelUp } from './player.js';
 import { shopGenerator } from './shop.js';
 import { eventGenerator } from './events.js';
 
@@ -118,7 +118,7 @@ const passControls = (e) => {
 
 const explorationControls = (e) => {
   switch (e.keyCode) {
-    case 37:
+    case 37: // LEFT
       if(player.currentRoomNumber[1] === 0) {
         console.log('can\'t move left');
       } else {
@@ -127,7 +127,7 @@ const explorationControls = (e) => {
         roomActions();
       }
       break;
-    case 38:
+    case 38: // UP
       if(player.currentRoomNumber[0] === 0) {
         console.log('can\'t move up');
       } else {
@@ -136,7 +136,7 @@ const explorationControls = (e) => {
         roomActions();
       }
       break;
-    case 39:
+    case 39: // RIGHT
       if(player.currentRoomNumber[1] === 4) {
         console.log('can\'t move right');
       } else {
@@ -145,7 +145,7 @@ const explorationControls = (e) => {
         roomActions();
       }
       break;
-    case 40:
+    case 40: // DOWN
       if(player.currentRoomNumber[0] === 4) {
         console.log('can\'t move down');
       } else {
@@ -315,19 +315,3 @@ const updateXPAndGoldAndEndBattle = () => {
   endBattle();
 }
 
-const levelUp = () => {
-    player.level++;
-    player.xp = player.xp - player.xpToNextLevel;
-    player.xpToNextLevel = Math.floor(player.xpToNextLevel*1.25);
-    console.log("Player health", player.health, "->", player.health*1.25);
-    player.health = Math.floor(player.health*1.25);
-    console.log("Player attack", player.attack, "->", player.attack*1.1);
-    player.attack = Math.floor(player.attack*1.10);
-    console.log("Player defense", player.defense, "->", player.defense*1.1);
-    player.defense = Math.floor(player.defense*1.10);
-    document.getElementById('experience').textContent = player.xp;
-    document.getElementById('player-health').textContent = player.health;
-    document.getElementById('player-attack').textContent = player.attack;
-    document.getElementById('player-defense').textContent = player.defense;
-    console.log('Level up! You are now level ' + player.level);
-}
