@@ -8,18 +8,19 @@ const monsterCreator = (monsterDetails) => {
     xpGiven: monsterDetails[5],
     goldGiven: monsterDetails[6],
     description: monsterDetails[7],
+    icon: monsterDetails[8]
   }
 };
 
 const monsters = [];
-monsters.push(['Ryan', 100, 20, 2, 1, 10, 500, 'A dangerous man wearing basketball shorts.']);
-monsters.push(['Ben', 150, 15, 1, 1, 10, 500, 'A confused man wielding an IPA.']);
-monsters.push(['Math Homework', 100, 12, 1, 2, 10, 100, 'You struggle to understand the Gauss-Green theorem.']);
-monsters.push(['All Your Exes', 200, 8, 1, 2, 10, 100, 'Each more evil than the last.']);
-monsters.push(['Looming Deadline', 100, 7, 1, 2, 10, 100, 'Procrastinator\'s wake-up call.']);
-monsters.push(['High Cost of Living', 300, 5, 1, 2, 20, 500, 'Gonna need to find another room mate.']);
-monsters.push(['Medical Debt', 100, 15, 1, 2, 20, 100, 'From that time you got suplexed.']);
-monsters.push(['Dissapointed Father', 200, 20, 1, 3, 30, 10, 'He\'s not mad, just dissapointed.']);
+monsters.push(['Ryan', 100, 20, 2, 1, 10, 500, 'A dangerous man wearing basketball shorts.', 1]);
+monsters.push(['Ben', 100, 15, 1, 1, 10, 500, 'A confused man wielding an IPA.', 2]);
+monsters.push(['Math Homework', 100, 12, 1, 2, 10, 100, 'You struggle to understand the Gauss-Green theorem.', 3]);
+monsters.push(['All Your Exes', 100, 8, 1, 2, 10, 100, 'Each more evil than the last.', 4]);
+monsters.push(['Looming Deadline', 100, 7, 1, 2, 10, 100, 'Procrastinator\'s wake-up call.', 5]);
+monsters.push(['High Cost of Living', 100, 5, 1, 2, 20, 500, 'Gonna need to find another room mate.', 6]);
+monsters.push(['Medical Debt', 100, 15, 1, 2, 20, 100, 'From that time you got suplexed.', 7]);
+monsters.push(['Dissapointed Father', 100, 20, 1, 3, 30, 10, 'He\'s not mad, just dissapointed.', 8]);
 
 
 

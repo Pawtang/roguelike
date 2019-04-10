@@ -238,7 +238,8 @@ const initializeBattle = () => {
   gameState = 'battle';
   monster = monsterGenerator();
   console.log('battle start');
-  document.getElementById("monster-name").textContent = monster.name;
+  document.getElementById('monster-icon').style.background = 'url("/images/monsters/monster-' + monster.icon + '.gif")';
+  document.getElementById('monster-name').textContent = monster.name;
   document.getElementById('monster-health').textContent = monster.health;
   document.getElementById('monster-health-bar').style.width = '100%';
   document.querySelector('.right-container-fight').classList.toggle('hidden');
@@ -266,6 +267,7 @@ const battleActionHandler = (battleAction) => {
         updateXPAndGoldAndEndBattle();
       }
       document.getElementById('monster-health').textContent = monster.health;
+      monsterAttack();
       break;
           
     case 'hp-potion': 
@@ -276,9 +278,9 @@ const battleActionHandler = (battleAction) => {
         document.getElementById('player-health').textContent = player.health;    
         document.getElementById('player-health-bar').style.width = Math.floor((player.health/player.maxHealth)*100) + '%';
       }
-          
       elem.innerHTML += 'You use a health potion, restoring 50 HP </br>' ;
       elem.scrollTop = elem.scrollHeight;
+      monsterAttack();
       break;
           
     case 'flee':
@@ -290,11 +292,16 @@ const battleActionHandler = (battleAction) => {
         console.log('Failed to flee');
         elem.innerHTML = 'Failed to flee!'
         elem.scrollTop = elem.scrollHeight;
+        monsterAttack();
       }
       break;  
   }
-    
-  if (monster.health > 0 && player.health > 0) { //Monster attacks you
+}
+
+
+const monsterAttack = () => {
+    let elem = document.querySelector('.battle-log');
+      if (monster.health > 0 && player.health > 0) { //Monster attacks you
     setTimeout(function(){ //Wait 0.5 sec
     console.log('Monster attacks you'); 
     let damage = Math.floor((monster.attack*10*Math.random())/(player.defense*(0.8)));

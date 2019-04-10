@@ -23,7 +23,7 @@ header{
 article{
   width: 1200px;
   margin: 50px auto;
-  padding: 50px;
+  padding: 100px 50px;
   background-image: url(/images/background2.jpg);
   background-color: #222;
   background-size: cover;
@@ -136,7 +136,6 @@ button:active {
 }
 
 #monster-icon{
-  background-image: url(/images/monsters/harpy.gif);
   background-size: cover;
 }
 
