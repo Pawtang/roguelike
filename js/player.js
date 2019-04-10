@@ -15,7 +15,7 @@ export const levelUp = () => {
   player.level++;
   player.xp = player.xp - player.xpToNextLevel;
   player.xpToNextLevel = Math.floor(player.xpToNextLevel*1.25);
-  console.log("Player health", player.health, "->", Math.floor(player.health*1.25));
+  console.log("Player health", player.maxHealth, "->", Math.floor(player.maxHealth*1.25));
   player.maxHealth = Math.floor(player.maxHealth*1.25);
   player.health = player.maxHealth;
   console.log("Player attack", player.attack, "->", Math.floor(player.attack*1.1));

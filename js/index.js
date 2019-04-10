@@ -268,13 +268,14 @@ const battleActionHandler = (battleAction) => {
       document.getElementById('monster-health').textContent = monster.health;
       break;
           
-    case 'hp-potion': console.log('You use a potion and restore 50 HP');
-        if (player.health < player.maxHealth) {     
-          player.health += 50;
-            if (player.health > player.maxHealth) player.health = player.maxHealth;
+    case 'hp-potion': 
+      console.log('You use a potion and restore 50 HP');
+      if (player.health < player.maxHealth) {     
+        player.health += 50;
+        if (player.health > player.maxHealth) player.health = player.maxHealth;
         document.getElementById('player-health').textContent = player.health;    
         document.getElementById('player-health-bar').style.width = Math.floor((player.health/player.maxHealth)*100) + '%';
-        }
+      }
           
       elem.innerHTML += 'You use a health potion, restoring 50 HP </br>' ;
       elem.scrollTop = elem.scrollHeight;
@@ -293,21 +294,21 @@ const battleActionHandler = (battleAction) => {
       break;  
   }
     
-    if (monster.health > 0 && player.health > 0) { //Monster attacks you
-            setTimeout(function(){ //Wait 0.5 sec
-            console.log('Monster attacks you'); 
-            let damage = Math.floor((monster.attack*10*Math.random())/(player.defense*(0.8)));
-            player.health = player.health - damage;
-            document.getElementById('player-health').textContent = player.health;    
-            document.getElementById('player-health-bar').style.width = player.health + '%';
-            elem.innerHTML += 'Monster attacks you for ' + damage + ' health!</br>' ;
-            elem.scrollTop = elem.scrollHeight;
-            }, 500);
-                if (player.health <= 0){
-                 console.log('you are dead!');
-                 document.getElementById('player-health').textContent = 0;
-                }
+  if (monster.health > 0 && player.health > 0) { //Monster attacks you
+    setTimeout(function(){ //Wait 0.5 sec
+    console.log('Monster attacks you'); 
+    let damage = Math.floor((monster.attack*10*Math.random())/(player.defense*(0.8)));
+    player.health = player.health - damage;
+    document.getElementById('player-health').textContent = player.health;    
+    document.getElementById('player-health-bar').style.width = player.health + '%';
+    elem.innerHTML += 'Monster attacks you for ' + damage + ' health!</br>' ;
+    elem.scrollTop = elem.scrollHeight;
+    }, 500);
+    if (player.health <= 0){
+      console.log('you are dead!');
+      document.getElementById('player-health').textContent = 0;
     }
+  }
 }
 
 const endBattle = () => {
