@@ -7,18 +7,10 @@ import { eventGenerator } from './events.js';
 const gridSize = 5;
 player.currentRoomNumber[0] = gridSize - 1;
 let maze = generateNewMaze(gridSize); // generate initial maze
-
-let shop;
-let monster;
-
-// possible game states (exploration, battle, shop)
-
-let roomNumber, gameState = 'exploration', goldInChest = 0;
+let shop, monster, roomNumber;
+let gameState = 'exploration', goldInChest = 0, battleActionPointer = 0, shopItemPointer = 0; // possible game states (exploration, battle, shop)
 
 const battleActions = ['attack', 'hp-potion', 'flee'];
-
-let battleActionPointer = 0;
-let shopItemPointer = 0;
 
 //GameStates: exploration, battle, treasure, shop, win, lose;
 
@@ -44,6 +36,9 @@ document.onkeydown = (e) => {
       break;
     case 'passThrough':
       passControls(e);
+      break;
+    case 'gameOver':
+          //what happens here?
       break;
   }
 }
@@ -258,7 +253,7 @@ const battleActionHandler = (battleAction) => {
   let elem = document.querySelector('.battle-log')
   switch (battleAction) {
     case 'attack':
-      const damage = Math.floor((player.attack*10*Math.random())/(monster.defense*(0.8)));
+      let damage = Math.floor((player.attack*10*Math.random())/(monster.defense*(0.8)));
       monster.health = monster.health - damage;
       if (monster.health > 0) {
         console.log('You attack for', damage);
@@ -272,10 +267,19 @@ const battleActionHandler = (battleAction) => {
       }
       document.getElementById('monster-health').textContent = monster.health;
       break;
-    case 'hp-potion': console.log('You use a potion and restore 20 HP');
-      elem.innerHTML += 'You use a health potion, restoring 20 HP </br>' ;
+          
+    case 'hp-potion': console.log('You use a potion and restore 50 HP');
+        if (player.health < player.maxHealth) {     
+          player.health += 50;
+            if (player.health > player.maxHealth) player.health = player.maxHealth;
+        document.getElementById('player-health').textContent = player.health;    
+        document.getElementById('player-health-bar').style.width = Math.floor((player.health/player.maxHealth)*100) + '%';
+        }
+          
+      elem.innerHTML += 'You use a health potion, restoring 50 HP </br>' ;
       elem.scrollTop = elem.scrollHeight;
       break;
+          
     case 'flee':
       const chance = Math.floor(Math.random()*10);
       if (chance > 2) {
@@ -286,8 +290,24 @@ const battleActionHandler = (battleAction) => {
         elem.innerHTML = 'Failed to flee!'
         elem.scrollTop = elem.scrollHeight;
       }
-      break;
+      break;  
   }
+    
+    if (monster.health > 0 && player.health > 0) { //Monster attacks you
+            setTimeout(function(){ //Wait 0.5 sec
+            console.log('Monster attacks you'); 
+            let damage = Math.floor((monster.attack*10*Math.random())/(player.defense*(0.8)));
+            player.health = player.health - damage;
+            document.getElementById('player-health').textContent = player.health;    
+            document.getElementById('player-health-bar').style.width = player.health + '%';
+            elem.innerHTML += 'Monster attacks you for ' + damage + ' health!</br>' ;
+            elem.scrollTop = elem.scrollHeight;
+            }, 500);
+                if (player.health <= 0){
+                 console.log('you are dead!');
+                 document.getElementById('player-health').textContent = 0;
+                }
+    }
 }
 
 const endBattle = () => {
@@ -314,4 +334,3 @@ const updateXPAndGoldAndEndBattle = () => {
   }
   endBattle();
 }
-
