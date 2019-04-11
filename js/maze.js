@@ -1,33 +1,30 @@
-export const generateNewMaze = (gridSize) => {
+const generateNewMaze = (gridWidth, gridHeight, complexity, density) => {
+
+  const layout = mazeWalls(gridWidth+2, gridHeight+2, complexity, density);
 
   let maze = [];
 
-  for(let i = 0; i < gridSize; i++) {
+  for(let i = 0; i < gridHeight; i++) {
     maze[i] = [];
-    for(let j = 0; j < gridSize; j++) {
+    for(let j = 0; j < gridWidth; j++) {
       maze[i][j] = {
-        leftDoor: false,
-        rightDoor: false,
-        upDoor: false,
-        downDoor: false,
+        isWall: layout[i+1][j+1] ? 1 : 0,
         event: null,
         hasBeenTraveled: false,
-        roomNumber: i*5+j,
+        roomNumber: i*gridWidth+j,
       };
     }
   }
 
-  // Generate path through maze
-  // Generate secondary paths
-
   // set entrance
-  maze[4][0].hasBeenTraveled = true;
-  maze[4][0].event = 'entrance';
+  // maze[4][0].hasBeenTraveled = true;
+  // maze[4][0].event = 'entrance';
 
-  // // set exit to always be boss room
-  maze[0][4].event = 'bossRoom';
+  // // // set exit to always be boss room
+  // maze[0][4].event = 'bossRoom';
   // maze[0][4].isExit = true;
   // maze[0][4].leftDoor = true;
+  console.log(maze);
 
   return maze;
 };
@@ -38,7 +35,6 @@ const mazeWalls = (width, height, complexity, density) => {
   // Adjust complexity and density relative to maze size
   complexity = Math.floor(complexity * (5 * shape[0] + shape[1]));
   density = Math.floor(density * (Math.floor(shape[0]/2) * Math.floor(shape[1]/2)));
-  console.log(shape, complexity, density);
   // Build actual maze
   z = []
   for (let h = 0; h < shape[0]; h++){ 
@@ -62,7 +58,6 @@ const mazeWalls = (width, height, complexity, density) => {
   for(let i = 0; i < density; i++) {
     let x = Math.floor(Math.random()*Math.floor(shape[1]/2))*2;
     let y = Math.floor(Math.random()*Math.floor(shape[0]/2))*2;
-    console.log(x, y);
     z[y][x] = 1;
     for(let j = 0; j < complexity; j++) {
       let neighbors = [];
@@ -83,7 +78,9 @@ const mazeWalls = (width, height, complexity, density) => {
       }
     }
   }
+
   console.log(z);
+  return z;
 }
 
-mazeWalls(7, 20, 0.75, 0.75);
+generateNewMaze(5, 5, 0.75, 0.75);
