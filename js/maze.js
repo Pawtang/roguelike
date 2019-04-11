@@ -1,36 +1,36 @@
-// export const generateNewMaze = (gridSize) => {
+export const generateNewMaze = (gridSize) => {
 
-//   let maze = [];
+  let maze = [];
 
-//   for(let i = 0; i < gridSize; i++) {
-//     maze[i] = [];
-//     for(let j = 0; j < gridSize; j++) {
-//       maze[i][j] = {
-//         leftDoor: false,
-//         rightDoor: false,
-//         upDoor: false,
-//         downDoor: false,
-//         event: null,
-//         hasBeenTraveled: false,
-//         roomNumber: i*5+j,
-//       };
-//     }
-//   }
+  for(let i = 0; i < gridSize; i++) {
+    maze[i] = [];
+    for(let j = 0; j < gridSize; j++) {
+      maze[i][j] = {
+        leftDoor: false,
+        rightDoor: false,
+        upDoor: false,
+        downDoor: false,
+        event: null,
+        hasBeenTraveled: false,
+        roomNumber: i*5+j,
+      };
+    }
+  }
 
-//   // Generate path through maze
-//   // Generate secondary paths
+  // Generate path through maze
+  // Generate secondary paths
 
-//   // set entrance
-//   maze[4][0].hasBeenTraveled = true;
-//   maze[4][0].event = 'entrance';
+  // set entrance
+  maze[4][0].hasBeenTraveled = true;
+  maze[4][0].event = 'entrance';
 
-//   // // set exit to always be boss room
-//   maze[0][4].event = 'bossRoom';
-//   // maze[0][4].isExit = true;
-//   // maze[0][4].leftDoor = true;
+  // // set exit to always be boss room
+  maze[0][4].event = 'bossRoom';
+  // maze[0][4].isExit = true;
+  // maze[0][4].leftDoor = true;
 
-//   return maze;
-// };
+  return maze;
+};
 
 const mazeWalls = (width, height, complexity, density) => {
   // only odd shapes
@@ -60,9 +60,30 @@ const mazeWalls = (width, height, complexity, density) => {
   }
   // Make aisles
   for(let i = 0; i < density; i++) {
-    
+    let x = Math.floor(Math.random()*Math.floor(shape[1]/2))*2;
+    let y = Math.floor(Math.random()*Math.floor(shape[0]/2))*2;
+    console.log(x, y);
+    z[y][x] = 1;
+    for(let j = 0; j < complexity; j++) {
+      let neighbors = [];
+      if(x > 1) { neighbors.push([y,x-2]); }
+      if(x < shape[1] - 2) { neighbors.push([y,x+2]); }
+      if(y > 1) { neighbors.push([y-2,x]); }
+      if(y < shape[0] - 2) { neighbors.push([y+2,x]); }
+      if(neighbors.length) {
+        let rando = Math.floor(Math.random()*(neighbors.length-1));
+        let yprime = neighbors[rando][0];
+        let xprime = neighbors[rando][1];
+        if (z[yprime][xprime] == 0) {
+          z[yprime][xprime] = 1;
+          z[yprime+Math.floor((y-yprime)/2)][xprime+Math.floor((x-xprime)/2)] = 1;
+          x = xprime;
+          y = yprime;
+        }
+      }
+    }
   }
   console.log(z);
 }
 
-mazeWalls(20, 21, 0.75, 0.75);
+mazeWalls(7, 20, 0.75, 0.75);
