@@ -6,7 +6,7 @@ import { eventGenerator } from './events.js';
 
 const gridSize = 5;
 player.currentRoomNumber[0] = gridSize - 1;
-let maze = generateNewMaze(gridSize); // generate initial maze
+let maze = generateNewMaze(gridSize, 0.75, 0.75); // generate initial maze
 let shop, monster, roomNumber;
 let gameState = 'exploration', goldInChest = 0, battleActionPointer = 0, shopItemPointer = 0; // possible game states (exploration, battle, shop)
 
