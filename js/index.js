@@ -37,6 +37,9 @@ document.onkeydown = (e) => {
     case 'passThrough':
       passControls(e);
       break;
+    case 'wait':
+      console.log('Fucking wait');
+      break;
     case 'gameOver':
           //what happens here?
       break;
@@ -258,16 +261,16 @@ const battleActionHandler = (battleAction) => {
       monster.health = monster.health - damage;
       if (monster.health > 0) {
         console.log('You attack for', damage);
-        document.getElementById('monster-health-bar').style.width = monster.health + '%';
+        document.getElementById('monster-health-bar').style.width = Math.floor((monster.health/monster.maxHealth*100)) + '%';
         elem.innerHTML += 'You attack ' + monster.name + ' for ' + damage + ' health! </br>';
         elem.scrollTop = elem.scrollHeight;
+        monsterAttack();
       } else {
         monster.health = 0;
         console.log(monster.name, 'is dead yo!');
         updateXPAndGoldAndEndBattle();
       }
       document.getElementById('monster-health').textContent = monster.health;
-      monsterAttack();
       break;
           
     case 'hp-potion': 
@@ -300,21 +303,24 @@ const battleActionHandler = (battleAction) => {
 
 
 const monsterAttack = () => {
-    let elem = document.querySelector('.battle-log');
-      if (monster.health > 0 && player.health > 0) { //Monster attacks you
+  let elem = document.querySelector('.battle-log');
+  gameState = 'wait';
+  if (player.health > 0) { //Monster attacks you
     setTimeout(function(){ //Wait 0.5 sec
-    console.log('Monster attacks you'); 
-    let damage = Math.floor((monster.attack*10*Math.random())/(player.defense*(0.8)));
-    player.health = player.health - damage;
-    document.getElementById('player-health').textContent = player.health;    
-    document.getElementById('player-health-bar').style.width = player.health + '%';
-    elem.innerHTML += 'Monster attacks you for ' + damage + ' health!</br>' ;
-    elem.scrollTop = elem.scrollHeight;
+      console.log('Monster attacks you'); 
+      let damage = Math.floor((monster.attack*10*Math.random())/(player.defense*(0.8)));
+      player.health = player.health - damage;
+      document.getElementById('player-health').textContent = player.health;    
+      document.getElementById('player-health-bar').style.width = player.health + '%';
+      elem.innerHTML += 'Monster attacks you for ' + damage + ' health!</br>' ;
+      elem.scrollTop = elem.scrollHeight;
+      gameState = 'battle';
+      if (player.health <= 0){
+        console.log('you are dead!');
+        document.getElementById('player-health').textContent = 0;
+        // Add Game Over
+      }
     }, 500);
-    if (player.health <= 0){
-      console.log('you are dead!');
-      document.getElementById('player-health').textContent = 0;
-    }
   }
 }
 
