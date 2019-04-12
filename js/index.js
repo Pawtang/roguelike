@@ -7,6 +7,9 @@ import { eventGenerator } from './events.js';
 const gridSize = 5;
 player.currentRoomNumber[0] = gridSize - 1;
 let maze = generateNewMaze(gridSize, 0.75, 0.75); // generate initial maze
+player.currentRoomNumber = setStartRoomAndExit(gridSize);
+console.log(maze);
+
 let shop, monster, roomNumber;
 let gameState = 'exploration', goldInChest = 0, battleActionPointer = 0, shopItemPointer = 0; // possible game states (exploration, battle, shop)
 
@@ -116,6 +119,9 @@ const explorationControls = (e) => {
     case 37: // LEFT
       if(player.currentRoomNumber[1] === 0) {
         console.log('can\'t move left');
+      } else if (maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]-1].isWall == 1) {
+        console.log('can\'t move left due to wall');
+        // reveal wall
       } else {
         console.log('move left');
         player.currentRoomNumber[1]--;
@@ -125,6 +131,9 @@ const explorationControls = (e) => {
     case 38: // UP
       if(player.currentRoomNumber[0] === 0) {
         console.log('can\'t move up');
+      } else if (maze[player.currentRoomNumber[0]-1][player.currentRoomNumber[1]].isWall == 1) {
+        console.log('can\'t move up due to wall');
+        // reveal wall
       } else {
         console.log('move up');
         player.currentRoomNumber[0]--;
@@ -134,6 +143,9 @@ const explorationControls = (e) => {
     case 39: // RIGHT
       if(player.currentRoomNumber[1] === 4) {
         console.log('can\'t move right');
+      } else if (maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]+1].isWall == 1) {
+        console.log('can\'t move right due to wall');
+        // reveal wall
       } else {
         console.log('move right');
         player.currentRoomNumber[1]++;
@@ -143,6 +155,9 @@ const explorationControls = (e) => {
     case 40: // DOWN
       if(player.currentRoomNumber[0] === 4) {
         console.log('can\'t move down');
+      } else if (maze[player.currentRoomNumber[0]+1][player.currentRoomNumber[1]].isWall == 1) {
+        console.log('can\'t move down due to wall');
+        // reveal wall
       } else {
         console.log('move down');
         player.currentRoomNumber[0]++;
@@ -158,7 +173,10 @@ const roomActions = () => {
   document.querySelector(".active-cell").classList.remove("active-cell");
   document.getElementById('cell-' + roomNumber).classList.add("active-cell");
   console.log(roomNumber);
-  if(!maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].hasBeenTraveled){
+  if (maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].event === 'Exit') {
+    console.log('found exit');
+    maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].hasBeenTraveled = true;
+  } else if(!maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].hasBeenTraveled){
     maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].hasBeenTraveled = true;
     maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].event = eventGenerator();
     console.log(maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].event)
@@ -334,4 +352,32 @@ const updateXPAndGoldAndEndBattle = () => {
     document.getElementById('experience').textContent = player.xp;
   }
   endBattle();
+}
+
+function setStartRoomAndExit (gridSize){
+  let exitGenerated = false, entranceGenerated = false;
+  let xExit, yExit, xEntrance, yEntrance;
+  while(!exitGenerated) {
+    xExit = Math.floor(Math.random()*gridSize);
+    yExit = Math.floor(Math.random()*gridSize);
+    if(maze[xExit][yExit].isWall == 0) {
+      maze[xExit][yExit].event = "Exit";
+      console.log(xExit, yExit, maze[xExit][yExit]);
+      exitGenerated = true;
+    }
+  }
+
+  while(!entranceGenerated) {
+    xEntrance = Math.floor(Math.random()*gridSize);
+    yEntrance = Math.floor(Math.random()*gridSize);
+    if(maze[xEntrance][yEntrance].isWall == 0 && (xExit !== xEntrance && yExit !== yEntrance)) {
+      maze[xEntrance][yEntrance].event = "Entrance";
+      maze[xEntrance][yEntrance].hasBeenTraveled = true;
+      document.getElementById('cell-' + maze[xEntrance][yEntrance].roomNumber).classList.add('active-cell');
+      console.log(xEntrance, yEntrance, maze[xEntrance][yEntrance]);
+      entranceGenerated = true;
+    }
+  }
+  return [xEntrance, yEntrance];
+
 }

@@ -15,10 +15,6 @@ export const generateNewMaze = (gridSize, complexity, density) => {
       };
     }
   }
-
-  // Generate random entrance (player start)
-  // Generate random exit (advance to next level)
-
   console.log(maze);
 
   return maze;
