@@ -121,7 +121,7 @@ const explorationControls = (e) => {
         console.log('can\'t move left');
       } else if (maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]-1].isWall == 1) {
         console.log('can\'t move left due to wall');
-        // reveal wall
+        document.getElementById('cell-' + maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]-1].roomNumber).classList.add('wall');
       } else {
         console.log('move left');
         player.currentRoomNumber[1]--;
@@ -133,7 +133,7 @@ const explorationControls = (e) => {
         console.log('can\'t move up');
       } else if (maze[player.currentRoomNumber[0]-1][player.currentRoomNumber[1]].isWall == 1) {
         console.log('can\'t move up due to wall');
-        // reveal wall
+        document.getElementById('cell-' + maze[player.currentRoomNumber[0]-1][player.currentRoomNumber[1]].roomNumber).classList.add('wall');
       } else {
         console.log('move up');
         player.currentRoomNumber[0]--;
@@ -145,7 +145,7 @@ const explorationControls = (e) => {
         console.log('can\'t move right');
       } else if (maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]+1].isWall == 1) {
         console.log('can\'t move right due to wall');
-        // reveal wall
+        document.getElementById('cell-' + maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]+1].roomNumber).classList.add('wall');
       } else {
         console.log('move right');
         player.currentRoomNumber[1]++;
@@ -157,7 +157,7 @@ const explorationControls = (e) => {
         console.log('can\'t move down');
       } else if (maze[player.currentRoomNumber[0]+1][player.currentRoomNumber[1]].isWall == 1) {
         console.log('can\'t move down due to wall');
-        // reveal wall
+        document.getElementById('cell-' + maze[player.currentRoomNumber[0]+1][player.currentRoomNumber[1]].roomNumber).classList.add('wall');
       } else {
         console.log('move down');
         player.currentRoomNumber[0]++;

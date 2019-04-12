@@ -7,6 +7,10 @@
   border: 3px solid black;
 }
 
+.wall{
+  background-color: darkred;
+}
+
 .map-container{
   margin: 0 auto;
   padding: 20px;
