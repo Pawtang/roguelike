@@ -7,7 +7,7 @@ export const player = {
   defenseBonus: 0,
   gold: 0,
   xp: 0,
-  xpToNextLevel: 200,
+  xpToNextLevel: 100,
   level: 1,
   currentRoomNumber: [0,0],
   items: {

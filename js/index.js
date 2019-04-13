@@ -210,58 +210,69 @@ const initializeShop = () => {
 
 const buyItem = (item) => {
   let elem = document.querySelector('.shop-log'); // refers to the shop log
+  let imageSource = '/images/sprites/';
   console.log("Current player gold", player.gold);
-//Some of these items should be changed to give health, not just defense.
-//also should DRY this out by making a function to do all 3 things, just pass arguments in
+  //Some of these items should be changed to give health, not just defense.
+  //also should DRY this out by making a function to do all 3 things, just pass arguments in
  switch(item.sprite){ //sprite is a more consise identifier than the name
    case 'sword-1':
-   player.items.sword = 'sword-1';
-   player.attackBonus = 2;
-   document.getElementById('sword-text').textContent = 2;
-   break;
+     player.items.sword = 'sword-1';
+     player.attackBonus = 2;
+     document.getElementById('sword-text').textContent = 2;
+      document.getElementById('sword-img').src = imageSource + player.items.sword + '.png';
+     break;
    case 'sword-2':
-   player.items.sword = 'sword-2';
-   player.attackBonus = 5;
-   document.getElementById('sword-text').textContent = 5;
-   break;
+     player.items.sword = 'sword-2';
+     player.attackBonus = 5;
+     document.getElementById('sword-text').textContent = 5;
+      document.getElementById('sword-img').src = imageSource + player.items.sword + '.png';
+     break;
    case 'shield-1':
-   player.items.shield = 'shield-1';
-   player.defenseBonus = 2;
-   document.getElementById('shield-text').textContent = 2;
-   break;
+     player.items.shield = 'shield-1';
+     player.defenseBonus = 2;
+     document.getElementById('shield-text').textContent = 2;
+      document.getElementById('shield-img').src = imageSource + player.items.shield + '.png';
+     break;
    case 'shield-2':
-   player.items.shield = 'shield-2';
-   player.defenseBonus = 5;
-   document.getElementById('shield-text').textContent = 5;
-   break;
+     player.items.shield = 'shield-2';
+     player.defenseBonus = 5;
+     document.getElementById('shield-text').textContent = 5;
+      document.getElementById('shield-img').src = imageSource + player.items.shield + '.png';
+     break;
    case 'helm-1':
-   player.items.helm = 'helm-1';
-   player.defenseBonus = 2;
-   document.getElementById('helmet-text').textContent = 2;
-   break;
+     player.items.helmet = 'helm-1';
+     player.defenseBonus = 2;
+     document.getElementById('helmet-text').textContent = 2;
+      document.getElementById('helmet-img').src = imageSource + player.items.helmet + '.png';
+     break;
    case 'helm-2':
-   player.items.helm = 'helm-2';
-   player.defenseBonus = 5;
-   document.getElementById('helmet-text').textContent = 5;
-   break;
+     player.items.helmet = 'helm-2';
+     player.defenseBonus = 5;
+     document.getElementById('helmet-text').textContent = 5;
+      document.getElementById('helmet-img').src = imageSource + player.items.helmet + '.png';
+     break;
    case 'boots-1':
-   player.items.boots = 'boots-1';
-   player.defenseBonus = 2;
-   document.getElementById('boots-text').textContent = 2;
-   break;
+     player.items.boots = 'boots-1';
+     player.defenseBonus = 2;
+     document.getElementById('boots-text').textContent = 2;
+      document.getElementById('boots-img').src = imageSource + player.items.boots + '.png';
+     break;
    case 'boots-2':
-   player.items.boots = 'boots-2';
-   player.defenseBonus = 5;
-   document.getElementById('boots-text').textContent = 5;
-   break;
+     player.items.boots = 'boots-2';
+     player.defenseBonus = 5;
+     document.getElementById('boots-text').textContent = 5;
+    document.getElementById('boots-img').src = imageSource + player.items.boots + '.png';
+     break;
    case 'potion':
-   player.items.potions++;
-   document.getElementById('potion-text').innerHTML = player.items.potions;
-   break;
+     player.items.potions++;
+     document.getElementById('potion-text').innerHTML = player.items.potions;
+     break;
  }
+
 
  document.getElementById('player-attack').textContent = player.attack + player.attackBonus;
  document.getElementById('player-defense').textContent = player.defense + player.defenseBonus;
+
 
   console.log(player.items);
   player.gold = player.gold - item.cost;
@@ -334,11 +345,14 @@ const battleActionHandler = (battleAction) => {
         player.health += 50;
         player.items.potions = player.items.potions - 1;
         document.getElementById('potion-text').innerHTML = player.items.potions;
+        elem.innerHTML += 'You use a health potion, restoring 50 HP </br>' ;
+        scrollLog(elem);
         if (player.health > player.maxHealth) player.health = player.maxHealth;
         updateHealth();
+      } else {
+        elem.innerHTML += 'You\'re all out of potions, mate <br>' ;
+        scrollLog(elem);
       }
-      elem.innerHTML += 'You use a health potion, restoring 50 HP </br>' ;
-      scrollLog(elem);
       monsterAttack();
       break;
 
@@ -365,7 +379,7 @@ const monsterAttack = () => {
   if (player.health > 0) { //Monster attacks you
     setTimeout(function(){ //Wait 0.5 sec
       console.log('Monster attacks you');
-      let damage = Math.floor((monster.attack*10*Math.random())/(player.defense*(0.8)));
+      let damage = Math.floor((monster.attack*10*Math.random())/(defensePower*(0.8)));
       player.health = player.health - damage;
       updateHealth();
       elem.innerHTML += 'Monster attacks you for ' + damage + ' health!</br>' ;
