@@ -59,11 +59,11 @@ const shopControls = (e) => {
           elem.innerHTML += 'This item has already been purchased</br>';
           scrollLog(elem);
       } else {
-        if(player.gold >= shop[shopItemPointer].cost){
+        if(player.gold >= item.cost){ //Also need to loop through items array to check if player already has item
           buyItem(item);
           item = 'bought';
         } else {
-          console.log('Not enough gold. You need', shop[shopItemPointer].cost,'but you have', player.gold);
+          console.log('Not enough gold. You need', item.cost,'but you have', player.gold);
           elem.innerHTML += 'Not enough gold! </br>';
           scrollLog(elem);
         }
@@ -209,21 +209,67 @@ const initializeShop = () => {
 }
 
 const buyItem = (item) => {
-  let elem = document.querySelector('.shop-log');
+  let elem = document.querySelector('.shop-log'); // refers to the shop log
   console.log("Current player gold", player.gold);
-  player.items.push(item);
-  //This is a temporary bandaid
-    if (item.name == 'Potion') {
-     player.potions = player.potions + 1;
-    document.getElementById('potion-text').innerHTML = player.potions;
-    }
-  //need a better solution that involves looping through array when using potion and deleting first potion that appears in array
+//Some of these items should be changed to give health, not just defense.
+//also should DRY this out by making a function to do all 3 things, just pass arguments in
+ switch(item.sprite){ //sprite is a more consise identifier than the name
+   case 'sword-1':
+   player.items.sword = 'sword-1';
+   player.attackBonus = 2;
+   document.getElementById('sword-text').textContent = 2;
+   break;
+   case 'sword-2':
+   player.items.sword = 'sword-2';
+   player.attackBonus = 5;
+   document.getElementById('sword-text').textContent = 5;
+   break;
+   case 'shield-1':
+   player.items.shield = 'shield-1';
+   player.defenseBonus = 2;
+   document.getElementById('shield-text').textContent = 2;
+   break;
+   case 'shield-2':
+   player.items.shield = 'shield-2';
+   player.defenseBonus = 5;
+   document.getElementById('shield-text').textContent = 5;
+   break;
+   case 'helm-1':
+   player.items.helm = 'helm-1';
+   player.defenseBonus = 2;
+   document.getElementById('helmet-text').textContent = 2;
+   break;
+   case 'helm-2':
+   player.items.helm = 'helm-2';
+   player.defenseBonus = 5;
+   document.getElementById('helmet-text').textContent = 5;
+   break;
+   case 'boots-1':
+   player.items.boots = 'boots-1';
+   player.defenseBonus = 2;
+   document.getElementById('boots-text').textContent = 2;
+   break;
+   case 'boots-2':
+   player.items.boots = 'boots-2';
+   player.defenseBonus = 5;
+   document.getElementById('boots-text').textContent = 5;
+   break;
+   case 'potion':
+   player.items.potions++;
+   document.getElementById('potion-text').innerHTML = player.items.potions;
+   break;
+ }
+
+ document.getElementById('player-attack').textContent = player.attack + player.attackBonus;
+ document.getElementById('player-defense').textContent = player.defense + player.defenseBonus;
+
   console.log(player.items);
   player.gold = player.gold - item.cost;
   console.log("Item cost", item.cost, "Player now has", player.gold);
   elem.innerHTML += 'Purchased ' + item.name + ' for ' + item.cost + ' gold<br>';
-  scrollLog(elem);
   document.getElementById('player-gold').innerHTML = player.gold;
+  scrollLog(elem);
+
 }
 
 const exitShop = () => {
@@ -236,7 +282,7 @@ const exitShop = () => {
 
 const initializeTreasureRoom = () => {
   gameState = 'treasure';
-  goldInChest = Math.floor(Math.random()*101) + 100 // between 100 and 200;
+  goldInChest = Math.floor(Math.random()*100) + 1 // between 1 and 100 >>> updated to balance difficulty
   player.gold = player.gold + goldInChest;
   document.querySelector('#monster-statbox').classList.toggle('chest');
   document.querySelector('#monster-statbox').innerHTML = '<p style = "color: black">You received ' + goldInChest + ' gold!</p> <h3>Press Enter</h3>';
@@ -265,7 +311,8 @@ const battleActionHandler = (battleAction) => {
   switch (battleAction) {
 
     case 'attack':
-      let damage = Math.floor((player.attack*10*Math.random())/(monster.defense*(0.8)));
+      let attackPower = player.attack+player.attackBonus;
+      let damage = Math.floor((attackPower*10*Math.random())/(monster.defense*(0.8)));
       monster.health = monster.health - damage;
       if (monster.health > 0) {
         console.log('You attack for', damage);
@@ -283,10 +330,10 @@ const battleActionHandler = (battleAction) => {
 
     case 'hp-potion':
       console.log('You use a potion and restore 50 HP');
-      if (player.potions > 0 && player.health < player.maxHealth) {
+      if (player.items.potions > 0 && player.health < player.maxHealth) {
         player.health += 50;
-        player.potions = player.potions - 1;
-        document.getElementById('potion-text').innerHTML = player.potions;
+        player.items.potions = player.items.potions - 1;
+        document.getElementById('potion-text').innerHTML = player.items.potions;
         if (player.health > player.maxHealth) player.health = player.maxHealth;
         updateHealth();
       }
@@ -313,6 +360,7 @@ const battleActionHandler = (battleAction) => {
 
 const monsterAttack = () => {
   let elem = document.querySelector('.battle-log');
+  let defensePower = player.defense + player.defenseBonus;
   gameState = 'wait';
   if (player.health > 0) { //Monster attacks you
     setTimeout(function(){ //Wait 0.5 sec
@@ -353,6 +401,7 @@ const updateXPAndGoldAndEndBattle = () => {
     levelUp();
   } else {
     document.getElementById('experience').textContent = player.xp;
+    document.getElementById('player-xp-bar').style.width = Math.floor((player.xp/player.xpToNextLevel)*100) + '%';
   }
   endBattle();
 }
