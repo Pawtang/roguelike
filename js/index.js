@@ -48,19 +48,20 @@ document.onkeydown = (e) => {
 
 const shopControls = (e) => {
   let elem = document.querySelector('.shop-log')
+  let item = shop[shopItemPointer];
   switch (e.keyCode) {
     case 13: //ENTER
-      if(shop[shopItemPointer] === 'exit') {
+      if(item === 'exit') {
         console.log('exiting shop');
         exitShop();
-      } else if (shop[shopItemPointer] === 'bought') {
+      } else if (item === 'bought') {
         console.log('this item has been bought');
           elem.innerHTML += 'This item has already been purchased</br>';
           scrollLog(elem);
       } else {
         if(player.gold >= shop[shopItemPointer].cost){
-          buyItem(shop[shopItemPointer]);
-          shop[shopItemPointer] = 'bought';
+          buyItem(item);
+          item = 'bought';
         } else {
           console.log('Not enough gold. You need', shop[shopItemPointer].cost,'but you have', player.gold);
           elem.innerHTML += 'Not enough gold! </br>';
@@ -208,13 +209,13 @@ const initializeShop = () => {
 }
 
 const buyItem = (item) => {
-  let elem = document.querySelector('.shop-log')
+  let elem = document.querySelector('.shop-log');
   console.log("Current player gold", player.gold);
   player.items.push(item);
   //This is a temporary bandaid
-  if (item = 'Potion') {
-    player.potions++;
-    document.getElementById('potion-text').textContent = player.potions;
+    if (item.name == 'Potion') {
+     player.potions = player.potions + 1;
+    document.getElementById('potion-text').innerHTML = player.potions;
     }
   //need a better solution that involves looping through array when using potion and deleting first potion that appears in array
   console.log(player.items);
