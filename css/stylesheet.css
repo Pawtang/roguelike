@@ -37,7 +37,7 @@ article{
 .card{
   margin: 20px;
   width: 300px;
-  height: 500px;
+  height: 550px;
   background-color: RGBA(22,22,22,0.8);
   border-radius: 10px;
   text-align: center;
@@ -45,14 +45,14 @@ article{
 
 #main{
   width: 500px;
-  height: 500px;
+  height: 550px;
 }
 
 
 
 #shop-screen{
   width: 500px;
-  height: 500px;
+  height: 550px;
 }
 
 .shop-actions{
@@ -144,11 +144,28 @@ button:active {
 .statbox{
   text-align: center;
   width: 250px;
-  height: 350px;
+  height: 400px;
   display: block;
   background-color: #222;
   margin: 20px auto;
   border-radius: 10px;
+}
+
+img{
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.inventory-box{
+
+}
+
+.potion-counter{
+  float: left;
+  display: inline;
+  margin: 20px;
+  width: 30px;
+  height: 30px;
 }
 
 ul{

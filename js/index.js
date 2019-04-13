@@ -211,6 +211,12 @@ const buyItem = (item) => {
   let elem = document.querySelector('.shop-log')
   console.log("Current player gold", player.gold);
   player.items.push(item);
+  //This is a temporary bandaid
+  if (item = 'Health Potion') {
+    player.potions ++;
+    document.getElementById('potion-text').textContent = player.potions;
+    }
+  //need a better solution that involves looping through array when using potion and deleting first potion that appears in array
   console.log(player.items);
   player.gold = player.gold - item.cost;
   console.log("Item cost", item.cost, "Player now has", player.gold);
@@ -256,6 +262,7 @@ const initializeBattle = () => {
 const battleActionHandler = (battleAction) => {
   let elem = document.querySelector('.battle-log')
   switch (battleAction) {
+
     case 'attack':
       let damage = Math.floor((player.attack*10*Math.random())/(monster.defense*(0.8)));
       monster.health = monster.health - damage;
@@ -272,20 +279,22 @@ const battleActionHandler = (battleAction) => {
       }
       document.getElementById('monster-health').textContent = monster.health;
       break;
-          
-    case 'hp-potion': 
+
+    case 'hp-potion':
       console.log('You use a potion and restore 50 HP');
-      if (player.health < player.maxHealth) {     
+      if (player.potions > 0 && player.health < player.maxHealth) {
         player.health += 50;
+        player.potions --;
+        document.getElementById('potion-text').textContent = player.potions;
         if (player.health > player.maxHealth) player.health = player.maxHealth;
-        document.getElementById('player-health').textContent = player.health;    
+        document.getElementById('player-health').textContent = player.health;
         document.getElementById('player-health-bar').style.width = Math.floor((player.health/player.maxHealth)*100) + '%';
       }
       elem.innerHTML += 'You use a health potion, restoring 50 HP </br>' ;
       elem.scrollTop = elem.scrollHeight;
       monsterAttack();
       break;
-          
+
     case 'flee':
       const chance = Math.floor(Math.random()*10);
       if (chance > 2) {
@@ -297,7 +306,7 @@ const battleActionHandler = (battleAction) => {
         elem.scrollTop = elem.scrollHeight;
         monsterAttack();
       }
-      break;  
+      break;
   }
 }
 
@@ -307,10 +316,10 @@ const monsterAttack = () => {
   gameState = 'wait';
   if (player.health > 0) { //Monster attacks you
     setTimeout(function(){ //Wait 0.5 sec
-      console.log('Monster attacks you'); 
+      console.log('Monster attacks you');
       let damage = Math.floor((monster.attack*10*Math.random())/(player.defense*(0.8)));
       player.health = player.health - damage;
-      document.getElementById('player-health').textContent = player.health;    
+      document.getElementById('player-health').textContent = player.health;
       document.getElementById('player-health-bar').style.width = player.health + '%';
       elem.innerHTML += 'Monster attacks you for ' + damage + ' health!</br>' ;
       elem.scrollTop = elem.scrollHeight;
