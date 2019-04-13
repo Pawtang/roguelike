@@ -160,10 +160,10 @@ img{
 
 }
 
-.potion-counter{
+.item{
   float: left;
   display: inline;
-  margin: 20px;
+  margin: 20px 6px;
   width: 30px;
   height: 30px;
 }
@@ -217,7 +217,8 @@ h3{
 }
 
 #potion-text{
-  line-height: .5em;
+  text-align: center;
+  line-height: .2em;
   margin: 0;
-  font-size: 2em;
+  font-size: .8em;
 }
