@@ -56,7 +56,7 @@ const shopControls = (e) => {
       } else if (shop[shopItemPointer] === 'bought') {
         console.log('this item has been bought');
           elem.innerHTML += 'This item has already been purchased</br>';
-          elem.scrollTop = elem.scrollHeight;
+          scrollLog(elem);
       } else {
         if(player.gold >= shop[shopItemPointer].cost){
           buyItem(shop[shopItemPointer]);
@@ -64,7 +64,7 @@ const shopControls = (e) => {
         } else {
           console.log('Not enough gold. You need', shop[shopItemPointer].cost,'but you have', player.gold);
           elem.innerHTML += 'Not enough gold! </br>';
-          elem.scrollTop = elem.scrollHeight;
+          scrollLog(elem);
         }
       }
       break;
@@ -212,16 +212,16 @@ const buyItem = (item) => {
   console.log("Current player gold", player.gold);
   player.items.push(item);
   //This is a temporary bandaid
-  if (item = 'Health Potion') {
-    player.potions ++;
+  if (item = 'Potion') {
+    player.potions++;
     document.getElementById('potion-text').textContent = player.potions;
     }
   //need a better solution that involves looping through array when using potion and deleting first potion that appears in array
   console.log(player.items);
   player.gold = player.gold - item.cost;
   console.log("Item cost", item.cost, "Player now has", player.gold);
-  elem.innerHTML += 'Purchased ' + shop[shopItemPointer].name + ' for ' + shop[shopItemPointer].cost + ' gold</br>';
-  elem.scrollTop = elem.scrollHeight;
+  elem.innerHTML += 'Purchased ' + shop[shopItemPointer].name + ' for ' + shop[shopItemPointer].cost + ' gold<br>';
+  scrollLog(elem);
   document.getElementById('player-gold').innerHTML = player.gold;
 }
 
@@ -270,7 +270,7 @@ const battleActionHandler = (battleAction) => {
         console.log('You attack for', damage);
         document.getElementById('monster-health-bar').style.width = Math.floor((monster.health/monster.maxHealth*100)) + '%';
         elem.innerHTML += 'You attack ' + monster.name + ' for ' + damage + ' health! </br>';
-        elem.scrollTop = elem.scrollHeight;
+        scrollLog(elem);
         monsterAttack();
       } else {
         monster.health = 0;
@@ -284,14 +284,13 @@ const battleActionHandler = (battleAction) => {
       console.log('You use a potion and restore 50 HP');
       if (player.potions > 0 && player.health < player.maxHealth) {
         player.health += 50;
-        player.potions --;
-        document.getElementById('potion-text').textContent = player.potions;
+        player.potions = player.potions - 1;
+        document.getElementById('potion-text').innerHTML = player.potions;
         if (player.health > player.maxHealth) player.health = player.maxHealth;
-        document.getElementById('player-health').textContent = player.health;
-        document.getElementById('player-health-bar').style.width = Math.floor((player.health/player.maxHealth)*100) + '%';
+        updateHealth();
       }
       elem.innerHTML += 'You use a health potion, restoring 50 HP </br>' ;
-      elem.scrollTop = elem.scrollHeight;
+      scrollLog(elem);
       monsterAttack();
       break;
 
@@ -303,7 +302,7 @@ const battleActionHandler = (battleAction) => {
       } else {
         console.log('Failed to flee');
         elem.innerHTML = 'Failed to flee!'
-        elem.scrollTop = elem.scrollHeight;
+        scrollLog(elem);
         monsterAttack();
       }
       break;
@@ -319,10 +318,9 @@ const monsterAttack = () => {
       console.log('Monster attacks you');
       let damage = Math.floor((monster.attack*10*Math.random())/(player.defense*(0.8)));
       player.health = player.health - damage;
-      document.getElementById('player-health').textContent = player.health;
-      document.getElementById('player-health-bar').style.width = player.health + '%';
+      updateHealth();
       elem.innerHTML += 'Monster attacks you for ' + damage + ' health!</br>' ;
-      elem.scrollTop = elem.scrollHeight;
+      scrollLog(elem);
       gameState = 'battle';
       if (player.health <= 0){
         console.log('you are dead!');
@@ -356,4 +354,15 @@ const updateXPAndGoldAndEndBattle = () => {
     document.getElementById('experience').textContent = player.xp;
   }
   endBattle();
+}
+
+
+// UI Updates
+const updateHealth = () => {
+  document.getElementById('player-health').textContent = player.health;
+  document.getElementById('player-health-bar').style.width = Math.floor((player.health/player.maxHealth)*100) + '%';
+}
+
+const scrollLog = (elem) => {
+elem.scrollTop = elem.scrollHeight;
 }

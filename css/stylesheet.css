@@ -215,3 +215,9 @@ h3{
     background-position: center;
     background-color: white;
 }
+
+#potion-text{
+  line-height: .5em;
+  margin: 0;
+  font-size: 2em;
+}
