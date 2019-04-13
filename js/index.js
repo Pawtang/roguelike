@@ -220,7 +220,7 @@ const buyItem = (item) => {
   console.log(player.items);
   player.gold = player.gold - item.cost;
   console.log("Item cost", item.cost, "Player now has", player.gold);
-  elem.innerHTML += 'Purchased ' + shop[shopItemPointer].name + ' for ' + shop[shopItemPointer].cost + ' gold<br>';
+  elem.innerHTML += 'Purchased ' + item.name + ' for ' + item.cost + ' gold<br>';
   scrollLog(elem);
   document.getElementById('player-gold').innerHTML = player.gold;
 }
