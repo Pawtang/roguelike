@@ -2,13 +2,21 @@ export const player = {
   maxHealth: 100,
   health: 100,
   attack: 5,
+  attackBonus: 0,
   defense: 10,
+  defenseBonus: 0,
   gold: 0,
   xp: 0,
-  xpToNextLevel: 200,
+  xpToNextLevel: 100,
   level: 1,
   currentRoomNumber: [0,0],
-  items: []
+  items: {
+    sword: '',
+    shield: '',
+    helmet: '',
+    boots: '',
+    potions: 2
+  }
 }
 
 export const levelUp = () => {
@@ -25,7 +33,7 @@ export const levelUp = () => {
   document.getElementById('experience').textContent = player.xp;
   document.getElementById('player-health').textContent = player.health;
   document.getElementById('player-attack').textContent = player.attack;
-  document.getElementById('player-defense').textContent = player.defense; 
+  document.getElementById('player-defense').textContent = player.defense;
   document.getElementById('player-health-bar').style.width = '100%';
   console.log('Level up! You are now level ' + player.level);
 }
