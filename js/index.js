@@ -7,18 +7,10 @@ import { eventGenerator } from './events.js';
 const gridSize = 5;
 player.currentRoomNumber[0] = gridSize - 1;
 let maze = generateNewMaze(gridSize); // generate initial maze
-
-let shop;
-let monster;
-
-// possible game states (exploration, battle, shop)
-
-let roomNumber, gameState = 'exploration', goldInChest = 0;
+let shop, monster, roomNumber;
+let gameState = 'exploration', goldInChest = 0, battleActionPointer = 0, shopItemPointer = 0; // possible game states (exploration, battle, shop)
 
 const battleActions = ['attack', 'hp-potion', 'flee'];
-
-let battleActionPointer = 0;
-let shopItemPointer = 0;
 
 //GameStates: exploration, battle, treasure, shop, win, lose;
 
@@ -45,28 +37,35 @@ document.onkeydown = (e) => {
     case 'passThrough':
       passControls(e);
       break;
+    case 'wait':
+      console.log('Fucking wait');
+      break;
+    case 'gameOver':
+          //what happens here?
+      break;
   }
 }
 
 const shopControls = (e) => {
   let elem = document.querySelector('.shop-log')
+  let item = shop[shopItemPointer];
   switch (e.keyCode) {
     case 13: //ENTER
-      if(shop[shopItemPointer] === 'exit') {
+      if(item === 'exit') {
         console.log('exiting shop');
         exitShop();
-      } else if (shop[shopItemPointer] === 'bought') {
+      } else if (item === 'bought') {
         console.log('this item has been bought');
           elem.innerHTML += 'This item has already been purchased</br>';
-          elem.scrollTop = elem.scrollHeight;
+          scrollLog(elem);
       } else {
-        if(player.gold >= shop[shopItemPointer].cost){
-          buyItem(shop[shopItemPointer]);
-          shop[shopItemPointer] = 'bought';
+        if(player.gold >= item.cost){ //Also need to loop through items array to check if player already has item
+          buyItem(item);
+          item = 'bought';
         } else {
-          console.log('Not enough gold. You need', shop[shopItemPointer].cost,'but you have', player.gold);
+          console.log('Not enough gold. You need', item.cost,'but you have', player.gold);
           elem.innerHTML += 'Not enough gold! </br>';
-          elem.scrollTop = elem.scrollHeight;
+          scrollLog(elem);
         }
       }
       break;
@@ -210,15 +209,78 @@ const initializeShop = () => {
 }
 
 const buyItem = (item) => {
-  let elem = document.querySelector('.shop-log')
+  let elem = document.querySelector('.shop-log'); // refers to the shop log
+  let imageSource = '/images/sprites/';
   console.log("Current player gold", player.gold);
-  player.items.push(item);
+  //Some of these items should be changed to give health, not just defense.
+  //also should DRY this out by making a function to do all 3 things, just pass arguments in
+ switch(item.sprite){ //sprite is a more consise identifier than the name
+   case 'sword-1':
+     player.items.sword = 'sword-1';
+     player.attackBonus = 2;
+     document.getElementById('sword-text').textContent = 2;
+     document.getElementById('sword-img').src = imageSource + player.items.sword + '.png';
+     break;
+   case 'sword-2':
+     player.items.sword = 'sword-2';
+     player.attackBonus = 5;
+     document.getElementById('sword-text').textContent = 5;
+     document.getElementById('sword-img').src = imageSource + player.items.sword + '.png';
+     break;
+   case 'shield-1':
+     player.items.shield = 'shield-1';
+     player.defenseBonus = 2;
+     document.getElementById('shield-text').textContent = 2;
+     document.getElementById('shield-img').src = imageSource + player.items.shield + '.png';
+     break;
+   case 'shield-2':
+     player.items.shield = 'shield-2';
+     player.defenseBonus = 5;
+     document.getElementById('shield-text').textContent = 5;
+     document.getElementById('shield-img').src = imageSource + player.items.shield + '.png';
+     break;
+   case 'helm-1':
+     player.items.helmet = 'helm-1';
+     player.defenseBonus = 2;
+     document.getElementById('helmet-text').textContent = 2;
+     document.getElementById('helmet-img').src = imageSource + player.items.helmet + '.png';
+     break;
+   case 'helm-2':
+     player.items.helmet = 'helm-2';
+     player.defenseBonus = 5;
+     document.getElementById('helmet-text').textContent = 5;
+     document.getElementById('helmet-img').src = imageSource + player.items.helmet + '.png';
+     break;
+   case 'boots-1':
+     player.items.boots = 'boots-1';
+     player.defenseBonus = 2;
+     document.getElementById('boots-text').textContent = 2;
+     document.getElementById('boots-img').src = imageSource + player.items.boots + '.png';
+     break;
+   case 'boots-2':
+     player.items.boots = 'boots-2';
+     player.defenseBonus = 5;
+     document.getElementById('boots-text').textContent = 5;
+     document.getElementById('boots-img').src = imageSource + player.items.boots + '.png';
+     break;
+   case 'potion':
+     player.items.potions++;
+     document.getElementById('potion-text').innerHTML = player.items.potions;
+     break;
+ }
+
+
+ document.getElementById('player-attack').textContent = player.attack + player.attackBonus;
+ document.getElementById('player-defense').textContent = player.defense + player.defenseBonus;
+
+
   console.log(player.items);
   player.gold = player.gold - item.cost;
   console.log("Item cost", item.cost, "Player now has", player.gold);
-  elem.innerHTML += 'Purchased ' + shop[shopItemPointer].name + ' for ' + shop[shopItemPointer].cost + ' gold</br>';
-  elem.scrollTop = elem.scrollHeight;
+  elem.innerHTML += 'Purchased ' + item.name + ' for ' + item.cost + ' gold<br>';
   document.getElementById('player-gold').innerHTML = player.gold;
+  scrollLog(elem);
+
 }
 
 const exitShop = () => {
@@ -231,7 +293,7 @@ const exitShop = () => {
 
 const initializeTreasureRoom = () => {
   gameState = 'treasure';
-  goldInChest = Math.floor(Math.random()*101) + 100 // between 100 and 200;
+  goldInChest = Math.floor(Math.random()*100) + 1 // between 1 and 100 >>> updated to balance difficulty
   player.gold = player.gold + goldInChest;
   document.querySelector('#monster-statbox').classList.toggle('chest');
   document.querySelector('#monster-statbox').innerHTML = '<p style = "color: black">You received ' + goldInChest + ' gold!</p> <h3>Press Enter</h3>';
@@ -243,7 +305,8 @@ const initializeBattle = () => {
   gameState = 'battle';
   monster = monsterGenerator();
   console.log('battle start');
-  document.getElementById("monster-name").textContent = monster.name;
+  document.getElementById('monster-icon').style.background = 'url("/images/monsters/monster-' + monster.icon + '.gif")';
+  document.getElementById('monster-name').textContent = monster.name;
   document.getElementById('monster-health').textContent = monster.health;
   document.getElementById('monster-health-bar').style.width = '100%';
   document.querySelector('.right-container-fight').classList.toggle('hidden');
@@ -257,14 +320,17 @@ const initializeBattle = () => {
 const battleActionHandler = (battleAction) => {
   let elem = document.querySelector('.battle-log')
   switch (battleAction) {
+
     case 'attack':
-      const damage = Math.floor((player.attack*10*Math.random())/(monster.defense*(0.8)));
+      let attackPower = player.attack+player.attackBonus;
+      let damage = Math.floor((attackPower*10*Math.random())/(monster.defense*(0.8)));
       monster.health = monster.health - damage;
       if (monster.health > 0) {
         console.log('You attack for', damage);
-        document.getElementById('monster-health-bar').style.width = monster.health + '%';
+        document.getElementById('monster-health-bar').style.width = Math.floor((monster.health/monster.maxHealth*100)) + '%';
         elem.innerHTML += 'You attack ' + monster.name + ' for ' + damage + ' health! </br>';
-        elem.scrollTop = elem.scrollHeight;
+        scrollLog(elem);
+        monsterAttack();
       } else {
         monster.health = 0;
         console.log(monster.name, 'is dead yo!');
@@ -272,10 +338,27 @@ const battleActionHandler = (battleAction) => {
       }
       document.getElementById('monster-health').textContent = monster.health;
       break;
-    case 'hp-potion': console.log('You use a potion and restore 20 HP');
-      elem.innerHTML += 'You use a health potion, restoring 20 HP </br>' ;
-      elem.scrollTop = elem.scrollHeight;
+
+    case 'hp-potion':
+      if (player.items.potions > 0 && player.health < player.maxHealth) {
+        console.log('You use a potion and restore 50 HP');
+        player.health += 50;
+        player.items.potions = player.items.potions - 1;
+        document.getElementById('potion-text').innerHTML = player.items.potions;
+        elem.innerHTML += 'You use a health potion, restoring 50 HP </br>' ;
+        scrollLog(elem);
+        if (player.health > player.maxHealth) player.health = player.maxHealth;
+        updateHealth();
+        monsterAttack();
+      } else if (player.health === player.maxHealth) {
+        elem.innerHTML += 'You\'re at full health <br>';
+        scrollLog(elem);
+      } else {
+        elem.innerHTML += 'You\'re all out of potions, mate <br>';
+        scrollLog(elem);
+      }
       break;
+
     case 'flee':
       const chance = Math.floor(Math.random()*10);
       if (chance > 2) {
@@ -284,9 +367,33 @@ const battleActionHandler = (battleAction) => {
       } else {
         console.log('Failed to flee');
         elem.innerHTML = 'Failed to flee!'
-        elem.scrollTop = elem.scrollHeight;
+        scrollLog(elem);
+        monsterAttack();
       }
       break;
+  }
+}
+
+
+const monsterAttack = () => {
+  let elem = document.querySelector('.battle-log');
+  let defensePower = player.defense + player.defenseBonus;
+  gameState = 'wait';
+  if (player.health > 0) { //Monster attacks you
+    setTimeout(function(){ //Wait 0.5 sec
+      console.log('Monster attacks you');
+      let damage = Math.floor((monster.attack*10*Math.random())/(defensePower*(0.8)));
+      player.health = player.health - damage;
+      updateHealth();
+      elem.innerHTML += 'Monster attacks you for ' + damage + ' health!</br>' ;
+      scrollLog(elem);
+      gameState = 'battle';
+      if (player.health <= 0){
+        console.log('you are dead!');
+        document.getElementById('player-health').textContent = 0;
+        // Add Game Over
+      }
+    }, 500);
   }
 }
 
@@ -311,7 +418,18 @@ const updateXPAndGoldAndEndBattle = () => {
     levelUp();
   } else {
     document.getElementById('experience').textContent = player.xp;
+    document.getElementById('player-xp-bar').style.width = Math.floor((player.xp/player.xpToNextLevel)*100) + '%';
   }
   endBattle();
 }
 
+
+// UI Updates
+const updateHealth = () => {
+  document.getElementById('player-health').textContent = player.health;
+  document.getElementById('player-health-bar').style.width = Math.floor((player.health/player.maxHealth)*100) + '%';
+}
+
+const scrollLog = (elem) => {
+elem.scrollTop = elem.scrollHeight;
+}

@@ -23,7 +23,7 @@ header{
 article{
   width: 1200px;
   margin: 50px auto;
-  padding: 50px;
+  padding: 100px 50px;
   background-image: url(/images/background2.jpg);
   background-color: #222;
   background-size: cover;
@@ -37,7 +37,7 @@ article{
 .card{
   margin: 20px;
   width: 300px;
-  height: 500px;
+  height: 550px;
   background-color: RGBA(22,22,22,0.8);
   border-radius: 10px;
   text-align: center;
@@ -45,14 +45,14 @@ article{
 
 #main{
   width: 500px;
-  height: 500px;
+  height: 550px;
 }
 
 
 
 #shop-screen{
   width: 500px;
-  height: 500px;
+  height: 550px;
 }
 
 .shop-actions{
@@ -136,7 +136,6 @@ button:active {
 }
 
 #monster-icon{
-  background-image: url(/images/monsters/harpy.gif);
   background-size: cover;
 }
 
@@ -145,11 +144,28 @@ button:active {
 .statbox{
   text-align: center;
   width: 250px;
-  height: 350px;
+  height: 400px;
   display: block;
   background-color: #222;
   margin: 20px auto;
   border-radius: 10px;
+}
+
+img{
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.inventory-box{
+
+}
+
+.item{
+  float: left;
+  display: inline;
+  margin: 20px 6px;
+  width: 30px;
+  height: 30px;
 }
 
 ul{
@@ -198,4 +214,11 @@ h3{
     background-repeat: no-repeat;
     background-position: center;
     background-color: white;
+}
+
+#potion-text{
+  text-align: center;
+  line-height: .2em;
+  margin: 0;
+  font-size: .8em;
 }
