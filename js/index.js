@@ -219,49 +219,49 @@ const buyItem = (item) => {
      player.items.sword = 'sword-1';
      player.attackBonus = 2;
      document.getElementById('sword-text').textContent = 2;
-      document.getElementById('sword-img').src = imageSource + player.items.sword + '.png';
+     document.getElementById('sword-img').src = imageSource + player.items.sword + '.png';
      break;
    case 'sword-2':
      player.items.sword = 'sword-2';
      player.attackBonus = 5;
      document.getElementById('sword-text').textContent = 5;
-      document.getElementById('sword-img').src = imageSource + player.items.sword + '.png';
+     document.getElementById('sword-img').src = imageSource + player.items.sword + '.png';
      break;
    case 'shield-1':
      player.items.shield = 'shield-1';
      player.defenseBonus = 2;
      document.getElementById('shield-text').textContent = 2;
-      document.getElementById('shield-img').src = imageSource + player.items.shield + '.png';
+     document.getElementById('shield-img').src = imageSource + player.items.shield + '.png';
      break;
    case 'shield-2':
      player.items.shield = 'shield-2';
      player.defenseBonus = 5;
      document.getElementById('shield-text').textContent = 5;
-      document.getElementById('shield-img').src = imageSource + player.items.shield + '.png';
+     document.getElementById('shield-img').src = imageSource + player.items.shield + '.png';
      break;
    case 'helm-1':
      player.items.helmet = 'helm-1';
      player.defenseBonus = 2;
      document.getElementById('helmet-text').textContent = 2;
-      document.getElementById('helmet-img').src = imageSource + player.items.helmet + '.png';
+     document.getElementById('helmet-img').src = imageSource + player.items.helmet + '.png';
      break;
    case 'helm-2':
      player.items.helmet = 'helm-2';
      player.defenseBonus = 5;
      document.getElementById('helmet-text').textContent = 5;
-      document.getElementById('helmet-img').src = imageSource + player.items.helmet + '.png';
+     document.getElementById('helmet-img').src = imageSource + player.items.helmet + '.png';
      break;
    case 'boots-1':
      player.items.boots = 'boots-1';
      player.defenseBonus = 2;
      document.getElementById('boots-text').textContent = 2;
-      document.getElementById('boots-img').src = imageSource + player.items.boots + '.png';
+     document.getElementById('boots-img').src = imageSource + player.items.boots + '.png';
      break;
    case 'boots-2':
      player.items.boots = 'boots-2';
      player.defenseBonus = 5;
      document.getElementById('boots-text').textContent = 5;
-    document.getElementById('boots-img').src = imageSource + player.items.boots + '.png';
+     document.getElementById('boots-img').src = imageSource + player.items.boots + '.png';
      break;
    case 'potion':
      player.items.potions++;
@@ -340,8 +340,8 @@ const battleActionHandler = (battleAction) => {
       break;
 
     case 'hp-potion':
-      console.log('You use a potion and restore 50 HP');
       if (player.items.potions > 0 && player.health < player.maxHealth) {
+        console.log('You use a potion and restore 50 HP');
         player.health += 50;
         player.items.potions = player.items.potions - 1;
         document.getElementById('potion-text').innerHTML = player.items.potions;
@@ -349,11 +349,14 @@ const battleActionHandler = (battleAction) => {
         scrollLog(elem);
         if (player.health > player.maxHealth) player.health = player.maxHealth;
         updateHealth();
+        monsterAttack();
+      } else if (player.health === player.maxHealth) {
+        elem.innerHTML += 'You\'re at full health <br>';
+        scrollLog(elem);
       } else {
-        elem.innerHTML += 'You\'re all out of potions, mate <br>' ;
+        elem.innerHTML += 'You\'re all out of potions, mate <br>';
         scrollLog(elem);
       }
-      monsterAttack();
       break;
 
     case 'flee':
