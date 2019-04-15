@@ -33,6 +33,18 @@ h3{
   background-color: green;
 }
 
+.entrance{
+  background-color: orange;
+}
+
+.exit{
+  background-color: purple;
+}
+
+.shop{
+  background-color: blue;
+}
+
 .door-l{
   border-left: none;
   border-right: none;
