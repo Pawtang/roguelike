@@ -441,7 +441,7 @@ const updateXPAndGoldAndEndBattle = () => {
   endBattle();
 }
 
-<<<<<<< HEAD
+
 function setStartRoomAndExit (gridSize){
   let exitGenerated = false, entranceGenerated = false;
   let xExit, yExit, xEntrance, yEntrance;
@@ -469,7 +469,7 @@ function setStartRoomAndExit (gridSize){
   return [xEntrance, yEntrance];
 
 }
-=======
+
 
 // UI Updates
 const updateHealth = () => {
@@ -480,4 +480,4 @@ const updateHealth = () => {
 const scrollLog = (elem) => {
 elem.scrollTop = elem.scrollHeight;
 }
->>>>>>> master
+
