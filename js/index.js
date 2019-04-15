@@ -180,17 +180,17 @@ const explorationControls = (e) => {
       }
       break;
   }
+    console.log('Player coord: (' + player.currentRoomNumber[0] + ',' +player.currentRoomNumber[1] + ')');
 }
 
 const roomActions = () => {
   roomNumber = maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].roomNumber;
-  if (document.querySelector(".active-cell")) {
-      document.querySelector(".active-cell").classList.add("been-here");
-      document.querySelector(".active-cell").classList.remove("active-cell");
+  if (document.querySelector(".active-cell")) { //Check if a div with class 'active cell' exists
+      document.querySelector(".active-cell").classList.add("been-here"); //If it does, mark it 'been-here'
+      document.querySelector(".active-cell").classList.remove("active-cell"); //And then remove active class
     }
-  //document.getElementById('cell-' + roomNumber).classList.add("active-cell");
   document.querySelector('.map-grid').childNodes[roomNumber].classList.add('active-cell');      
-  console.log(roomNumber);
+  console.log(roomNumber);//Add active cell on player location
   if (maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].event === 'exit') {
     console.log('found exit');
     maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].hasBeenTraveled = true;
@@ -473,7 +473,7 @@ function mazeSetup (gridSize, numShops) {
   while(!entranceGenerated) {
     entranceCoords[0] = Math.floor(Math.random()*gridSize);
     entranceCoords[1] = Math.floor(Math.random()*gridSize);
-    if(!maze[entranceCoords[0]][entranceCoords[1]].event) {
+    if(!maze[entranceCoords[0]][entranceCoords[1]].event) { //Should also check to make sure that entrance != exit
       maze[entranceCoords[0]][entranceCoords[1]].event = "entrance";
       maze[entranceCoords[0]][entranceCoords[1]].hasBeenTraveled = true;
       //document.getElementById('cell-' + maze[entranceCoords[0]][entranceCoords[1]].roomNumber).classList.add('active-cell');
