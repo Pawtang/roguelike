@@ -481,10 +481,17 @@ const updateXPAndGoldAndEndBattle = () => {
   endBattle();
 }
 
+<<<<<<< HEAD
 function mazeSetup (gridSize, numShops) {
   let exitGenerated = false, entranceGenerated = false, shopsGenerated = 0;
   let exitCoords = [], entranceCoords = [], shopCoords = [];
 
+=======
+
+function setStartRoomAndExit (gridSize){
+  let exitGenerated = false, entranceGenerated = false;
+  let xExit, yExit, xEntrance, yEntrance;
+>>>>>>> master
   while(!exitGenerated) {
     exitCoords[0] = Math.floor(Math.random()*gridSize);
     exitCoords[1] = Math.floor(Math.random()*gridSize);
@@ -530,6 +537,10 @@ function mazeSetup (gridSize, numShops) {
   return entranceCoords;
 
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 
 // UI Updates
 const updateHealth = () => {
@@ -542,3 +553,7 @@ const updateHealth = () => {
 const scrollLog = (elem) => {
   elem.scrollTop = elem.scrollHeight;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
