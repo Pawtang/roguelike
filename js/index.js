@@ -270,57 +270,41 @@ const buyItem = (item) => {
   let elem = document.querySelector('.shop-log'); // refers to the shop log
   let imageSource = '/images/sprites/';
   console.log("Current player gold", player.gold);
-  //Some of these items should be changed to give health, not just defense.
-  //also should DRY this out by making a function to do all 3 things, just pass arguments in
-  switch(item.sprite){ //sprite is a more consise identifier than the name
-    case 'sword-1':
-      player.items.sword = 'sword-1';
-      player.attackBonus = 2;
-      document.getElementById('sword-text').textContent = 2;
-      document.getElementById('sword-img').src = imageSource + player.items.sword + '.png';
+  switch(item.itemType){
+    case 'sword':
+      player.items.sword = item;
+      player.attackBonus = item.attack;
       break;
-    case 'sword-2':
-      player.items.sword = 'sword-2';
-      player.attackBonus = 5;
-      document.getElementById('sword-text').textContent = 5;
-      document.getElementById('sword-img').src = imageSource + player.items.sword + '.png';
+    case 'shield':
       break;
-    case 'shield-1':
-      player.items.shield = 'shield-1';
-      player.defenseBonus = 2;
-      document.getElementById('shield-text').textContent = 2;
-      document.getElementById('shield-img').src = imageSource + player.items.shield + '.png';
+    case 'helmet':
       break;
-    case 'shield-2':
-      player.items.shield = 'shield-2';
-      player.defenseBonus = 5;
-      document.getElementById('shield-text').textContent = 5;
-      document.getElementById('shield-img').src = imageSource + player.items.shield + '.png';
+    case 'boots':
       break;
-    case 'helm-1':
-      player.items.helmet = 'helm-1';
-      player.defenseBonus = 2;
-      document.getElementById('helmet-text').textContent = 2;
-      document.getElementById('helmet-img').src = imageSource + player.items.helmet + '.png';
-      break;
-    case 'helm-2':
-      player.items.helmet = 'helm-2';
-      player.defenseBonus = 5;
-      document.getElementById('helmet-text').textContent = 5;
-      document.getElementById('helmet-img').src = imageSource + player.items.helmet + '.png';
-      break;
-    case 'boots-1':
-      player.items.boots = 'boots-1';
-      player.defenseBonus = 2;
-      document.getElementById('boots-text').textContent = 2;
-      document.getElementById('boots-img').src = imageSource + player.items.boots + '.png';
-      break;
-    case 'boots-2':
-      player.items.boots = 'boots-2';
-      player.defenseBonus = 5;
-      document.getElementById('boots-text').textContent = 5;
-      document.getElementById('boots-img').src = imageSource + player.items.boots + '.png';
-      break;
+    // case 'sword-2':
+    //   player.items.sword = 'sword-2';
+    //   player.attackBonus = 5;
+    //   document.getElementById('sword-text').textContent = 5;
+    //   document.getElementById('sword-img').src = imageSource + player.items.sword + '.png';
+    //   break;
+    // case 'shield-2':
+    //   player.items.shield = 'shield-2';
+    //   player.defenseBonus = 5;
+    //   document.getElementById('shield-text').textContent = 5;
+    //   document.getElementById('shield-img').src = imageSource + player.items.shield + '.png';
+    //   break;
+    // case 'helm-2':
+    //   player.items.helmet = 'helm-2';
+    //   player.defenseBonus = 5;
+    //   document.getElementById('helmet-text').textContent = 5;
+    //   document.getElementById('helmet-img').src = imageSource + player.items.helmet + '.png';
+    //   break;
+    // case 'boots-2':
+    //   player.items.boots = 'boots-2';
+    //   player.defenseBonus = 5;
+    //   document.getElementById('boots-text').textContent = 5;
+    //   document.getElementById('boots-img').src = imageSource + player.items.boots + '.png';
+    //   break;
     case 'potion':
       player.items.potions++;
       document.getElementById('potion-text').innerHTML = player.items.potions;
@@ -488,7 +472,7 @@ function mazeSetup (gridSize, numShops) {
   while(!exitGenerated) {
     exitCoords[0] = Math.floor(Math.random()*gridSize);
     exitCoords[1] = Math.floor(Math.random()*gridSize);
-    if(!maze[exitCoords[0]][exitCoords[1]].event/*maze[exitCoords[0]][exitCoords[1]].isWall === 0*/) {
+    if(!maze[exitCoords[0]][exitCoords[1]].event) {
       maze[exitCoords[0]][exitCoords[1]].event = "exit";
       console.log(exitCoords[0], exitCoords[1], maze[exitCoords[0]][exitCoords[1]]);
       exitGenerated = true;
@@ -498,7 +482,7 @@ function mazeSetup (gridSize, numShops) {
   while(!entranceGenerated) {
     entranceCoords[0] = Math.floor(Math.random()*gridSize);
     entranceCoords[1] = Math.floor(Math.random()*gridSize);
-    if(/*maze[entranceCoords[0]][entranceCoords[1]].isWall === 0 && */!maze[entranceCoords[0]][entranceCoords[1]].event) {
+    if(!maze[entranceCoords[0]][entranceCoords[1]].event) {
       maze[entranceCoords[0]][entranceCoords[1]].event = "entrance";
       maze[entranceCoords[0]][entranceCoords[1]].hasBeenTraveled = true;
       document.getElementById('cell-' + maze[entranceCoords[0]][entranceCoords[1]].roomNumber).classList.add('active-cell');
@@ -510,7 +494,7 @@ function mazeSetup (gridSize, numShops) {
   while(shopsGenerated < numShops) {
     shopCoords[0] = Math.floor(Math.random()*gridSize);
     shopCoords[1] = Math.floor(Math.random()*gridSize);
-    if(/*maze[shopCoords[0]][shopCoords[1]].isWall === 0 &&*/!maze[shopCoords[0]][shopCoords[1]].event) {
+    if(!maze[shopCoords[0]][shopCoords[1]].event) {
       maze[shopCoords[0]][shopCoords[1]].event = "shopRoom";
       maze[shopCoords[0]][shopCoords[1]].eventHelper = shopGenerator();
       document.getElementById('cell-' + maze[shopCoords[0]][shopCoords[1]].roomNumber).classList.add('shop');
