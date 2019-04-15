@@ -4,7 +4,7 @@ import { player, levelUp } from './player.js';
 import { shopGenerator } from './shop.js';
 import { eventGenerator } from './events.js';
 
-const gridSize = 5;
+const gridSize = 15;
 let numShops = 2;
 player.currentRoomNumber[0] = gridSize - 1;
 let maze = generateNewMaze(gridSize, 0.75, 0.75); // generate initial maze
@@ -16,35 +16,11 @@ let shop, monster, roomNumber;
 let gameState = 'exploration', goldInChest = 0, battleActionPointer = 0, shopItemPointer = 0; // possible game states (exploration, battle, shop)
 
 const battleActions = ['attack', 'hp-potion', 'flee'];
-generateUIMap();
+    
 
-
-/*
+/* -------------OLD FORMAT --------------------------
 <div class="griditem door-b door-r" id="cell-0"></div>
-<div class="griditem" id="cell-1"></div>
-<div class="griditem" id="cell-2"></div>
-<div class="griditem" id="cell-3"></div>
-<div class="griditem" id="cell-4"></div>
-<div class="griditem" id="cell-5"></div>
-<div class="griditem" id="cell-6"></div>
-<div class="griditem" id="cell-7"></div>
-<div class="griditem" id="cell-8"></div>
-<div class="griditem" id="cell-9"></div>
-<div class="griditem" id="cell-10"></div>
-<div class="griditem door-l" id="cell-11"></div>
-<div class="griditem" id="cell-12"></div>
-<div class="griditem" id="cell-13"></div>
-<div class="griditem door-b" id="cell-14"></div>
-<div class="griditem" id="cell-15"></div>
-<div class="griditem" id="cell-16"></div>
-<div class="griditem" id="cell-17"></div>
-<div class="griditem" id="cell-18"></div>
-<div class="griditem" id="cell-19"></div>
-<div class="griditem" id="cell-20"></div>
-<div class="griditem" id="cell-21"></div>
-<div class="griditem" id="cell-22"></div>
-<div class="griditem" id="cell-23"></div>
-<div class="griditem" id="cell-24"></div> */
+--------- FOR POSTERITY AND REMEMBRANCE ------- */
 
 //GameStates: exploration, battle, treasure, shop, win, lose;
 
@@ -156,7 +132,8 @@ const explorationControls = (e) => {
         console.log('can\'t move left');
       } else if (maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]-1].event === 'wall') {
         console.log('can\'t move left due to wall');
-        document.getElementById('cell-' + maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]-1].roomNumber).classList.add('wall');
+        document.querySelector('.map-grid').childNodes[maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]-1].roomNumber].classList.add('wall');  
+        //document.getElementById('cell-' + maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]-1].roomNumber).classList.add('wall');
       } else {
         console.log('move left');
         player.currentRoomNumber[1]--;
@@ -168,7 +145,8 @@ const explorationControls = (e) => {
         console.log('can\'t move up');
       } else if (maze[player.currentRoomNumber[0]-1][player.currentRoomNumber[1]].event === 'wall') {
         console.log('can\'t move up due to wall');
-        document.getElementById('cell-' + maze[player.currentRoomNumber[0]-1][player.currentRoomNumber[1]].roomNumber).classList.add('wall');
+        document.querySelector('.map-grid').childNodes[maze[player.currentRoomNumber[0]-1][player.currentRoomNumber[1]].roomNumber].classList.add('wall');    
+        //document.getElementById('cell-' + maze[player.currentRoomNumber[0]-1][player.currentRoomNumber[1]].roomNumber).classList.add('wall');
       } else {
         console.log('move up');
         player.currentRoomNumber[0]--;
@@ -180,7 +158,8 @@ const explorationControls = (e) => {
         console.log('can\'t move right');
       } else if (maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]+1].event === 'wall') {
         console.log('can\'t move right due to wall');
-        document.getElementById('cell-' + maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]+1].roomNumber).classList.add('wall');
+        document.querySelector('.map-grid').childNodes[maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]+1].roomNumber].classList.add('wall');  
+        //document.getElementById('cell-' + maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]+1].roomNumber).classList.add('wall');
       } else {
         console.log('move right');
         player.currentRoomNumber[1]++;
@@ -192,7 +171,8 @@ const explorationControls = (e) => {
         console.log('can\'t move down');
       } else if (maze[player.currentRoomNumber[0]+1][player.currentRoomNumber[1]].event === 'wall') {
         console.log('can\'t move down due to wall');
-        document.getElementById('cell-' + maze[player.currentRoomNumber[0]+1][player.currentRoomNumber[1]].roomNumber).classList.add('wall');
+        document.querySelector('.map-grid').childNodes[maze[player.currentRoomNumber[0]+1][player.currentRoomNumber[1]].roomNumber].classList.add('wall');  
+        //document.getElementById('cell-' + maze[player.currentRoomNumber[0]+1][player.currentRoomNumber[1]].roomNumber).classList.add('wall');
       } else {
         console.log('move down');
         player.currentRoomNumber[0]++;
@@ -204,9 +184,12 @@ const explorationControls = (e) => {
 
 const roomActions = () => {
   roomNumber = maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].roomNumber;
-  document.querySelector(".active-cell").classList.add("been-here");
-  document.querySelector(".active-cell").classList.remove("active-cell");
-  document.getElementById('cell-' + roomNumber).classList.add("active-cell");
+  if (document.querySelector(".active-cell")) {
+      document.querySelector(".active-cell").classList.add("been-here");
+      document.querySelector(".active-cell").classList.remove("active-cell");
+    }
+  //document.getElementById('cell-' + roomNumber).classList.add("active-cell");
+  document.querySelector('.map-grid').childNodes[roomNumber].classList.add('active-cell');      
   console.log(roomNumber);
   if (maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].event === 'exit') {
     console.log('found exit');
@@ -494,7 +477,7 @@ function mazeSetup (gridSize, numShops) {
       maze[entranceCoords[0]][entranceCoords[1]].event = "entrance";
       maze[entranceCoords[0]][entranceCoords[1]].hasBeenTraveled = true;
       //document.getElementById('cell-' + maze[entranceCoords[0]][entranceCoords[1]].roomNumber).classList.add('active-cell');
-      document.querySelector('.map-grid').childNodes[maze[entranceCoords[0]][entranceCoords[1]]].roomNumber.classList.add('active-cell');  
+      document.querySelector('.map-grid').childNodes[maze[entranceCoords[0]][entranceCoords[1]].roomNumber].classList.add('active-cell');  
       console.log(entranceCoords[0], entranceCoords[1], maze[entranceCoords[0]][entranceCoords[1]]);
       entranceGenerated = true;
     }
@@ -507,7 +490,7 @@ function mazeSetup (gridSize, numShops) {
       maze[shopCoords[0]][shopCoords[1]].event = "shopRoom";
       maze[shopCoords[0]][shopCoords[1]].eventHelper = shopGenerator();
       //document.querySelector('cell-' + maze[shopCoords[0]][shopCoords[1]].roomNumber).classList.add('shop');
-      document.querySelector('.map-grid').childNodes[maze[shopCoords[0]][shopCoords[1]]].roomNumber.classList.add('shop');
+      document.querySelector('.map-grid').childNodes[maze[shopCoords[0]][shopCoords[1]].roomNumber].classList.add('shop');
       console.log(shopCoords[0], shopCoords[1], maze[shopCoords[0]][shopCoords[1]]);
       shopsGenerated++;
     }
