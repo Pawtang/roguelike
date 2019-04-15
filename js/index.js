@@ -15,6 +15,43 @@ let gameState = 'exploration', goldInChest = 0, battleActionPointer = 0, shopIte
 
 const battleActions = ['attack', 'hp-potion', 'flee'];
 
+
+//Initialize map
+const initializeMap = () => {
+  //1. Generate CSS grid of size gridSize x gridSize
+
+ //2. Paint walls red
+ //3. Paint shop rooms blue
+}
+
+
+/*
+<div class="griditem door-b door-r" id="cell-0"></div>
+<div class="griditem" id="cell-1"></div>
+<div class="griditem" id="cell-2"></div>
+<div class="griditem" id="cell-3"></div>
+<div class="griditem" id="cell-4"></div>
+<div class="griditem" id="cell-5"></div>
+<div class="griditem" id="cell-6"></div>
+<div class="griditem" id="cell-7"></div>
+<div class="griditem" id="cell-8"></div>
+<div class="griditem" id="cell-9"></div>
+<div class="griditem" id="cell-10"></div>
+<div class="griditem door-l" id="cell-11"></div>
+<div class="griditem" id="cell-12"></div>
+<div class="griditem" id="cell-13"></div>
+<div class="griditem door-b" id="cell-14"></div>
+<div class="griditem" id="cell-15"></div>
+<div class="griditem" id="cell-16"></div>
+<div class="griditem" id="cell-17"></div>
+<div class="griditem" id="cell-18"></div>
+<div class="griditem" id="cell-19"></div>
+<div class="griditem" id="cell-20"></div>
+<div class="griditem" id="cell-21"></div>
+<div class="griditem" id="cell-22"></div>
+<div class="griditem" id="cell-23"></div>
+<div class="griditem" id="cell-24"></div> */
+
 //GameStates: exploration, battle, treasure, shop, win, lose;
 
 //******************************************
@@ -441,7 +478,6 @@ const updateXPAndGoldAndEndBattle = () => {
   endBattle();
 }
 
-<<<<<<< HEAD
 function setStartRoomAndExit (gridSize){
   let exitGenerated = false, entranceGenerated = false;
   let xExit, yExit, xEntrance, yEntrance;
@@ -469,7 +505,7 @@ function setStartRoomAndExit (gridSize){
   return [xEntrance, yEntrance];
 
 }
-=======
+
 
 // UI Updates
 const updateHealth = () => {
@@ -477,7 +513,8 @@ const updateHealth = () => {
   document.getElementById('player-health-bar').style.width = Math.floor((player.health/player.maxHealth)*100) + '%';
 }
 
+
+
 const scrollLog = (elem) => {
 elem.scrollTop = elem.scrollHeight;
 }
->>>>>>> master
