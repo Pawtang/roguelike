@@ -5,9 +5,10 @@ import { shopGenerator } from './shop.js';
 import { eventGenerator } from './events.js';
 
 const gridSize = 5;
+let numShops = 2;
 player.currentRoomNumber[0] = gridSize - 1;
 let maze = generateNewMaze(gridSize, 0.75, 0.75); // generate initial maze
-player.currentRoomNumber = setStartRoomAndExit(gridSize);
+player.currentRoomNumber = mazeSetup(gridSize, numShops);
 console.log(maze);
 
 let shop, monster, roomNumber;
@@ -51,22 +52,22 @@ document.onkeydown = (e) => {
 
 const shopControls = (e) => {
   let elem = document.querySelector('.shop-log')
-  let item = shop[shopItemPointer];
   switch (e.keyCode) {
     case 13: //ENTER
-      if(item === 'exit') {
+      if(shop[shopItemPointer] === 'exit') {
         console.log('exiting shop');
         exitShop();
-      } else if (item === 'bought') {
+      } else if (shop[shopItemPointer]  === 'bought') {
         console.log('this item has been bought');
           elem.innerHTML += 'This item has already been purchased</br>';
           scrollLog(elem);
       } else {
-        if(player.gold >= item.cost){ //Also need to loop through items array to check if player already has item
-          buyItem(item);
-          item = 'bought';
+        if(player.gold >= shop[shopItemPointer].cost){
+          buyItem(shop[shopItemPointer]);
+          shop[shopItemPointer] = 'bought';
+          document.getElementById('s-' + (shopItemPointer+1)).textContent = 'this item has been bought';
         } else {
-          console.log('Not enough gold. You need', item.cost,'but you have', player.gold);
+          console.log('Not enough gold. You need', shop[shopItemPointer].cost,'but you have', player.gold);
           elem.innerHTML += 'Not enough gold! </br>';
           scrollLog(elem);
         }
@@ -123,7 +124,7 @@ const explorationControls = (e) => {
     case 37: // LEFT
       if(player.currentRoomNumber[1] === 0) {
         console.log('can\'t move left');
-      } else if (maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]-1].isWall == 1) {
+      } else if (maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]-1].event === 'wall') {
         console.log('can\'t move left due to wall');
         document.getElementById('cell-' + maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]-1].roomNumber).classList.add('wall');
       } else {
@@ -135,7 +136,7 @@ const explorationControls = (e) => {
     case 38: // UP
       if(player.currentRoomNumber[0] === 0) {
         console.log('can\'t move up');
-      } else if (maze[player.currentRoomNumber[0]-1][player.currentRoomNumber[1]].isWall == 1) {
+      } else if (maze[player.currentRoomNumber[0]-1][player.currentRoomNumber[1]].event === 'wall') {
         console.log('can\'t move up due to wall');
         document.getElementById('cell-' + maze[player.currentRoomNumber[0]-1][player.currentRoomNumber[1]].roomNumber).classList.add('wall');
       } else {
@@ -147,7 +148,7 @@ const explorationControls = (e) => {
     case 39: // RIGHT
       if(player.currentRoomNumber[1] === 4) {
         console.log('can\'t move right');
-      } else if (maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]+1].isWall == 1) {
+      } else if (maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]+1].event === 'wall') {
         console.log('can\'t move right due to wall');
         document.getElementById('cell-' + maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]+1].roomNumber).classList.add('wall');
       } else {
@@ -159,7 +160,7 @@ const explorationControls = (e) => {
     case 40: // DOWN
       if(player.currentRoomNumber[0] === 4) {
         console.log('can\'t move down');
-      } else if (maze[player.currentRoomNumber[0]+1][player.currentRoomNumber[1]].isWall == 1) {
+      } else if (maze[player.currentRoomNumber[0]+1][player.currentRoomNumber[1]].event === 'wall') {
         console.log('can\'t move down due to wall');
         document.getElementById('cell-' + maze[player.currentRoomNumber[0]+1][player.currentRoomNumber[1]].roomNumber).classList.add('wall');
       } else {
@@ -177,15 +178,15 @@ const roomActions = () => {
   document.querySelector(".active-cell").classList.remove("active-cell");
   document.getElementById('cell-' + roomNumber).classList.add("active-cell");
   console.log(roomNumber);
-  if (maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].event === 'Exit') {
+  if (maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].event === 'exit') {
     console.log('found exit');
     maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].hasBeenTraveled = true;
   } else if(!maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].hasBeenTraveled){
-    maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].hasBeenTraveled = true;
-    maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].event = eventGenerator();
+    if(maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].event !== 'shopRoom'){
+      maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].hasBeenTraveled = true;
+    }
     console.log(maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].event)
     playEvent(maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].event);
-
   } else {
     console.log('been here');
   }
@@ -200,6 +201,7 @@ const playEvent = (event) => {
       initializeTreasureRoom();
       break;
     case 'shopRoom':
+      console.log('initialize a shop');
       initializeShop();
       break;
     case 'eventlessRoom':
@@ -214,14 +216,26 @@ const playEvent = (event) => {
 
 const initializeShop = () => {
   gameState = 'shop';
-  shop = shopGenerator();
+  shop = maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].eventHelper;
   console.log(shop);
   console.log(shop[0]);
   document.getElementById('main').classList.toggle('hidden');
   document.getElementById('shop-screen').classList.toggle('hidden');
-  document.getElementById('s-1').textContent = shop[0].name + ' - ' + shop[0].cost + ' gold';
-  document.getElementById('s-2').textContent = shop[1].name + ' - ' + shop[1].cost + ' gold';
-  document.getElementById('s-3').textContent = shop[2].name + ' - ' + shop[2].cost + ' gold';
+  if(shop[0] !== 'bought') {
+    document.getElementById('s-1').textContent = shop[0].name + ' - ' + shop[0].cost + ' gold';
+  } else {
+    document.getElementById('s-1').textContent = 'this item has been bought';
+  }
+  if(shop[1] !== 'bought') {
+    document.getElementById('s-2').textContent = shop[1].name + ' - ' + shop[1].cost + ' gold';
+  } else {
+    document.getElementById('s-2').textContent = 'this item has been bought';
+  }
+  if(shop[2] !== 'bought') {
+    document.getElementById('s-3').textContent = shop[2].name + ' - ' + shop[2].cost + ' gold';
+  } else {
+    document.getElementById('s-3').textContent = 'this item has been bought';
+  }
   document.getElementById('s-4').textContent = 'Exit';
   document.getElementById('s-1').focus();
 }
@@ -232,64 +246,63 @@ const buyItem = (item) => {
   console.log("Current player gold", player.gold);
   //Some of these items should be changed to give health, not just defense.
   //also should DRY this out by making a function to do all 3 things, just pass arguments in
- switch(item.sprite){ //sprite is a more consise identifier than the name
-   case 'sword-1':
-     player.items.sword = 'sword-1';
-     player.attackBonus = 2;
-     document.getElementById('sword-text').textContent = 2;
-     document.getElementById('sword-img').src = imageSource + player.items.sword + '.png';
-     break;
-   case 'sword-2':
-     player.items.sword = 'sword-2';
-     player.attackBonus = 5;
-     document.getElementById('sword-text').textContent = 5;
-     document.getElementById('sword-img').src = imageSource + player.items.sword + '.png';
-     break;
-   case 'shield-1':
-     player.items.shield = 'shield-1';
-     player.defenseBonus = 2;
-     document.getElementById('shield-text').textContent = 2;
-     document.getElementById('shield-img').src = imageSource + player.items.shield + '.png';
-     break;
-   case 'shield-2':
-     player.items.shield = 'shield-2';
-     player.defenseBonus = 5;
-     document.getElementById('shield-text').textContent = 5;
-     document.getElementById('shield-img').src = imageSource + player.items.shield + '.png';
-     break;
-   case 'helm-1':
-     player.items.helmet = 'helm-1';
-     player.defenseBonus = 2;
-     document.getElementById('helmet-text').textContent = 2;
-     document.getElementById('helmet-img').src = imageSource + player.items.helmet + '.png';
-     break;
-   case 'helm-2':
-     player.items.helmet = 'helm-2';
-     player.defenseBonus = 5;
-     document.getElementById('helmet-text').textContent = 5;
-     document.getElementById('helmet-img').src = imageSource + player.items.helmet + '.png';
-     break;
-   case 'boots-1':
-     player.items.boots = 'boots-1';
-     player.defenseBonus = 2;
-     document.getElementById('boots-text').textContent = 2;
-     document.getElementById('boots-img').src = imageSource + player.items.boots + '.png';
-     break;
-   case 'boots-2':
-     player.items.boots = 'boots-2';
-     player.defenseBonus = 5;
-     document.getElementById('boots-text').textContent = 5;
-     document.getElementById('boots-img').src = imageSource + player.items.boots + '.png';
-     break;
-   case 'potion':
-     player.items.potions++;
-     document.getElementById('potion-text').innerHTML = player.items.potions;
-     break;
- }
+  switch(item.sprite){ //sprite is a more consise identifier than the name
+    case 'sword-1':
+      player.items.sword = 'sword-1';
+      player.attackBonus = 2;
+      document.getElementById('sword-text').textContent = 2;
+      document.getElementById('sword-img').src = imageSource + player.items.sword + '.png';
+      break;
+    case 'sword-2':
+      player.items.sword = 'sword-2';
+      player.attackBonus = 5;
+      document.getElementById('sword-text').textContent = 5;
+      document.getElementById('sword-img').src = imageSource + player.items.sword + '.png';
+      break;
+    case 'shield-1':
+      player.items.shield = 'shield-1';
+      player.defenseBonus = 2;
+      document.getElementById('shield-text').textContent = 2;
+      document.getElementById('shield-img').src = imageSource + player.items.shield + '.png';
+      break;
+    case 'shield-2':
+      player.items.shield = 'shield-2';
+      player.defenseBonus = 5;
+      document.getElementById('shield-text').textContent = 5;
+      document.getElementById('shield-img').src = imageSource + player.items.shield + '.png';
+      break;
+    case 'helm-1':
+      player.items.helmet = 'helm-1';
+      player.defenseBonus = 2;
+      document.getElementById('helmet-text').textContent = 2;
+      document.getElementById('helmet-img').src = imageSource + player.items.helmet + '.png';
+      break;
+    case 'helm-2':
+      player.items.helmet = 'helm-2';
+      player.defenseBonus = 5;
+      document.getElementById('helmet-text').textContent = 5;
+      document.getElementById('helmet-img').src = imageSource + player.items.helmet + '.png';
+      break;
+    case 'boots-1':
+      player.items.boots = 'boots-1';
+      player.defenseBonus = 2;
+      document.getElementById('boots-text').textContent = 2;
+      document.getElementById('boots-img').src = imageSource + player.items.boots + '.png';
+      break;
+    case 'boots-2':
+      player.items.boots = 'boots-2';
+      player.defenseBonus = 5;
+      document.getElementById('boots-text').textContent = 5;
+      document.getElementById('boots-img').src = imageSource + player.items.boots + '.png';
+      break;
+    case 'potion':
+      player.items.potions++;
+      document.getElementById('potion-text').innerHTML = player.items.potions;
+      break;
+  }
 
-
- document.getElementById('player-attack').textContent = player.attack + player.attackBonus;
- document.getElementById('player-defense').textContent = player.defense + player.defenseBonus;
+  document.getElementById('player-attack').textContent = player.attack + player.attackBonus;
+  document.getElementById('player-defense').textContent = player.defense + player.defenseBonus;
 
 
   console.log(player.items);
@@ -305,6 +318,7 @@ const exitShop = () => {
   document.getElementById('main').classList.toggle('hidden');
   document.getElementById('shop-screen').classList.toggle('hidden');
   document.querySelector('.shop-log').innerHTML = '';
+  shop = null;
   gameState = 'exploration';
   shopItemPointer = 0;
 }
@@ -384,7 +398,7 @@ const battleActionHandler = (battleAction) => {
         endBattle();
       } else {
         console.log('Failed to flee');
-        elem.innerHTML = 'Failed to flee!'
+        elem.innerHTML += 'Failed to flee!</br>';
         scrollLog(elem);
         monsterAttack();
       }
@@ -403,7 +417,7 @@ const monsterAttack = () => {
       let damage = Math.floor((monster.attack*10*Math.random())/(defensePower*(0.8)));
       player.health = player.health - damage;
       updateHealth();
-      elem.innerHTML += 'Monster attacks you for ' + damage + ' health!</br>' ;
+      elem.innerHTML += 'Monster attacks you for ' + damage + ' health!</br>';
       scrollLog(elem);
       gameState = 'battle';
       if (player.health <= 0){
@@ -441,35 +455,55 @@ const updateXPAndGoldAndEndBattle = () => {
   endBattle();
 }
 
-<<<<<<< HEAD
-function setStartRoomAndExit (gridSize){
-  let exitGenerated = false, entranceGenerated = false;
-  let xExit, yExit, xEntrance, yEntrance;
+function mazeSetup (gridSize, numShops) {
+  let exitGenerated = false, entranceGenerated = false, shopsGenerated = 0;
+  let exitCoords = [], entranceCoords = [], shopCoords = [];
+
   while(!exitGenerated) {
-    xExit = Math.floor(Math.random()*gridSize);
-    yExit = Math.floor(Math.random()*gridSize);
-    if(maze[xExit][yExit].isWall == 0) {
-      maze[xExit][yExit].event = "Exit";
-      console.log(xExit, yExit, maze[xExit][yExit]);
+    exitCoords[0] = Math.floor(Math.random()*gridSize);
+    exitCoords[1] = Math.floor(Math.random()*gridSize);
+    if(!maze[exitCoords[0]][exitCoords[1]].event/*maze[exitCoords[0]][exitCoords[1]].isWall === 0*/) {
+      maze[exitCoords[0]][exitCoords[1]].event = "exit";
+      console.log(exitCoords[0], exitCoords[1], maze[exitCoords[0]][exitCoords[1]]);
       exitGenerated = true;
     }
   }
 
   while(!entranceGenerated) {
-    xEntrance = Math.floor(Math.random()*gridSize);
-    yEntrance = Math.floor(Math.random()*gridSize);
-    if(maze[xEntrance][yEntrance].isWall == 0 && (xExit !== xEntrance && yExit !== yEntrance)) {
-      maze[xEntrance][yEntrance].event = "Entrance";
-      maze[xEntrance][yEntrance].hasBeenTraveled = true;
-      document.getElementById('cell-' + maze[xEntrance][yEntrance].roomNumber).classList.add('active-cell');
-      console.log(xEntrance, yEntrance, maze[xEntrance][yEntrance]);
+    entranceCoords[0] = Math.floor(Math.random()*gridSize);
+    entranceCoords[1] = Math.floor(Math.random()*gridSize);
+    if(/*maze[entranceCoords[0]][entranceCoords[1]].isWall === 0 && */!maze[entranceCoords[0]][entranceCoords[1]].event) {
+      maze[entranceCoords[0]][entranceCoords[1]].event = "entrance";
+      maze[entranceCoords[0]][entranceCoords[1]].hasBeenTraveled = true;
+      document.getElementById('cell-' + maze[entranceCoords[0]][entranceCoords[1]].roomNumber).classList.add('active-cell');
+      console.log(entranceCoords[0], entranceCoords[1], maze[entranceCoords[0]][entranceCoords[1]]);
       entranceGenerated = true;
     }
   }
-  return [xEntrance, yEntrance];
+
+  while(shopsGenerated < numShops) {
+    shopCoords[0] = Math.floor(Math.random()*gridSize);
+    shopCoords[1] = Math.floor(Math.random()*gridSize);
+    if(/*maze[shopCoords[0]][shopCoords[1]].isWall === 0 &&*/!maze[shopCoords[0]][shopCoords[1]].event) {
+      maze[shopCoords[0]][shopCoords[1]].event = "shopRoom";
+      maze[shopCoords[0]][shopCoords[1]].eventHelper = shopGenerator();
+      document.getElementById('cell-' + maze[shopCoords[0]][shopCoords[1]].roomNumber).classList.add('shop');
+      console.log(shopCoords[0], shopCoords[1], maze[shopCoords[0]][shopCoords[1]]);
+      shopsGenerated++;
+    }
+  }
+
+  for(let h = 0; h < gridSize; h++) {
+    for(let w = 0; w < gridSize; w++) {
+      if(!maze[h][w].event) {
+        maze[h][w].event = eventGenerator();
+      }
+    }
+  }
+
+  return entranceCoords;
 
 }
-=======
 
 // UI Updates
 const updateHealth = () => {
@@ -478,6 +512,5 @@ const updateHealth = () => {
 }
 
 const scrollLog = (elem) => {
-elem.scrollTop = elem.scrollHeight;
+  elem.scrollTop = elem.scrollHeight;
 }
->>>>>>> master

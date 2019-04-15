@@ -8,8 +8,8 @@ export const generateNewMaze = (gridSize, complexity, density) => {
     maze[i] = [];
     for(let j = 0; j < gridSize; j++) {
       maze[i][j] = {
-        isWall: layout[i+1][j+1] ? 1 : 0,
-        event: null,
+        event: layout[i+1][j+1] ? 'wall' : null,
+        eventHelper: null,
         hasBeenTraveled: false,
         roomNumber: i*gridSize+j,
       };

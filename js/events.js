@@ -1,20 +1,4 @@
-const battle = {
-  eventName: "Battle"
-}
-const treasureRoom = {
-  eventName: "TreasureRoom"
-}
-const shopRoom = {
-  eventName: "ShopRoom"
-}
-const eventlessRoom = {
-  eventName: "EventlessRoom"
-}
-const BossRoom = {
-  eventName: "BossRoom"
-}
-
-const events = ["battle", "battle", "treasureRoom", "shopRoom", "eventlessRoom"];
+const events = ["battle", "battle", "treasureRoom", "eventlessRoom"];
 
 export const eventGenerator = () => {
   const eventNumber = Math.floor(Math.random()*events.length);
