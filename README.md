@@ -12,4 +12,4 @@ go to generateNewMaze in maze.js. First, a layout is generated with the algorith
 
 index:11
 mazeSetup is on index:468
-it randomly picks coordinates and checks to see if there's an event there yet for the entrance, exit, and shops. Then, it iterates through the whole maze and randomly generates events for all of them.
+it randomly picks coordinates and checks to see if there's an event there yet for the entrance, exit, and shops. Then, it iterates through the whole maze and randomly generates events for all of them that do not have event = wall, shopRoom, exit, or entrance.
