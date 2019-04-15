@@ -19,6 +19,9 @@ export const generateNewMaze = (gridSize, complexity, density) => {
       for(let i = 0; i < gridSize; i++) {
         for(let j = 0; j < gridSize; j++) {
             document.querySelector(".map-grid").insertAdjacentHTML('beforeend','<div class="griditem"></div>');
+              if (maze[i][j].event === 'wall') {
+              document.querySelector('.map-grid').childNodes[maze[i][j].roomNumber].classList.add('wall'); 
+            }
           };
         }
     
@@ -79,4 +82,5 @@ const mazeWalls = (size, complexity, density) => {
 
   console.log(z);
   return z;
+
 }

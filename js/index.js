@@ -4,7 +4,7 @@ import { player, levelUp } from './player.js';
 import { shopGenerator } from './shop.js';
 import { eventGenerator } from './events.js';
 
-const gridSize = 15;
+const gridSize = 25;
 let numShops = 2;
 player.currentRoomNumber[0] = gridSize - 1;
 let maze = generateNewMaze(gridSize, 0.75, 0.75); // generate initial maze
@@ -154,7 +154,7 @@ const explorationControls = (e) => {
       }
       break;
     case 39: // RIGHT
-      if(player.currentRoomNumber[1] === 4) {
+      if(player.currentRoomNumber[1] === gridSize - 1) {
         console.log('can\'t move right');
       } else if (maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]+1].event === 'wall') {
         console.log('can\'t move right due to wall');
@@ -167,7 +167,7 @@ const explorationControls = (e) => {
       }
       break;
     case 40: // DOWN
-      if(player.currentRoomNumber[0] === 4) {
+      if(player.currentRoomNumber[0] === gridSize - 1) {
         console.log('can\'t move down');
       } else if (maze[player.currentRoomNumber[0]+1][player.currentRoomNumber[1]].event === 'wall') {
         console.log('can\'t move down due to wall');

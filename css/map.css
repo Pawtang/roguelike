@@ -1,5 +1,5 @@
 .map-grid{
-  grid-template-columns: repeat(15, auto);
+  grid-template-columns: repeat(25, auto);
   display: inline-grid;
   width: 400px;
   height: 400px;
@@ -8,7 +8,7 @@
 }
 
 .wall{
-  background-color: darkred;
+  background-color: #222;
 }
 
 .map-container{
