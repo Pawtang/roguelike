@@ -15,6 +15,13 @@ export const generateNewMaze = (gridSize, complexity, density) => {
       };
     }
   }
+     
+      for(let i = 0; i < gridSize; i++) {
+        for(let j = 0; j < gridSize; j++) {
+            document.querySelector(".map-grid").innerHTML += '<div class="griditem"></div>';
+          };
+        }
+    
   console.log(maze);
 
   return maze;

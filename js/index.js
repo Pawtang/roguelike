@@ -16,15 +16,7 @@ let shop, monster, roomNumber;
 let gameState = 'exploration', goldInChest = 0, battleActionPointer = 0, shopItemPointer = 0; // possible game states (exploration, battle, shop)
 
 const battleActions = ['attack', 'hp-potion', 'flee'];
-
-
-//Initialize map
-const initializeMap = () => {
-  //1. Generate CSS grid of size gridSize x gridSize
-
- //2. Paint walls red
- //3. Paint shop rooms blue
-}
+generateUIMap();
 
 
 /*
@@ -89,7 +81,7 @@ document.onkeydown = (e) => {
 }
 
 const shopControls = (e) => {
-  let elem = document.querySelector('.shop-log')
+  let elem = document.querySelector('.shop-log');
   switch (e.keyCode) {
     case 13: //ENTER
       if(shop[shopItemPointer] === 'exit') {
@@ -501,7 +493,8 @@ function mazeSetup (gridSize, numShops) {
     if(!maze[entranceCoords[0]][entranceCoords[1]].event) {
       maze[entranceCoords[0]][entranceCoords[1]].event = "entrance";
       maze[entranceCoords[0]][entranceCoords[1]].hasBeenTraveled = true;
-      document.getElementById('cell-' + maze[entranceCoords[0]][entranceCoords[1]].roomNumber).classList.add('active-cell');
+      //document.getElementById('cell-' + maze[entranceCoords[0]][entranceCoords[1]].roomNumber).classList.add('active-cell');
+      document.querySelector('.map-grid').childNodes[maze[entranceCoords[0]][entranceCoords[1]]].roomNumber.classList.add('active-cell');  
       console.log(entranceCoords[0], entranceCoords[1], maze[entranceCoords[0]][entranceCoords[1]]);
       entranceGenerated = true;
     }
@@ -513,7 +506,8 @@ function mazeSetup (gridSize, numShops) {
     if(!maze[shopCoords[0]][shopCoords[1]].event) {
       maze[shopCoords[0]][shopCoords[1]].event = "shopRoom";
       maze[shopCoords[0]][shopCoords[1]].eventHelper = shopGenerator();
-      document.getElementById('cell-' + maze[shopCoords[0]][shopCoords[1]].roomNumber).classList.add('shop');
+      //document.querySelector('cell-' + maze[shopCoords[0]][shopCoords[1]].roomNumber).classList.add('shop');
+      document.querySelector('.map-grid').childNodes[maze[shopCoords[0]][shopCoords[1]]].roomNumber.classList.add('shop');
       console.log(shopCoords[0], shopCoords[1], maze[shopCoords[0]][shopCoords[1]]);
       shopsGenerated++;
     }
