@@ -10,6 +10,7 @@ player.currentRoomNumber[0] = gridSize - 1;
 let maze = generateNewMaze(gridSize, 0.75, 0.75); // generate initial maze
 player.currentRoomNumber = mazeSetup(gridSize, numShops);
 console.log(maze);
+const boughtItem = 'this item has been bought';
 
 let shop, monster, roomNumber;
 let gameState = 'exploration', goldInChest = 0, battleActionPointer = 0, shopItemPointer = 0; // possible game states (exploration, battle, shop)
@@ -221,21 +222,9 @@ const initializeShop = () => {
   console.log(shop[0]);
   document.getElementById('main').classList.toggle('hidden');
   document.getElementById('shop-screen').classList.toggle('hidden');
-  if(shop[0] !== 'bought') {
-    document.getElementById('s-1').textContent = shop[0].name + ' - ' + shop[0].cost + ' gold';
-  } else {
-    document.getElementById('s-1').textContent = 'this item has been bought';
-  }
-  if(shop[1] !== 'bought') {
-    document.getElementById('s-2').textContent = shop[1].name + ' - ' + shop[1].cost + ' gold';
-  } else {
-    document.getElementById('s-2').textContent = 'this item has been bought';
-  }
-  if(shop[2] !== 'bought') {
-    document.getElementById('s-3').textContent = shop[2].name + ' - ' + shop[2].cost + ' gold';
-  } else {
-    document.getElementById('s-3').textContent = 'this item has been bought';
-  }
+  document.getElementById('s-1').textContent = shop[0] === 'bought' ? boughtItem : shop[0].name + ' - ' + shop[0].cost + ' gold';
+  document.getElementById('s-2').textContent = shop[1] === 'bought' ? boughtItem : shop[1].name + ' - ' + shop[1].cost + ' gold';
+  document.getElementById('s-3').textContent = shop[2] === 'bought' ? boughtItem : shop[2].name + ' - ' + shop[2].cost + ' gold';
   document.getElementById('s-4').textContent = 'Exit';
   document.getElementById('s-1').focus();
 }

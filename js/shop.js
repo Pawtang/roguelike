@@ -7,7 +7,7 @@ const itemGenerator = (name, cost, health, attack, defense, speed, bonus, itemTy
 const items = [];
 items.push(itemGenerator("Sword", 100, 0, 10, 0, 0, "None", 'sword', "A sword", 'sword-1'));
 items.push(itemGenerator("Shield", 100, 0, 0, 10, 0, "None", 'shield', "A shield", 'shield-1'));
-items.push(itemGenerator("Boots", 100, 0, 0, 0, 10, "None", 'shoes', "A pair of shoes", 'boots-1'));
+items.push(itemGenerator("Boots", 100, 0, 0, 0, 10, "None", 'boots', "A pair of boots", 'boots-1'));
 items.push(itemGenerator("Helmet", 100, 10, 0, 0, 0, "None", 'helmet', "A helmet", 'helm-1'));
 items.push(itemGenerator("Potion", 200, 0, 0, 0, 0, "None", 'potion', "Restore 50 HP", 'potion'));
 items.push(itemGenerator("Sword of Intense Focus", 400, 0, 25, 0, 0, "None", 'sword', "A better sword", 'sword-2'));
