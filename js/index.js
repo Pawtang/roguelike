@@ -4,7 +4,7 @@ import { player, levelUp } from './player.js';
 import { shopGenerator } from './shop.js';
 import { eventGenerator } from './events.js';
 
-const gridSize = 9;
+const gridSize = 15;
 let numShops = 2;
 player.currentRoomNumber[0] = gridSize - 1;
 let maze = generateNewMaze(gridSize, 0.75, 0.75); // generate initial maze
@@ -16,11 +16,6 @@ let shop, monster, roomNumber;
 let gameState = 'exploration', goldInChest = 0, battleActionPointer = 0, shopItemPointer = 0; // possible game states (exploration, battle, shop)
 
 const battleActions = ['attack', 'hp-potion', 'flee'];
-    
-
-/* -------------OLD FORMAT --------------------------
-<div class="griditem door-b door-r" id="cell-0"></div>
---------- FOR POSTERITY AND REMEMBRANCE ------- */
 
 //GameStates: exploration, battle, treasure, shop, win, lose;
 
@@ -133,7 +128,6 @@ const explorationControls = (e) => {
       } else if (maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]-1].event === 'wall') {
         console.log('can\'t move left due to wall');
         document.querySelector('.map-grid').childNodes[maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]-1].roomNumber].classList.add('wall');  
-        //document.getElementById('cell-' + maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]-1].roomNumber).classList.add('wall');
       } else {
         console.log('move left');
         player.currentRoomNumber[1]--;
@@ -145,8 +139,7 @@ const explorationControls = (e) => {
         console.log('can\'t move up');
       } else if (maze[player.currentRoomNumber[0]-1][player.currentRoomNumber[1]].event === 'wall') {
         console.log('can\'t move up due to wall');
-        document.querySelector('.map-grid').childNodes[maze[player.currentRoomNumber[0]-1][player.currentRoomNumber[1]].roomNumber].classList.add('wall');    
-        //document.getElementById('cell-' + maze[player.currentRoomNumber[0]-1][player.currentRoomNumber[1]].roomNumber).classList.add('wall');
+        document.querySelector('.map-grid').childNodes[maze[player.currentRoomNumber[0]-1][player.currentRoomNumber[1]].roomNumber].classList.add('wall');
       } else {
         console.log('move up');
         player.currentRoomNumber[0]--;
@@ -158,8 +151,7 @@ const explorationControls = (e) => {
         console.log('can\'t move right');
       } else if (maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]+1].event === 'wall') {
         console.log('can\'t move right due to wall');
-        document.querySelector('.map-grid').childNodes[maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]+1].roomNumber].classList.add('wall');  
-        //document.getElementById('cell-' + maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]+1].roomNumber).classList.add('wall');
+        document.querySelector('.map-grid').childNodes[maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]+1].roomNumber].classList.add('wall');
       } else {
         console.log('move right');
         player.currentRoomNumber[1]++;
@@ -171,8 +163,7 @@ const explorationControls = (e) => {
         console.log('can\'t move down');
       } else if (maze[player.currentRoomNumber[0]+1][player.currentRoomNumber[1]].event === 'wall') {
         console.log('can\'t move down due to wall');
-        document.querySelector('.map-grid').childNodes[maze[player.currentRoomNumber[0]+1][player.currentRoomNumber[1]].roomNumber].classList.add('wall');  
-        //document.getElementById('cell-' + maze[player.currentRoomNumber[0]+1][player.currentRoomNumber[1]].roomNumber).classList.add('wall');
+        document.querySelector('.map-grid').childNodes[maze[player.currentRoomNumber[0]+1][player.currentRoomNumber[1]].roomNumber].classList.add('wall');
       } else {
         console.log('move down');
         player.currentRoomNumber[0]++;
@@ -513,8 +504,6 @@ const updateHealth = () => {
   document.getElementById('player-health').textContent = player.health;
   document.getElementById('player-health-bar').style.width = Math.floor((player.health/player.maxHealth)*100) + '%';
 }
-
-
 
 const scrollLog = (elem) => {
   elem.scrollTop = elem.scrollHeight;
