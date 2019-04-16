@@ -9,6 +9,7 @@
 
 .wall{
   background-color: #222;
+  background-image: url(/images/tiles/wall.png) !important;
 }
 
 .map-container{
@@ -27,22 +28,27 @@ h3{
 
 .griditem{
   border: 0px solid #444;
+  background-image: url(/images/tiles/floor.png);
 }
 
 .active-cell{
   background-color: green;
+  background-image: none !important;
 }
 
 .entrance{
   background-color: orange;
+  background-image: none !important;
 }
 
 .exit{
   background-color: purple;
+  background-image: none !important;
 }
 
 .shop{
   background-color: blue;
+  background-image: none !important;
 }
 
 .door-l{

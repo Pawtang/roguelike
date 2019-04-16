@@ -127,7 +127,7 @@ const explorationControls = (e) => {
         console.log('can\'t move left');
       } else if (maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]-1].event === 'wall') {
         console.log('can\'t move left due to wall');
-        document.querySelector('.map-grid').childNodes[maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]-1].roomNumber].classList.add('wall');  
+        document.querySelector('.map-grid').childNodes[maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]-1].roomNumber].classList.add('wall');
       } else {
         console.log('move left');
         player.currentRoomNumber[1]--;
@@ -180,7 +180,7 @@ const roomActions = () => {
       document.querySelector(".active-cell").classList.add("been-here"); //If it does, mark it 'been-here'
       document.querySelector(".active-cell").classList.remove("active-cell"); //And then remove active class
     }
-  document.querySelector('.map-grid').childNodes[roomNumber].classList.add('active-cell');      
+  document.querySelector('.map-grid').childNodes[roomNumber].classList.add('active-cell');
   console.log(roomNumber);//Add active cell on player location
   if (maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].event === 'exit') {
     console.log('found exit');
@@ -468,7 +468,7 @@ function mazeSetup (gridSize, numShops) {
       maze[entranceCoords[0]][entranceCoords[1]].event = "entrance";
       maze[entranceCoords[0]][entranceCoords[1]].hasBeenTraveled = true;
       //document.getElementById('cell-' + maze[entranceCoords[0]][entranceCoords[1]].roomNumber).classList.add('active-cell');
-      document.querySelector('.map-grid').childNodes[maze[entranceCoords[0]][entranceCoords[1]].roomNumber].classList.add('active-cell');  
+      document.querySelector('.map-grid').childNodes[maze[entranceCoords[0]][entranceCoords[1]].roomNumber].classList.add('active-cell');
       console.log(entranceCoords[0], entranceCoords[1], maze[entranceCoords[0]][entranceCoords[1]]);
       entranceGenerated = true;
     }
