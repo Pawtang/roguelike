@@ -4,7 +4,7 @@ import { player, levelUp } from './player.js';
 import { shopGenerator } from './shop.js';
 import { eventGenerator } from './events.js';
 
-const gridSize = 25;
+const gridSize = 9;
 let numShops = 2;
 player.currentRoomNumber[0] = gridSize - 1;
 let maze = generateNewMaze(gridSize, 0.75, 0.75); // generate initial maze

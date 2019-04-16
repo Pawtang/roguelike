@@ -16,14 +16,16 @@ export const generateNewMaze = (gridSize, complexity, density) => {
     }
   }
      
-      for(let i = 0; i < gridSize; i++) {
-        for(let j = 0; j < gridSize; j++) {
-            document.querySelector(".map-grid").insertAdjacentHTML('beforeend','<div class="griditem"></div>');
-              if (maze[i][j].event === 'wall') {
-              document.querySelector('.map-grid').childNodes[maze[i][j].roomNumber].classList.add('wall'); 
-            }
-          };
-        }
+  for(let i = 0; i < gridSize; i++) {
+    for(let j = 0; j < gridSize; j++) {
+      if (maze[i][j].event === 'wall') {
+        document.querySelector(".map-grid").insertAdjacentHTML('beforeend','<div class="griditem wall"></div>');
+      } else {
+        document.querySelector(".map-grid").insertAdjacentHTML('beforeend','<div class="griditem"></div>');
+      }
+    }
+  }
+  console.log(document.querySelector('.map-grid').childNodes)
     
   console.log(maze);
 
