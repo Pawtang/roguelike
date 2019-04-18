@@ -1,19 +1,22 @@
 import { monsterGenerator } from './monster.js';
 import { generateNewMaze } from './maze.js';
-import { player, levelUp } from './player.js';
+import { playerGenerator, levelUp } from './player.js';
 import { shopGenerator } from './shop.js';
 import { eventGenerator } from './events.js';
 
-const gridSize = 15;
-let numShops = 2;
-player.currentRoomNumber[0] = gridSize - 1;
-let maze = generateNewMaze(gridSize, 0.75, 0.75); // generate initial maze
-player.currentRoomNumber = mazeSetup(gridSize, numShops);
+let gridSize, numShops = 2, maze, player, gameState = 'exploration';
+newGame();
+
+// let gridSize = 15;
+// let numShops = 2;
+// let maze = generateNewMaze(gridSize, 0.75, 0.75); // generate initial maze
+// let player = playerGenerator();
+// player.currentRoomNumber = mazeSetup(gridSize, numShops);
 console.log(maze);
 const boughtItem = 'this item has been bought';
 
 let shop, monster, roomNumber;
-let gameState = 'exploration', goldInChest = 0, battleActionPointer = 0, shopItemPointer = 0; // possible game states (exploration, battle, shop)
+let goldInChest = 0, battleActionPointer = 0, shopItemPointer = 0; // possible game states (exploration, battle, shop)
 
 const battleActions = ['attack', 'hp-potion', 'flee'];
 
@@ -331,6 +334,8 @@ const initializeBattle = () => {
   console.log('battle start');
   document.getElementById('monster-icon').style.background = 'url("/images/monsters/monster-' + monster.icon + '.gif")';
   document.getElementById('monster-name').textContent = monster.name;
+  document.getElementById('monster-attack').textContent = monster.attack;
+  document.getElementById('monster-defense').textContent = monster.defense;
   document.getElementById('monster-health').textContent = monster.health;
   document.getElementById('monster-health-bar').style.width = '100%';
   document.querySelector('.right-container-fight').classList.toggle('hidden');
@@ -415,7 +420,13 @@ const monsterAttack = () => {
       if (player.health <= 0){
         console.log('you are dead!');
         document.getElementById('player-health').textContent = 0;
-        // Add Game Over
+        gameState = 'gameOver';
+        document.querySelector('.right-container-fight').classList.toggle('hidden');
+        document.querySelector('.right-container-map').classList.toggle('hidden');
+        document.getElementById('main').classList.toggle('hidden');
+        document.getElementById('battle-screen').classList.toggle('hidden');
+        document.querySelector('.battle-log').innerHTML = '';
+        newGame();
       }
     }, 500);
   }
@@ -445,6 +456,26 @@ const updateXPAndGoldAndEndBattle = () => {
     document.getElementById('player-xp-bar').style.width = Math.floor((player.xp/player.xpToNextLevel)*100) + '%';
   }
   endBattle();
+}
+
+function newGame() {
+  player = playerGenerator();
+  document.getElementById('player-health').textContent = player.health;
+  document.getElementById('player-health-bar').style.width = '100%';
+  document.getElementById('player-attack').textContent = player.attack;
+  document.getElementById('player-defense').textContent = player.defense;
+  document.getElementById('player-gold').textContent = player.gold;
+  document.getElementById('experience').textContent = player.xp;
+  document.getElementById('player-xp-bar').style.width = '0%';
+  document.getElementById('dungeon-header').textContent = 'Dungeon Level: 1';
+  while (document.querySelector('.map-grid').firstChild) {
+    document.querySelector('.map-grid').removeChild(document.querySelector('.map-grid').firstChild);
+  }
+  gridSize = 15;
+  maze = generateNewMaze(gridSize, 0.75, 0.75);
+  player.currentRoomNumber = mazeSetup(gridSize, numShops);
+  console.log('generated new game');
+  gameState = 'exploration';
 }
 
 function mazeSetup (gridSize, numShops) {
@@ -480,7 +511,6 @@ function mazeSetup (gridSize, numShops) {
     if(!maze[shopCoords[0]][shopCoords[1]].event) {
       maze[shopCoords[0]][shopCoords[1]].event = "shopRoom";
       maze[shopCoords[0]][shopCoords[1]].eventHelper = shopGenerator();
-      //document.querySelector('cell-' + maze[shopCoords[0]][shopCoords[1]].roomNumber).classList.add('shop');
       document.querySelector('.map-grid').childNodes[maze[shopCoords[0]][shopCoords[1]].roomNumber].classList.add('shop');
       console.log(shopCoords[0], shopCoords[1], maze[shopCoords[0]][shopCoords[1]]);
       shopsGenerated++;
