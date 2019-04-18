@@ -1,19 +1,17 @@
 import { monsterGenerator } from './monster.js';
 import { generateNewMaze } from './maze.js';
-import { player, levelUp } from './player.js';
+import { playerGenerator, levelUp } from './player.js';
 import { shopGenerator } from './shop.js';
 import { eventGenerator } from './events.js';
 
-const gridSize = 15;
-let numShops = 2;
-player.currentRoomNumber[0] = gridSize - 1;
-let maze = generateNewMaze(gridSize, 0.75, 0.75); // generate initial maze
-player.currentRoomNumber = mazeSetup(gridSize, numShops);
+let gridSize, numShops, maze, player, gameState = 'exploration';
+newGame();
+
 console.log(maze);
 const boughtItem = 'this item has been bought';
 
 let shop, monster, roomNumber;
-let gameState = 'exploration', goldInChest = 0, battleActionPointer = 0, shopItemPointer = 0; // possible game states (exploration, battle, shop)
+let goldInChest = 0, battleActionPointer = 0, shopItemPointer = 0; // possible game states (exploration, battle, shop)
 
 const battleActions = ['attack', 'hp-potion', 'flee'];
 
@@ -46,7 +44,17 @@ document.onkeydown = (e) => {
       console.log('Fucking wait');
       break;
     case 'gameOver':
-          //what happens here?
+      gameOverControls(e);
+      break;
+  }
+}
+
+const gameOverControls = (e) => {
+  switch (e.keyCode) {
+    case 13: //ENTER
+      console.log('Initializing New Game');
+      document.querySelector('#monster-statbox').innerHTML = '';
+      newGame();
       break;
   }
 }
@@ -66,7 +74,7 @@ const shopControls = (e) => {
         if(player.gold >= shop[shopItemPointer].cost){
           buyItem(shop[shopItemPointer]);
           shop[shopItemPointer] = 'bought';
-          document.getElementById('s-' + (shopItemPointer+1)).textContent = 'this item has been bought';
+          document.getElementById('s-' + shopItemPointer).textContent = 'this item has been bought';
         } else {
           console.log('Not enough gold. You need', shop[shopItemPointer].cost,'but you have', player.gold);
           elem.innerHTML += 'Not enough gold! </br>';
@@ -76,13 +84,13 @@ const shopControls = (e) => {
       break;
     case 38: //UP
       if(shopItemPointer > 0) shopItemPointer--;
-      document.getElementById('s-' + (shopItemPointer + 1)).focus();
+      document.getElementById('s-' + shopItemPointer).focus();
       console.log("Item", shopItemPointer);
       console.log(shop[shopItemPointer]);
       break;
     case 40: //DOWN
       if(shopItemPointer < 3) shopItemPointer++;
-      document.getElementById('s-' + (shopItemPointer + 1)).focus();
+      document.getElementById('s-' + shopItemPointer).focus();
       console.log("Item", shopItemPointer);
       console.log(shop[shopItemPointer]);
       break;
@@ -106,12 +114,12 @@ const battleControls = (e) => {
     case 38: //UP
       if(battleActionPointer > 0) battleActionPointer--;
       console.log(battleActionPointer);
-      document.getElementById('b-' + (battleActionPointer + 1)).focus();
+      document.getElementById('b-' + battleActionPointer).focus();
       break;
     case 40: //DOWN
       if(battleActionPointer < 2) battleActionPointer++;
       console.log(battleActionPointer);
-      document.getElementById('b-' + (battleActionPointer + 1)).focus();
+      document.getElementById('b-' + battleActionPointer).focus();
       break;
   }
 }
@@ -225,11 +233,11 @@ const initializeShop = () => {
   console.log(shop[0]);
   document.getElementById('main').classList.toggle('hidden');
   document.getElementById('shop-screen').classList.toggle('hidden');
-  document.getElementById('s-1').textContent = shop[0] === 'bought' ? boughtItem : shop[0].name + ' - ' + shop[0].cost + ' gold';
-  document.getElementById('s-2').textContent = shop[1] === 'bought' ? boughtItem : shop[1].name + ' - ' + shop[1].cost + ' gold';
-  document.getElementById('s-3').textContent = shop[2] === 'bought' ? boughtItem : shop[2].name + ' - ' + shop[2].cost + ' gold';
-  document.getElementById('s-4').textContent = 'Exit';
-  document.getElementById('s-1').focus();
+  document.getElementById('s-0').textContent = shop[0] === 'bought' ? boughtItem : shop[0].name + ' - ' + shop[0].cost + ' gold';
+  document.getElementById('s-1').textContent = shop[1] === 'bought' ? boughtItem : shop[1].name + ' - ' + shop[1].cost + ' gold';
+  document.getElementById('s-2').textContent = shop[2] === 'bought' ? boughtItem : shop[2].name + ' - ' + shop[2].cost + ' gold';
+  document.getElementById('s-3').textContent = 'Exit';
+  document.getElementById('s-0').focus();
 }
 
 const buyItem = (item) => {
@@ -331,6 +339,8 @@ const initializeBattle = () => {
   console.log('battle start');
   document.getElementById('monster-icon').style.background = 'url("/images/monsters/monster-' + monster.icon + '.gif")';
   document.getElementById('monster-name').textContent = monster.name;
+  document.getElementById('monster-attack').textContent = monster.attack;
+  document.getElementById('monster-defense').textContent = monster.defense;
   document.getElementById('monster-health').textContent = monster.health;
   document.getElementById('monster-health-bar').style.width = '100%';
   document.querySelector('.right-container-fight').classList.toggle('hidden');
@@ -338,7 +348,7 @@ const initializeBattle = () => {
   document.getElementById('main').classList.toggle('hidden');
   document.getElementById('battle-screen').classList.toggle('hidden');
   document.querySelector('.battle-log').innerHTML += monster.name + ' approaches! ' + monster.description + '</br>';
-  document.getElementById('b-1').focus();
+  document.getElementById('b-0').focus();
 }
 
 const battleActionHandler = (battleAction) => {
@@ -414,8 +424,15 @@ const monsterAttack = () => {
       gameState = 'battle';
       if (player.health <= 0){
         console.log('you are dead!');
+        gameState = 'gameOver';
         document.getElementById('player-health').textContent = 0;
-        // Add Game Over
+        document.getElementById('player-health-bar').style.width = '0%';
+        document.querySelector('.right-container-fight').classList.toggle('hidden');
+        document.querySelector('.right-container-map').classList.toggle('hidden');
+        document.getElementById('main').classList.toggle('hidden');
+        document.getElementById('battle-screen').classList.toggle('hidden');
+        document.querySelector('.battle-log').innerHTML = '';
+        document.querySelector('#monster-statbox').innerHTML = '<p style = "color: white">GAME OVER</p> <h3 style = "color: white">Press Enter</h3>';
       }
     }, 500);
   }
@@ -447,6 +464,27 @@ const updateXPAndGoldAndEndBattle = () => {
   endBattle();
 }
 
+function newGame() {
+  player = playerGenerator();
+  document.getElementById('player-health').textContent = player.health;
+  document.getElementById('player-health-bar').style.width = '100%';
+  document.getElementById('player-attack').textContent = player.attack;
+  document.getElementById('player-defense').textContent = player.defense;
+  document.getElementById('player-gold').textContent = player.gold;
+  document.getElementById('experience').textContent = player.xp;
+  document.getElementById('player-xp-bar').style.width = '0%';
+  document.getElementById('dungeon-header').textContent = 'Dungeon Level: 1';
+  while (document.querySelector('.map-grid').firstChild) {
+    document.querySelector('.map-grid').removeChild(document.querySelector('.map-grid').firstChild);
+  }
+  gridSize = 15;
+  numShops = 2;
+  maze = generateNewMaze(gridSize, 0.75, 0.75);
+  player.currentRoomNumber = mazeSetup(gridSize, numShops);
+  console.log('generated new game');
+  gameState = 'exploration';
+}
+
 function mazeSetup (gridSize, numShops) {
   let exitGenerated = false, entranceGenerated = false, shopsGenerated = 0;
   let exitCoords = [], entranceCoords = [], shopCoords = [];
@@ -464,10 +502,9 @@ function mazeSetup (gridSize, numShops) {
   while(!entranceGenerated) {
     entranceCoords[0] = Math.floor(Math.random()*gridSize);
     entranceCoords[1] = Math.floor(Math.random()*gridSize);
-    if(!maze[entranceCoords[0]][entranceCoords[1]].event) { //Should also check to make sure that entrance != exit
+    if(!maze[entranceCoords[0]][entranceCoords[1]].event) {
       maze[entranceCoords[0]][entranceCoords[1]].event = "entrance";
       maze[entranceCoords[0]][entranceCoords[1]].hasBeenTraveled = true;
-      //document.getElementById('cell-' + maze[entranceCoords[0]][entranceCoords[1]].roomNumber).classList.add('active-cell');
       document.querySelector('.map-grid').childNodes[maze[entranceCoords[0]][entranceCoords[1]].roomNumber].classList.add('active-cell');
       console.log(entranceCoords[0], entranceCoords[1], maze[entranceCoords[0]][entranceCoords[1]]);
       entranceGenerated = true;
@@ -480,7 +517,6 @@ function mazeSetup (gridSize, numShops) {
     if(!maze[shopCoords[0]][shopCoords[1]].event) {
       maze[shopCoords[0]][shopCoords[1]].event = "shopRoom";
       maze[shopCoords[0]][shopCoords[1]].eventHelper = shopGenerator();
-      //document.querySelector('cell-' + maze[shopCoords[0]][shopCoords[1]].roomNumber).classList.add('shop');
       document.querySelector('.map-grid').childNodes[maze[shopCoords[0]][shopCoords[1]].roomNumber].classList.add('shop');
       console.log(shopCoords[0], shopCoords[1], maze[shopCoords[0]][shopCoords[1]]);
       shopsGenerated++;

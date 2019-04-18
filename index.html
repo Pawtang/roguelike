@@ -17,34 +17,34 @@
     <div class="statbox">
       <ul>
         <li>Health</li>
-        <li><h2 id = "player-health">100</h2></li>
+        <li><h2 id = "player-health"></h2></li>
         <li><div class="meter">
           <span style="width: 100%" id="player-health-bar"></span>
           </div></li>
         <li>Attack Power</li>
-        <li><h2 id = "player-attack">5</h2></li>
+        <li><h2 id = "player-attack"></h2></li>
         <li>Defense</li>
-        <li><h2 id = "player-defense">10</h2></li>
+        <li><h2 id = "player-defense"></h2></li>
         <li>Gold</li>
-        <li><h2 id = "player-gold">0</h2></li>
+        <li><h2 id = "player-gold"></h2></li>
         <li>XP</li>
-        <li><h2 id = "experience">0</h2></li>
+        <li><h2 id = "experience"></h2></li>
         <li><div class="meter" id="player-xp">
           <span style="width: 0%" id="player-xp-bar"></span>
           </div></li>
           <li>
             <div class="item"><img src="images/sprites/potion.png" alt="HP Potion"><span id="potion-text">2</span></div>
-            <div class="item" ><img src="/images/sprites/sword-1.png" alt="sword" id="sword-img"><span id="sword-text">0</span></div>
-            <div class="item" ><img src="/images/sprites/shield-1.png" alt="shield" id="shield-img"><span id="shield-text">0</span></div>
-            <div class="item" ><img src="/images/sprites/helm-1.png" alt="helmet" id="helmet-img"><span id="helmet-text">0</span></div>
-            <div class="item" ><img src="/images/sprites/boots-1.png" alt="boots" id="boots-img"><span id="boots-text">0</span></div>
+            <div class="item"><img src="/images/sprites/sword-1.png" alt="sword" id="sword-img"><span id="sword-text">0</span></div>
+            <div class="item"><img src="/images/sprites/shield-1.png" alt="shield" id="shield-img"><span id="shield-text">0</span></div>
+            <div class="item"><img src="/images/sprites/helm-1.png" alt="helmet" id="helmet-img"><span id="helmet-text">0</span></div>
+            <div class="item"><img src="/images/sprites/boots-1.png" alt="boots" id="boots-img"><span id="boots-text">0</span></div>
           </li>
       </ul>
     </div>
   </div>
 
   <div class="card" id="main">
-    <h1>Dungeon Level: 1</h1>
+    <h1 id="dungeon-header"></h1>
     <div class="map-container">
       <div class="map-grid"></div>
     </div>
@@ -54,9 +54,9 @@
   <div class="card hidden" id="battle-screen">
     <div class = "battle-actions">
         <ul>
-            <li><button id="b-1">Attack</button></li>
-            <li><button id="b-2">Use HP Potion</button></li>
-            <li><button id="b-3">Flee</button></li>
+            <li><button id="b-0">Attack</button></li>
+            <li><button id="b-1">Use HP Potion</button></li>
+            <li><button id="b-2">Flee</button></li>
         </ul>
          </div>
          <div class="battle-log log"></div>
@@ -65,10 +65,10 @@
   <div class="card hidden" id="shop-screen">
     <div class = "shop-actions">
         <ul>
+            <li><button id="s-0"></button></li>
             <li><button id="s-1"></button></li>
             <li><button id="s-2"></button></li>
             <li><button id="s-3"></button></li>
-            <li><button id="s-4"></button></li>
         </ul>
          </div>
          <div class="shop-log log"></div>
@@ -82,14 +82,14 @@
       <ul>
         <li><p id="monster-name"></p></li>
         <li>Health</li>
-        <li ><h2 id="monster-health">100</h2></li>
+        <li><h2 id="monster-health"></h2></li>
         <li><div class="meter">
           <span style="width: 100%" id="monster-health-bar"></span>
           </div></li>
         <li>Attack Power</li>
-        <li ><h2 id="monster-attack">10</h2></li>
+        <li ><h2 id="monster-attack"></h2></li>
         <li>Defense</li>
-        <li><h2 id="monster-defense">10</h2></li>
+        <li><h2 id="monster-defense"></h2></li>
         <!--  <li><p  id="monster-description"><i>"Monster Description"</i></p></li> -->
       </ul>
     </div>
