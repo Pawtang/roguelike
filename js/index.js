@@ -540,9 +540,9 @@ const levelUp = () => {
   player.maxHealth = Math.floor(player.maxHealth*1.25);
   player.health = player.maxHealth;
   console.log("Player attack", player.attack, "->", Math.floor(player.attack*1.3));
-  player.attack = Math.floor(player.attack*1.10);
+  player.attack = Math.floor(player.attack*1.3);
   console.log("Player defense", player.defense, "->", Math.floor(player.defense*1.3));
-  player.defense = Math.floor(player.defense*1.10);
+  player.defense = Math.floor(player.defense*1.3);
   document.getElementById('experience').textContent = player.xp;
   document.getElementById('player-xp-bar').style.width = Math.floor((player.xp/player.xpToNextLevel)*100) + '%';
   updateHealth();
@@ -552,7 +552,7 @@ const levelUp = () => {
 
 
 // UI Updates
-const updateHealth = () => {
+function updateHealth() {
   document.getElementById('player-health').textContent = player.health;
   document.getElementById('player-health-bar').style.width = Math.floor((player.health/player.maxHealth)*100) + '%';
 }
