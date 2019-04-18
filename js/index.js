@@ -1,6 +1,6 @@
 import { monsterGenerator } from './monster.js';
 import { generateNewMaze } from './maze.js';
-import { playerGenerator, levelUp } from './player.js';
+import { playerGenerator } from './player.js';
 import { shopGenerator } from './shop.js';
 import { eventGenerator } from './events.js';
 
@@ -301,15 +301,13 @@ const buyItem = (item) => {
       break;
   }
 
-  document.getElementById('player-attack').textContent = player.attack + player.attackBonus;
-  document.getElementById('player-defense').textContent = player.defense + player.defenseBonus;
-
 
   console.log(player.items);
   player.gold = player.gold - item.cost;
   console.log("Item cost", item.cost, "Player now has", player.gold);
   elem.innerHTML += 'Purchased ' + item.name + ' for ' + item.cost + ' gold<br>';
   document.getElementById('player-gold').innerHTML = player.gold;
+  updateStats();
   scrollLog(elem);
 
 }
@@ -425,8 +423,8 @@ const monsterAttack = () => {
       if (player.health <= 0){
         console.log('you are dead!');
         gameState = 'gameOver';
-        document.getElementById('player-health').textContent = 0;
-        document.getElementById('player-health-bar').style.width = '0%';
+        player.health = 0;
+        updateHealth();
         document.querySelector('.right-container-fight').classList.toggle('hidden');
         document.querySelector('.right-container-map').classList.toggle('hidden');
         document.getElementById('main').classList.toggle('hidden');
@@ -466,10 +464,8 @@ const updateXPAndGoldAndEndBattle = () => {
 
 function newGame() {
   player = playerGenerator();
-  document.getElementById('player-health').textContent = player.health;
-  document.getElementById('player-health-bar').style.width = '100%';
-  document.getElementById('player-attack').textContent = player.attack;
-  document.getElementById('player-defense').textContent = player.defense;
+  updateHealth();
+  updateStats();
   document.getElementById('player-gold').textContent = player.gold;
   document.getElementById('experience').textContent = player.xp;
   document.getElementById('player-xp-bar').style.width = '0%';
@@ -481,6 +477,7 @@ function newGame() {
   numShops = 2;
   maze = generateNewMaze(gridSize, 0.75, 0.75);
   player.currentRoomNumber = mazeSetup(gridSize, numShops);
+    updateStats();
   console.log('generated new game');
   gameState = 'exploration';
 }
@@ -535,8 +532,27 @@ function mazeSetup (gridSize, numShops) {
 
 }
 
+const levelUp = () => {
+  player.level++;
+  player.xp = player.xp - player.xpToNextLevel;
+  player.xpToNextLevel = Math.floor(player.xpToNextLevel*1.25);
+  console.log("Player health", player.maxHealth, "->", Math.floor(player.maxHealth*1.25));
+  player.maxHealth = Math.floor(player.maxHealth*1.25);
+  player.health = player.maxHealth;
+  console.log("Player attack", player.attack, "->", Math.floor(player.attack*1.3));
+  player.attack = Math.floor(player.attack*1.3);
+  console.log("Player defense", player.defense, "->", Math.floor(player.defense*1.3));
+  player.defense = Math.floor(player.defense*1.3);
+  document.getElementById('experience').textContent = player.xp;
+  document.getElementById('player-xp-bar').style.width = Math.floor((player.xp/player.xpToNextLevel)*100) + '%';
+  updateHealth();
+  updateStats();
+  console.log('Level up! You are now level ' + player.level);
+}
+
+
 // UI Updates
-const updateHealth = () => {
+function updateHealth() {
   document.getElementById('player-health').textContent = player.health;
   document.getElementById('player-health-bar').style.width = Math.floor((player.health/player.maxHealth)*100) + '%';
 }
@@ -544,3 +560,8 @@ const updateHealth = () => {
 const scrollLog = (elem) => {
   elem.scrollTop = elem.scrollHeight;
 }
+
+function updateStats() {
+  document.getElementById('player-attack').textContent = player.attack + player.attackBonus;
+  document.getElementById('player-defense').textContent = player.defense + player.defenseBonus;
+};
