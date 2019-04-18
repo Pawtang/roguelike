@@ -1,6 +1,6 @@
 import { monsterGenerator } from './monster.js';
 import { generateNewMaze } from './maze.js';
-import { playerGenerator, levelUp } from './player.js';
+import { playerGenerator } from './player.js';
 import { shopGenerator } from './shop.js';
 import { eventGenerator } from './events.js';
 
@@ -534,6 +534,27 @@ function mazeSetup (gridSize, numShops) {
   return entranceCoords;
 
 }
+
+const levelUp = () => {
+  player.level++;
+  player.xp = player.xp - player.xpToNextLevel;
+  player.xpToNextLevel = Math.floor(player.xpToNextLevel*1.25);
+  console.log("Player health", player.maxHealth, "->", Math.floor(player.maxHealth*1.25));
+  player.maxHealth = Math.floor(player.maxHealth*1.25);
+  player.health = player.maxHealth;
+  console.log("Player attack", player.attack, "->", Math.floor(player.attack*1.3));
+  player.attack = Math.floor(player.attack*1.10);
+  console.log("Player defense", player.defense, "->", Math.floor(player.defense*1.3));
+  player.defense = Math.floor(player.defense*1.10);
+  document.getElementById('experience').textContent = player.xp;
+  document.getElementById('player-xp-bar').style.width = Math.floor((player.xp/player.xpToNextLevel)*100) + '%';
+  document.getElementById('player-health').textContent = player.health;
+  document.getElementById('player-attack').textContent = player.attack;
+  document.getElementById('player-defense').textContent = player.defense;
+  document.getElementById('player-health-bar').style.width = '100%';
+  console.log('Level up! You are now level ' + player.level);
+}
+
 
 // UI Updates
 const updateHealth = () => {
