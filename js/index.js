@@ -7,11 +7,6 @@ import { eventGenerator } from './events.js';
 let gridSize, numShops = 2, maze, player, gameState = 'exploration';
 newGame();
 
-// let gridSize = 15;
-// let numShops = 2;
-// let maze = generateNewMaze(gridSize, 0.75, 0.75); // generate initial maze
-// let player = playerGenerator();
-// player.currentRoomNumber = mazeSetup(gridSize, numShops);
 console.log(maze);
 const boughtItem = 'this item has been bought';
 
@@ -429,6 +424,7 @@ const monsterAttack = () => {
       gameState = 'battle';
       if (player.health <= 0){
         console.log('you are dead!');
+        gameState = 'gameOver';
         document.getElementById('player-health').textContent = 0;
         document.getElementById('player-health-bar').style.width = '0%';
         document.querySelector('.right-container-fight').classList.toggle('hidden');
@@ -436,7 +432,6 @@ const monsterAttack = () => {
         document.getElementById('main').classList.toggle('hidden');
         document.getElementById('battle-screen').classList.toggle('hidden');
         document.querySelector('.battle-log').innerHTML = '';
-        gameState = 'gameOver';
         document.querySelector('#monster-statbox').innerHTML = '<p style = "color: white">GAME OVER</p> <h3 style = "color: white">Press Enter</h3>';
       }
     }, 500);
@@ -506,10 +501,9 @@ function mazeSetup (gridSize, numShops) {
   while(!entranceGenerated) {
     entranceCoords[0] = Math.floor(Math.random()*gridSize);
     entranceCoords[1] = Math.floor(Math.random()*gridSize);
-    if(!maze[entranceCoords[0]][entranceCoords[1]].event) { //Should also check to make sure that entrance != exit
+    if(!maze[entranceCoords[0]][entranceCoords[1]].event) {
       maze[entranceCoords[0]][entranceCoords[1]].event = "entrance";
       maze[entranceCoords[0]][entranceCoords[1]].hasBeenTraveled = true;
-      //document.getElementById('cell-' + maze[entranceCoords[0]][entranceCoords[1]].roomNumber).classList.add('active-cell');
       document.querySelector('.map-grid').childNodes[maze[entranceCoords[0]][entranceCoords[1]].roomNumber].classList.add('active-cell');
       console.log(entranceCoords[0], entranceCoords[1], maze[entranceCoords[0]][entranceCoords[1]]);
       entranceGenerated = true;
