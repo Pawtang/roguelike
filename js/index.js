@@ -548,8 +548,6 @@ const levelUp = () => {
   document.getElementById('experience').textContent = player.xp;
   document.getElementById('player-xp-bar').style.width = Math.floor((player.xp/player.xpToNextLevel)*100) + '%';
   document.getElementById('player-health').textContent = player.health;
-  document.getElementById('player-attack').textContent = player.attack;
-  document.getElementById('player-defense').textContent = player.defense;
   document.getElementById('player-health-bar').style.width = '100%';
   updateStats();
   console.log('Level up! You are now level ' + player.level);
