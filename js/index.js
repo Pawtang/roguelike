@@ -301,15 +301,13 @@ const buyItem = (item) => {
       break;
   }
 
-  document.getElementById('player-attack').textContent = player.attack + player.attackBonus;
-  document.getElementById('player-defense').textContent = player.defense + player.defenseBonus;
-
 
   console.log(player.items);
   player.gold = player.gold - item.cost;
   console.log("Item cost", item.cost, "Player now has", player.gold);
   elem.innerHTML += 'Purchased ' + item.name + ' for ' + item.cost + ' gold<br>';
   document.getElementById('player-gold').innerHTML = player.gold;
+  updateStats();
   scrollLog(elem);
 
 }
@@ -481,6 +479,7 @@ function newGame() {
   numShops = 2;
   maze = generateNewMaze(gridSize, 0.75, 0.75);
   player.currentRoomNumber = mazeSetup(gridSize, numShops);
+    updateStats();
   console.log('generated new game');
   gameState = 'exploration';
 }
@@ -552,6 +551,7 @@ const levelUp = () => {
   document.getElementById('player-attack').textContent = player.attack;
   document.getElementById('player-defense').textContent = player.defense;
   document.getElementById('player-health-bar').style.width = '100%';
+  updateStats();
   console.log('Level up! You are now level ' + player.level);
 }
 
@@ -565,3 +565,8 @@ const updateHealth = () => {
 const scrollLog = (elem) => {
   elem.scrollTop = elem.scrollHeight;
 }
+
+function updateStats() {
+  document.getElementById('player-attack').textContent = player.attack + player.attackBonus;
+  document.getElementById('player-defense').textContent = player.defense + player.defenseBonus;
+};
