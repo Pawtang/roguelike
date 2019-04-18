@@ -423,8 +423,8 @@ const monsterAttack = () => {
       if (player.health <= 0){
         console.log('you are dead!');
         gameState = 'gameOver';
-        document.getElementById('player-health').textContent = 0;
-        document.getElementById('player-health-bar').style.width = '0%';
+        player.health = 0;
+        updateHealth();
         document.querySelector('.right-container-fight').classList.toggle('hidden');
         document.querySelector('.right-container-map').classList.toggle('hidden');
         document.getElementById('main').classList.toggle('hidden');
@@ -464,10 +464,8 @@ const updateXPAndGoldAndEndBattle = () => {
 
 function newGame() {
   player = playerGenerator();
-  document.getElementById('player-health').textContent = player.health;
-  document.getElementById('player-health-bar').style.width = '100%';
-  document.getElementById('player-attack').textContent = player.attack;
-  document.getElementById('player-defense').textContent = player.defense;
+  updateHealth();
+  updateStats();
   document.getElementById('player-gold').textContent = player.gold;
   document.getElementById('experience').textContent = player.xp;
   document.getElementById('player-xp-bar').style.width = '0%';
@@ -547,8 +545,7 @@ const levelUp = () => {
   player.defense = Math.floor(player.defense*1.10);
   document.getElementById('experience').textContent = player.xp;
   document.getElementById('player-xp-bar').style.width = Math.floor((player.xp/player.xpToNextLevel)*100) + '%';
-  document.getElementById('player-health').textContent = player.health;
-  document.getElementById('player-health-bar').style.width = '100%';
+  updateHealth();
   updateStats();
   console.log('Level up! You are now level ' + player.level);
 }
