@@ -4,7 +4,7 @@ import { playerGenerator, levelUp } from './player.js';
 import { shopGenerator } from './shop.js';
 import { eventGenerator } from './events.js';
 
-let gridSize, numShops = 2, maze, player, gameState = 'exploration';
+let gridSize, numShops, maze, player, gameState = 'exploration';
 newGame();
 
 console.log(maze);
@@ -478,6 +478,7 @@ function newGame() {
     document.querySelector('.map-grid').removeChild(document.querySelector('.map-grid').firstChild);
   }
   gridSize = 15;
+  numShops = 2;
   maze = generateNewMaze(gridSize, 0.75, 0.75);
   player.currentRoomNumber = mazeSetup(gridSize, numShops);
   console.log('generated new game');
