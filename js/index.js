@@ -69,7 +69,7 @@ const shopControls = (e) => {
         if(player.gold >= shop[shopItemPointer].cost){
           buyItem(shop[shopItemPointer]);
           shop[shopItemPointer] = 'bought';
-          document.getElementById('s-' + (shopItemPointer+1)).textContent = 'this item has been bought';
+          document.getElementById('s-' + shopItemPointer).textContent = 'this item has been bought';
         } else {
           console.log('Not enough gold. You need', shop[shopItemPointer].cost,'but you have', player.gold);
           elem.innerHTML += 'Not enough gold! </br>';
@@ -79,13 +79,13 @@ const shopControls = (e) => {
       break;
     case 38: //UP
       if(shopItemPointer > 0) shopItemPointer--;
-      document.getElementById('s-' + (shopItemPointer + 1)).focus();
+      document.getElementById('s-' + shopItemPointer).focus();
       console.log("Item", shopItemPointer);
       console.log(shop[shopItemPointer]);
       break;
     case 40: //DOWN
       if(shopItemPointer < 3) shopItemPointer++;
-      document.getElementById('s-' + (shopItemPointer + 1)).focus();
+      document.getElementById('s-' + shopItemPointer).focus();
       console.log("Item", shopItemPointer);
       console.log(shop[shopItemPointer]);
       break;
@@ -109,12 +109,12 @@ const battleControls = (e) => {
     case 38: //UP
       if(battleActionPointer > 0) battleActionPointer--;
       console.log(battleActionPointer);
-      document.getElementById('b-' + (battleActionPointer + 1)).focus();
+      document.getElementById('b-' + battleActionPointer).focus();
       break;
     case 40: //DOWN
       if(battleActionPointer < 2) battleActionPointer++;
       console.log(battleActionPointer);
-      document.getElementById('b-' + (battleActionPointer + 1)).focus();
+      document.getElementById('b-' + battleActionPointer).focus();
       break;
   }
 }
@@ -228,11 +228,11 @@ const initializeShop = () => {
   console.log(shop[0]);
   document.getElementById('main').classList.toggle('hidden');
   document.getElementById('shop-screen').classList.toggle('hidden');
-  document.getElementById('s-1').textContent = shop[0] === 'bought' ? boughtItem : shop[0].name + ' - ' + shop[0].cost + ' gold';
-  document.getElementById('s-2').textContent = shop[1] === 'bought' ? boughtItem : shop[1].name + ' - ' + shop[1].cost + ' gold';
-  document.getElementById('s-3').textContent = shop[2] === 'bought' ? boughtItem : shop[2].name + ' - ' + shop[2].cost + ' gold';
-  document.getElementById('s-4').textContent = 'Exit';
-  document.getElementById('s-1').focus();
+  document.getElementById('s-0').textContent = shop[0] === 'bought' ? boughtItem : shop[0].name + ' - ' + shop[0].cost + ' gold';
+  document.getElementById('s-1').textContent = shop[1] === 'bought' ? boughtItem : shop[1].name + ' - ' + shop[1].cost + ' gold';
+  document.getElementById('s-2').textContent = shop[2] === 'bought' ? boughtItem : shop[2].name + ' - ' + shop[2].cost + ' gold';
+  document.getElementById('s-3').textContent = 'Exit';
+  document.getElementById('s-0').focus();
 }
 
 const buyItem = (item) => {
@@ -343,7 +343,7 @@ const initializeBattle = () => {
   document.getElementById('main').classList.toggle('hidden');
   document.getElementById('battle-screen').classList.toggle('hidden');
   document.querySelector('.battle-log').innerHTML += monster.name + ' approaches! ' + monster.description + '</br>';
-  document.getElementById('b-1').focus();
+  document.getElementById('b-0').focus();
 }
 
 const battleActionHandler = (battleAction) => {
