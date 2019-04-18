@@ -49,7 +49,17 @@ document.onkeydown = (e) => {
       console.log('Fucking wait');
       break;
     case 'gameOver':
-          //what happens here?
+      gameOverControls(e);
+      break;
+  }
+}
+
+const gameOverControls = (e) => {
+  switch (e.keyCode) {
+    case 13: //ENTER
+      console.log('Initializing New Game');
+      document.querySelector('#monster-statbox').innerHTML = '';
+      newGame();
       break;
   }
 }
@@ -420,13 +430,14 @@ const monsterAttack = () => {
       if (player.health <= 0){
         console.log('you are dead!');
         document.getElementById('player-health').textContent = 0;
-        gameState = 'gameOver';
+        document.getElementById('player-health-bar').style.width = '0%';
         document.querySelector('.right-container-fight').classList.toggle('hidden');
         document.querySelector('.right-container-map').classList.toggle('hidden');
         document.getElementById('main').classList.toggle('hidden');
         document.getElementById('battle-screen').classList.toggle('hidden');
         document.querySelector('.battle-log').innerHTML = '';
-        newGame();
+        gameState = 'gameOver';
+        document.querySelector('#monster-statbox').innerHTML = '<p style = "color: white">GAME OVER</p> <h3 style = "color: white">Press Enter</h3>';
       }
     }, 500);
   }
