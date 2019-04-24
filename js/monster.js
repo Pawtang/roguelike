@@ -21,7 +21,7 @@ monsters.push(['All Your Exes', 100, 100, 8, 1, 2, 10, 100, 'Each more evil than
 monsters.push(['Looming Deadline', 100, 100, 7, 1, 2, 10, 100, 'Procrastinator\'s wake-up call.', 5]);
 monsters.push(['High Cost of Living', 100, 100, 5, 1, 2, 20, 500, 'Gonna need to find another room mate.', 6]);
 monsters.push(['Medical Debt', 100, 100, 15, 1, 2, 20, 100, 'From that time you got suplexed.', 7]);
-monsters.push(['Dissapointed Father', 100, 100, 20, 1, 3, 30, 10, 'He\'s not mad, just dissapointed.', 8]);
+monsters.push(['Disappointed Father', 100, 100, 20, 1, 3, 30, 10, 'He\'s not mad, just disappointed.', 8]);
 
 
 
