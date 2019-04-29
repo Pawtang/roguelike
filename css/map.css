@@ -1,5 +1,5 @@
 .map-grid{
-  grid-template-columns: repeat(15, auto);
+  grid-template-columns: var(--gridSize);
   display: inline-grid;
   width: 400px;
   height: 400px;

@@ -474,6 +474,7 @@ function newGame() {
     document.querySelector('.map-grid').removeChild(document.querySelector('.map-grid').firstChild);
   }
   gridSize = 15;
+  document.querySelector('.map-grid').style.setProperty('--gridSize', 'repeat(' + gridSize + ', auto)')
   numShops = 2;
   maze = generateNewMaze(gridSize, 0.75, 0.75);
   player.currentRoomNumber = mazeSetup(gridSize, numShops);
@@ -491,6 +492,7 @@ function mazeSetup (gridSize, numShops) {
     exitCoords[1] = Math.floor(Math.random()*gridSize);
     if(!maze[exitCoords[0]][exitCoords[1]].event) {
       maze[exitCoords[0]][exitCoords[1]].event = "exit";
+      document.querySelector('.map-grid').childNodes[maze[exitCoords[0]][exitCoords[1]].roomNumber].classList.add('exit');
       console.log(exitCoords[0], exitCoords[1], maze[exitCoords[0]][exitCoords[1]]);
       exitGenerated = true;
     }
@@ -503,6 +505,7 @@ function mazeSetup (gridSize, numShops) {
       maze[entranceCoords[0]][entranceCoords[1]].event = "entrance";
       maze[entranceCoords[0]][entranceCoords[1]].hasBeenTraveled = true;
       document.querySelector('.map-grid').childNodes[maze[entranceCoords[0]][entranceCoords[1]].roomNumber].classList.add('active-cell');
+      document.querySelector('.map-grid').childNodes[maze[entranceCoords[0]][entranceCoords[1]].roomNumber].classList.add('entrance');  
       console.log(entranceCoords[0], entranceCoords[1], maze[entranceCoords[0]][entranceCoords[1]]);
       entranceGenerated = true;
     }
