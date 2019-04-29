@@ -37,13 +37,15 @@ h3{
 }
 
 .entrance{
-  background-color: orange;
+  background-color: black;
   background-image: none !important;
+  
 }
 
 .exit{
   background-color: purple;
-  background-image: none !important;
+  background-image: url(/images/tiles/Door.png) !important;
+  background-size: cover;
 }
 
 .shop{
