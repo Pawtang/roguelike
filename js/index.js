@@ -559,6 +559,7 @@ const levelUp = () => {
 
 function nextFloor() {
   dungeonLevel++;
+  gridSize += 2;
   document.getElementById('dungeon-header').textContent = 'Dungeon Level: ' + dungeonLevel;
   while (document.querySelector('.map-grid').firstChild) {
     document.querySelector('.map-grid').removeChild(document.querySelector('.map-grid').firstChild);
