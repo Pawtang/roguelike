@@ -467,10 +467,10 @@ function newGame() {
   player = playerGenerator();
   updateHealth();
   updateStats();
-    //------- Game Variables
-    gridSize = 5; 
-    numShops = 2;
-    //----------------------
+  //------- Game Variables
+  gridSize = 5; 
+  numShops = 2;
+  //----------------------
   document.getElementById('player-gold').textContent = player.gold;
   document.getElementById('experience').textContent = player.xp;
   document.getElementById('player-xp-bar').style.width = '0%';
@@ -567,7 +567,6 @@ function nextFloor() {
   document.querySelector('.map-grid').style.setProperty('--gridSize', 'repeat(' + gridSize + ', auto)')
   maze = generateNewMaze(gridSize, 0.75, 0.75);
   player.currentRoomNumber = mazeSetup(gridSize, numShops);
-    updateStats();
   console.log('generated new game');
   gameState = 'exploration';
 }
