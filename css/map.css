@@ -1,5 +1,5 @@
 .map-grid{
-  grid-template-columns: repeat(15, auto);
+  grid-template-columns: var(--gridSize);
   display: inline-grid;
   width: 400px;
   height: 400px;
@@ -36,14 +36,11 @@ h3{
   background-image: none !important;
 }
 
-.entrance{
-  background-color: orange;
-  background-image: none !important;
-}
 
 .exit{
   background-color: purple;
-  background-image: none !important;
+  background-image: url(/images/tiles/Door.png) !important;
+  background-size: cover;
 }
 
 .shop{

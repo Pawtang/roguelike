@@ -4,7 +4,7 @@ import { playerGenerator } from './player.js';
 import { shopGenerator } from './shop.js';
 import { eventGenerator } from './events.js';
 
-let gridSize, numShops, maze, player, gameState = 'exploration';
+let gridSize, numShops, maze, player, dungeonLevel, gameState = 'exploration';
 newGame();
 
 console.log(maze);
@@ -192,6 +192,7 @@ const roomActions = () => {
   console.log(roomNumber);//Add active cell on player location
   if (maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].event === 'exit') {
     console.log('found exit');
+      nextFloor();
     maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].hasBeenTraveled = true;
   } else if(!maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].hasBeenTraveled){
     if(maze[player.currentRoomNumber[0]][player.currentRoomNumber[1]].event !== 'shopRoom'){
@@ -466,6 +467,10 @@ function newGame() {
   player = playerGenerator();
   updateHealth();
   updateStats();
+  //------- Game Variables
+  gridSize = 5; 
+  numShops = 2;
+  //----------------------
   document.getElementById('player-gold').textContent = player.gold;
   document.getElementById('experience').textContent = player.xp;
   document.getElementById('player-xp-bar').style.width = '0%';
@@ -473,13 +478,13 @@ function newGame() {
   while (document.querySelector('.map-grid').firstChild) {
     document.querySelector('.map-grid').removeChild(document.querySelector('.map-grid').firstChild);
   }
-  gridSize = 15;
-  numShops = 2;
+  document.querySelector('.map-grid').style.setProperty('--gridSize', 'repeat(' + gridSize + ', auto)')
   maze = generateNewMaze(gridSize, 0.75, 0.75);
   player.currentRoomNumber = mazeSetup(gridSize, numShops);
     updateStats();
   console.log('generated new game');
   gameState = 'exploration';
+  dungeonLevel = 1;
 }
 
 function mazeSetup (gridSize, numShops) {
@@ -491,6 +496,7 @@ function mazeSetup (gridSize, numShops) {
     exitCoords[1] = Math.floor(Math.random()*gridSize);
     if(!maze[exitCoords[0]][exitCoords[1]].event) {
       maze[exitCoords[0]][exitCoords[1]].event = "exit";
+      document.querySelector('.map-grid').childNodes[maze[exitCoords[0]][exitCoords[1]].roomNumber].classList.add('exit');
       console.log(exitCoords[0], exitCoords[1], maze[exitCoords[0]][exitCoords[1]]);
       exitGenerated = true;
     }
@@ -503,6 +509,7 @@ function mazeSetup (gridSize, numShops) {
       maze[entranceCoords[0]][entranceCoords[1]].event = "entrance";
       maze[entranceCoords[0]][entranceCoords[1]].hasBeenTraveled = true;
       document.querySelector('.map-grid').childNodes[maze[entranceCoords[0]][entranceCoords[1]].roomNumber].classList.add('active-cell');
+      document.querySelector('.map-grid').childNodes[maze[entranceCoords[0]][entranceCoords[1]].roomNumber].classList.add('entrance');  
       console.log(entranceCoords[0], entranceCoords[1], maze[entranceCoords[0]][entranceCoords[1]]);
       entranceGenerated = true;
     }
@@ -548,6 +555,20 @@ const levelUp = () => {
   updateHealth();
   updateStats();
   console.log('Level up! You are now level ' + player.level);
+}
+
+function nextFloor() {
+  dungeonLevel++;
+  gridSize += 2;
+  document.getElementById('dungeon-header').textContent = 'Dungeon Level: ' + dungeonLevel;
+  while (document.querySelector('.map-grid').firstChild) {
+    document.querySelector('.map-grid').removeChild(document.querySelector('.map-grid').firstChild);
+  }
+  document.querySelector('.map-grid').style.setProperty('--gridSize', 'repeat(' + gridSize + ', auto)')
+  maze = generateNewMaze(gridSize, 0.75, 0.75);
+  player.currentRoomNumber = mazeSetup(gridSize, numShops);
+  console.log('generated new game');
+  gameState = 'exploration';
 }
 
 
