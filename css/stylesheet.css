@@ -222,3 +222,25 @@ h3{
   margin: 0;
   font-size: .8em;
 }
+
+.instructions{
+		width: 800px;	
+		margin: 20px auto;
+		height: 200px;
+		background-color: RGBA(22,22,22,0.8);
+		border-radius: 10px;
+		text-align: center;
+		padding: 10px;
+}
+
+.flexhoriz{
+    display: flex;
+     align-items: center;
+    justify-content: center;
+}
+
+.flex-child{
+    width: 150px;
+    height: auto;
+    margin: 10px;
+}
