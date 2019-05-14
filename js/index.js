@@ -74,7 +74,7 @@ const shopControls = (e) => {
         if(player.gold >= shop[shopItemPointer].cost){
           buyItem(shop[shopItemPointer]);
           shop[shopItemPointer] = 'bought';
-          document.getElementById('s-' + shopItemPointer).textContent = 'this item has been bought';
+          document.getElementById('s-' + shopItemPointer).textContent = '---';
         } else {
           console.log('Not enough gold. You need', shop[shopItemPointer].cost,'but you have', player.gold);
           elem.innerHTML += 'Not enough gold! </br>';
