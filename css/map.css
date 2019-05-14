@@ -5,6 +5,8 @@
   height: 400px;
   background-color: #333;
   border: 3px solid black;
+	background-image: url(/images/tiles/floor.png);
+	background-repeat: repeat;
 }
 
 .wall{
@@ -28,14 +30,19 @@ h3{
 
 .griditem{
   border: 0px solid #444;
-  background-image: url(/images/tiles/floor.png);
+  /* background-image: url(/images/tiles/floor.png); */
 }
 
 .active-cell{
-  background-color: green;
-  background-image: none !important;
+  background-image: url(/images/icon.gif);
+	background-size: cover;
 }
 
+.been-here{
+  /* 
+background-color: black; 
+*/
+}
 
 .exit{
   background-color: purple;
