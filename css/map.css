@@ -36,6 +36,8 @@ h3{
 .active-cell{
   background-image: url(/images/icon.gif);
 	background-size: cover;
+	position: relative;
+	z-index: 1;
 }
 
 .been-here{
@@ -51,8 +53,12 @@ background-color: black;
 }
 
 .shop{
-  background-color: blue;
-  background-image: none !important;
+  /* background-color: blue;
+  background-image: none !important; */
+	background-image: url(/images/store.png);
+	background-size: cover;
+	z-index: 0;
+	position: relative;
 }
 
 .door-l{
